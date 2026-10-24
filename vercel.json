@@ -1,0 +1,18 @@
+{
+  "rewrites": [
+    { "source": "/admin", "destination": "/Admin.dc.html" },
+    { "source": "/collections", "destination": "/Collections.dc.html" },
+    { "source": "/products", "destination": "/Products.dc.html" },
+    { "source": "/contact", "destination": "/Contact.dc.html" },
+    { "source": "/about", "destination": "/OurStory.dc.html" },
+    { "source": "/catalogue", "destination": "/Catalogue.dc.html" },
+    { "source": "/quote", "destination": "/Quote.dc.html" }
+  ],
+  "headers": [
+    { "source": "/(.*)\\.(png|jpg|jpeg|webp)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] },
+    { "source": "/(.*)", "headers": [
+      { "key": "X-Content-Type-Options", "value": "nosniff" },
+      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+    ] }
+  ]
+}

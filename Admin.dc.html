@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <title>Admin — A Office Furniture</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 0; background: #F3F0E9; }
+    a { color: #A58A62; text-decoration: none; }
+    a:hover { color: #292A25; }
+    input, textarea, select, button { font-family: inherit; }
+    input::placeholder, textarea::placeholder { color: #A9A497; }
+    @keyframes toastIn { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+  <script src="./image-slot.js"></script>
+  <script src="./site-data.js"></script>
+</helmet>
+<div style="min-height:100vh;background:#F3F0E9;color:#292A25;font-family:'Manrope',sans-serif;font-size:14px;" data-screen-label="Admin">
+
+  <sc-if value="{{ showLogin }}" hint-placeholder-val="{{ false }}">
+    <div style="min-height:100vh;display:grid;place-items:center;padding:24px;">
+      <div style="width:100%;max-width:400px;background:#fff;border:1px solid #E2DDD2;border-radius:14px;padding:40px 36px;display:flex;flex-direction:column;gap:22px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <img src="logo-mark.png" alt="A Office Furniture" style="height:44px;width:auto;">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;letter-spacing:0.08em;">OFFICE FURNITURE</span>
+        </div>
+        <div style="text-align:center;">
+          <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:28px;margin:0 0 6px 0;">Admin sign in</h1>
+          <p style="margin:0;color:#7A766D;font-size:13.5px;">Authorised administrators only.</p>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:8px;">
+          <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Email</span>
+          <input type="email" value="{{ loginEmail }}" onChange="{{ onLoginEmail }}" placeholder="admin@aofficefurniture.com" style="width:100%;height:46px;padding:0 14px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;color:#292A25;outline:none;" style-focus="border-color:#A58A62;box-shadow:0 0 0 3px rgba(200,169,106,0.18);">
+        </label>
+        <label style="display:flex;flex-direction:column;gap:8px;">
+          <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Password</span>
+          <input type="password" value="{{ loginPass }}" onChange="{{ onLoginPass }}" onKeyDown="{{ onLoginKey }}" placeholder="••••••••" style="width:100%;height:46px;padding:0 14px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;color:#292A25;outline:none;" style-focus="border-color:#A58A62;box-shadow:0 0 0 3px rgba(200,169,106,0.18);">
+        </label>
+        <sc-if value="{{ hasLoginError }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:0;color:#A3402F;font-size:13px;">{{ loginError }}</p>
+        </sc-if>
+        <button onClick="{{ signIn }}" style="height:48px;border:none;border-radius:10px;background:#292A25;color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:background 0.25s ease;" style-hover="background:#A58A62;">Sign in</button>
+        <p style="margin:0;text-align:center;color:#A9A497;font-size:12px;line-height:1.6;">{{ loginNote }}</p>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ authed }}" hint-placeholder-val="{{ false }}">
+    <div style="{{ layoutStyle }}">
+
+      <aside style="{{ sidebarStyle }}">
+        <a href="Home.dc.html" style="display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:0 6px;">
+          <img src="logo-mark.png" alt="A Office Furniture" style="height:34px;width:auto;">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:12px;font-weight:600;letter-spacing:0.08em;color:#EDE7DC;">OFFICE FURNITURE</span>
+        </a>
+        <span style="padding:0 6px;font-size:11px;color:#8F897C;">Version 24 Oct</span>
+        <nav style="{{ navListStyle }}">
+          <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
+            <button onClick="{{ item.onClick }}" style="{{ item.style }}">
+              <span>{{ item.label }}</span>
+              <span style="{{ item.countStyle }}">{{ item.count }}</span>
+            </button>
+          </sc-for>
+        </nav>
+        <sc-if value="{{ isWide }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:auto;display:flex;flex-direction:column;gap:6px;border-top:1px solid rgba(255,255,255,0.1);padding-top:18px;">
+            <a href="Home.dc.html" style="padding:10px 12px;color:#C9C2B4;font-size:13.5px;font-weight:600;border-radius:8px;" style-hover="color:#fff;background:rgba(255,255,255,0.06);">View website ↗</a>
+            <button onClick="{{ signOut }}" style="text-align:left;padding:10px 12px;background:transparent;border:none;color:#C9C2B4;font-size:13.5px;font-weight:600;border-radius:8px;cursor:pointer;" style-hover="color:#fff;background:rgba(255,255,255,0.06);">Sign out</button>
+          </div>
+        </sc-if>
+      </aside>
+
+      <main style="min-width:0;padding:clamp(20px,3vw,40px);">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:28px;">
+          <div>
+            <p style="margin:0 0 6px 0;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#A58A62;">Dashboard</p>
+            <h1 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(28px,3vw,38px);">{{ sectionTitle }}</h1>
+          </div>
+          <sc-if value="{{ showPrimaryAction }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ primaryAction }}" style="height:44px;padding:0 22px;border:1px solid #C8A96A;border-radius:12px;background:#C8A96A;color:#111;font-size:13.5px;font-weight:600;cursor:pointer;transition:all 0.28s ease;" style-hover="background:#161616;border-color:#161616;color:#fff;transform:translateY(-2px);box-shadow:0 16px 32px -12px rgba(0,0,0,0.45);">{{ primaryActionLabel }}</button>
+          </sc-if>
+          <sc-if value="{{ isNarrow }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ signOut }}" style="height:40px;padding:0 16px;border:1px solid #DDD7CB;border-radius:10px;background:#fff;color:#292A25;font-size:13px;font-weight:600;cursor:pointer;">Sign out</button>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:28px;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;">
+              <sc-for list="{{ stats }}" as="s" hint-placeholder-count="5">
+                <button onClick="{{ s.onClick }}" style="text-align:left;background:#fff;border:1px solid #E2DDD2;border-radius:12px;padding:22px;cursor:pointer;display:flex;flex-direction:column;gap:10px;transition:transform 0.25s ease, box-shadow 0.25s ease;" style-hover="transform:translateY(-2px);box-shadow:0 18px 36px -22px rgba(0,0,0,0.3);">
+                  <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">{{ s.label }}</span>
+                  <span style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:500;line-height:1;">{{ s.value }}</span>
+                </button>
+              </sc-for>
+            </div>
+            <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;overflow:hidden;">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid #EEEAE2;">
+                <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:22px;">Recent enquiries</h2>
+                <button onClick="{{ goEnquiries }}" style="background:transparent;border:none;color:#A58A62;font-size:13px;font-weight:700;cursor:pointer;">View all →</button>
+              </div>
+              <sc-if value="{{ hasNoEnquiries }}" hint-placeholder-val="{{ false }}">
+                <p style="margin:0;padding:28px 22px;color:#7A766D;">No enquiries yet. Quote requests from the website will appear here.</p>
+              </sc-if>
+              <sc-for list="{{ recentEnquiries }}" as="q" hint-placeholder-count="3">
+                <button onClick="{{ q.onOpen }}" style="width:100%;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) 120px;gap:16px;align-items:center;padding:16px 22px;border:none;border-top:1px solid #EEEAE2;background:#fff;text-align:left;cursor:pointer;" style-hover="background:#FAF8F3;">
+                  <span style="display:flex;flex-direction:column;gap:3px;min-width:0;">
+                    <span style="font-weight:700;">{{ q.name }} · {{ q.company }}</span>
+                    <span style="color:#7A766D;font-size:12.5px;">{{ q.ref }} · {{ q.dateLabel }}</span>
+                  </span>
+                  <span style="color:#555148;font-size:13px;">{{ q.itemsLabel }}</span>
+                  <span style="{{ q.badgeStyle }}">{{ q.status }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showProductList }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+              <input type="search" value="{{ search }}" onChange="{{ onSearch }}" placeholder="Search by name or code" style="flex:1 1 240px;height:44px;padding:0 14px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;color:#292A25;outline:none;" style-focus="border-color:#A58A62;">
+              <select value="{{ catFilter }}" onChange="{{ onCatFilter }}" style="flex:0 1 200px;height:44px;padding:0 12px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;color:#292A25;">
+                <option value="all">All categories</option>
+                <sc-for list="{{ categoryOptions }}" as="o" hint-placeholder-count="6">
+                  <option value="{{ o.value }}">{{ o.label }}</option>
+                </sc-for>
+              </select>
+              <select value="{{ statusFilter }}" onChange="{{ onStatusFilter }}" style="flex:0 1 160px;height:44px;padding:0 12px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;color:#292A25;">
+                <option value="all">All statuses</option>
+                <option value="published">Published</option>
+                <option value="draft">Draft</option>
+              </select>
+            </div>
+            <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;overflow-x:auto;">
+              <div style="min-width:940px;">
+                <div style="display:grid;grid-template-columns:44px 56px minmax(0,2fr) minmax(0,1fr) minmax(0,1.3fr) 110px 210px;gap:16px;padding:14px 20px;font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">
+                  <span>Order</span><span></span><span>Product</span><span>Category</span><span>Collections</span><span>Status</span><span style="text-align:right;">Actions</span>
+                </div>
+                <sc-if value="{{ noProducts }}" hint-placeholder-val="{{ false }}">
+                  <p style="margin:0;padding:28px 20px;border-top:1px solid #EEEAE2;color:#7A766D;">No products match these filters.</p>
+                </sc-if>
+                <sc-for list="{{ productRows }}" as="p" hint-placeholder-count="6">
+                  <div style="display:grid;grid-template-columns:44px 56px minmax(0,2fr) minmax(0,1fr) minmax(0,1.3fr) 110px 210px;gap:16px;align-items:center;padding:12px 20px;border-top:1px solid #EEEAE2;">
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+                      <button onClick="{{ p.onUp }}" aria-label="Move up" style="{{ p.upStyle }}">▲</button>
+                      <span style="font-size:11.5px;font-weight:700;color:#7A766D;">{{ p.pos }}</span>
+                      <button onClick="{{ p.onDown }}" aria-label="Move down" style="{{ p.downStyle }}">▼</button>
+                    </div>
+                    <div style="width:56px;height:56px;border-radius:6px;overflow:hidden;background:#F3F0E9;">
+                      <span style="{{ p.thumbStyle }}"></span>
+                    </div>
+                    <div style="min-width:0;display:flex;flex-direction:column;gap:3px;">
+                      <span style="font-weight:700;">{{ p.name }}<span style="{{ p.featuredStyle }}">★ Featured</span></span>
+                      <span style="color:#7A766D;font-size:12px;letter-spacing:0.04em;">{{ p.sku }}</span>
+                    </div>
+                    <span style="color:#555148;">{{ p.categoryName }}</span>
+                    <span style="color:#555148;font-size:13px;">{{ p.collectionNames }}</span>
+                    <span><span style="{{ p.badgeStyle }}">{{ p.statusLabel }}</span></span>
+                    <div style="display:flex;gap:6px;justify-content:flex-end;">
+                      <button onClick="{{ p.onEdit }}" style="height:34px;padding:0 12px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:12.5px;font-weight:600;cursor:pointer;" style-hover="border-color:#292A25;">Edit</button>
+                      <button onClick="{{ p.onToggle }}" style="height:34px;padding:0 12px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:12.5px;font-weight:600;cursor:pointer;" style-hover="border-color:#292A25;">{{ p.toggleLabel }}</button>
+                      <button onClick="{{ p.onDelete }}" aria-label="Delete" style="height:34px;padding:0 10px;border:1px solid #EBD3CC;border-radius:8px;background:#fff;color:#A3402F;font-size:12.5px;font-weight:600;cursor:pointer;" style-hover="background:#FBF1EE;">Delete</button>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showCollectionList }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;">
+            <sc-for list="{{ collectionRows }}" as="c" hint-placeholder-count="4">
+              <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;">
+                <div style="aspect-ratio:1.65;background:#E9E4D9;">
+                  <image-slot id="collection-cover-{{ c.id }}" shape="rect" placeholder="Drop cover image" style="width:100%;height:100%;"></image-slot>
+                </div>
+                <div style="padding:18px 18px 16px 18px;display:flex;flex-direction:column;gap:12px;">
+                  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
+                    <div style="display:flex;flex-direction:column;gap:3px;">
+                      <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;">{{ c.name }}</span>
+                      <span style="color:#7A766D;font-size:12.5px;">{{ c.productCount }} products · /{{ c.slug }}</span>
+                    </div>
+                    <span style="{{ c.badgeStyle }}">{{ c.statusLabel }}</span>
+                  </div>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    <button onClick="{{ c.onEdit }}" style="height:34px;padding:0 12px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:12.5px;font-weight:600;cursor:pointer;" style-hover="border-color:#292A25;">Edit</button>
+                    <button onClick="{{ c.onToggle }}" style="height:34px;padding:0 12px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:12.5px;font-weight:600;cursor:pointer;" style-hover="border-color:#292A25;">{{ c.toggleLabel }}</button>
+                    <button onClick="{{ c.onFeature }}" style="{{ c.featureBtnStyle }}">{{ c.featureLabel }}</button>
+                    <button onClick="{{ c.onDelete }}" style="height:34px;padding:0 10px;border:1px solid #EBD3CC;border-radius:8px;background:#fff;color:#A3402F;font-size:12.5px;font-weight:600;cursor:pointer;" style-hover="background:#FBF1EE;">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showEditor }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:20px;">
+            <button onClick="{{ cancelDraft }}" style="align-self:flex-start;background:transparent;border:none;color:#7A766D;font-size:13px;font-weight:700;cursor:pointer;padding:0;">← Back to list</button>
+            <sc-if value="{{ hasErrors }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#FBF1EE;border:1px solid #EBD3CC;border-radius:10px;padding:14px 18px;color:#A3402F;font-size:13.5px;display:flex;flex-direction:column;gap:4px;">
+                <sc-for list="{{ errors }}" as="err" hint-placeholder-count="1"><span>{{ err }}</span></sc-for>
+              </div>
+            </sc-if>
+            <div style="{{ formGridStyle }}">
+              <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;padding:clamp(20px,2.4vw,30px);display:flex;flex-direction:column;gap:18px;">
+                <label style="display:flex;flex-direction:column;gap:8px;">
+                  <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Name *</span>
+                  <input value="{{ draft.name }}" onChange="{{ on.name }}" placeholder="e.g. Chairman Executive Desk" style="width:100%;height:44px;padding:0 14px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;color:#292A25;outline:none;" style-focus="border-color:#A58A62;box-shadow:0 0 0 3px rgba(200,169,106,0.18);">
+                </label>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;">
+                  <label style="display:flex;flex-direction:column;gap:8px;">
+                    <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">URL slug *</span>
+                    <input value="{{ draft.slug }}" onChange="{{ on.slug }}" placeholder="auto-generated" style="width:100%;height:44px;padding:0 14px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;color:#292A25;outline:none;" style-focus="border-color:#A58A62;box-shadow:0 0 0 3px rgba(200,169,106,0.18);">
+                  </label>
+                  <sc-if value="{{ isProductDraft }}" hint-placeholder-val="{{ true }}">
+                    <label style="display:flex;flex-direction:column;gap:8px;">
+                      <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Code / SKU</span>
+                      <input value="{{ draft.sku }}" onChange="{{ on.sku }}" placeholder="AOF-DK-01" style="width:100%;height:44px;padding:0 14px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;color:#292A25;outline:none;" style-focus="border-color:#A58A62;box-shadow:0 0 0 3px rgba(200,169,106,0.18);">
+                    </label>
+                  </sc-if>
+                </div>
+                <label style="display:flex;flex-direction:column;gap:8px;">
+                  <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Short description</span>
+                  <input value="{{ draft.shortDescription }}" onChange="{{ on.shortDescription }}" placeholder="One line shown on cards" style="width:100%;height:44px;padding:0 14px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;color:#292A25;outline:none;" style-focus="border-color:#A58A62;box-shadow:0 0 0 3px rgba(200,169,106,0.18);">
+                </label>
+                <label style="display:flex;flex-direction:column;gap:8px;">
+                  <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">{{ descriptionLabel }}</span>
+                  <textarea value="{{ draft.description }}" onChange="{{ on.description }}" rows="6" placeholder="Materials, design intent, details…" style="width:100%;min-height:150px;padding:12px 14px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;line-height:1.6;color:#292A25;outline:none;resize:vertical;" style-focus="border-color:#A58A62;box-shadow:0 0 0 3px rgba(200,169,106,0.18);"></textarea>
+                </label>
+                <sc-if value="{{ isProductDraft }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;">
+                    <label style="display:flex;flex-direction:column;gap:8px;">
+                      <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Dimensions</span>
+                      <input value="{{ draft.dimensions }}" onChange="{{ on.dimensions }}" placeholder="W 2400 × D 1000 × H 750 mm" style="width:100%;height:44px;padding:0 14px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;color:#292A25;outline:none;" style-focus="border-color:#A58A62;">
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:8px;">
+                      <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Materials &amp; finishes</span>
+                      <input value="{{ draft.materials }}" onChange="{{ on.materials }}" placeholder="Walnut veneer, leather, bronze" style="width:100%;height:44px;padding:0 14px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;color:#292A25;outline:none;" style-focus="border-color:#A58A62;">
+                    </label>
+                  </div>
+                </sc-if>
+              </div>
+
+              <div style="display:flex;flex-direction:column;gap:18px;">
+                <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:14px;">
+                  <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Visibility</span>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#F3F0E9;border-radius:10px;padding:4px;">
+                    <button onClick="{{ setPublished }}" style="{{ publishedBtnStyle }}">Published</button>
+                    <button onClick="{{ setDraftStatus }}" style="{{ draftBtnStyle }}">Draft</button>
+                  </div>
+                  <button onClick="{{ toggleFeatured }}" style="display:flex;align-items:center;gap:10px;background:transparent;border:none;padding:4px 0;cursor:pointer;font-size:13.5px;font-weight:600;color:#292A25;">
+                    <span style="{{ featuredBoxStyle }}">{{ featuredMark }}</span>
+                    Feature on homepage
+                  </button>
+                </div>
+                <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:12px;">
+                  <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">{{ imageLabel }}</span>
+                  <label style="position:relative;display:block;aspect-ratio:1.3;border-radius:8px;overflow:hidden;background:#F3F0E9;border:1px dashed #CFC7B6;cursor:pointer;">
+                    <sc-if value="{{ hasDraftImage }}" hint-placeholder-val="{{ false }}">
+                      <span style="{{ draftImageStyle }}"></span>
+                    </sc-if>
+                    <span style="position:absolute;left:10px;bottom:10px;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,0.94);font-size:12.5px;font-weight:700;color:#292A25;">{{ imageButtonLabel }}</span>
+                    <input type="file" accept="image/jpeg,image/png,image/webp" onChange="{{ onDraftImage }}" style="display:none;">
+                  </label>
+                  <span style="color:#7A766D;font-size:12px;line-height:1.5;">{{ imageHint }}</span>
+                </div>
+                <sc-if value="{{ isProductDraft }}" hint-placeholder-val="{{ true }}">
+                  <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:12px;">
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;">
+                      <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">More images</span>
+                      <span style="font-size:12px;color:#7A766D;">{{ galleryCount }}</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+                      <sc-for list="{{ galleryItems }}" as="g" hint-placeholder-count="0">
+                        <div style="position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;background:#F3F0E9;">
+                          <span style="{{ g.style }}"></span>
+                          <div style="position:absolute;left:4px;right:4px;bottom:4px;display:flex;justify-content:space-between;gap:4px;">
+                            <button onClick="{{ g.onLeft }}" aria-label="Move left" style="{{ g.btnStyle }}">◀</button>
+                            <button onClick="{{ g.onRemove }}" aria-label="Remove image" style="{{ g.btnStyle }}color:#A3402F;">✕</button>
+                            <button onClick="{{ g.onRight }}" aria-label="Move right" style="{{ g.btnStyle }}">▶</button>
+                          </div>
+                        </div>
+                      </sc-for>
+                      <label style="aspect-ratio:1;border-radius:6px;border:1px dashed #CFC7B6;background:#F8F6F1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;font-size:12px;font-weight:700;color:#292A25;text-align:center;padding:6px;">
+                        <span style="font-size:20px;line-height:1;">+</span>
+                        {{ galleryAddLabel }}
+                        <input type="file" multiple="multiple" accept="image/jpeg,image/png,image/webp" onChange="{{ onGalleryFiles }}" style="display:none;">
+                      </label>
+                    </div>
+                    <span style="color:#7A766D;font-size:12px;line-height:1.5;">Select several photos at once. They show as thumbnails under the main image on the product page.</span>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ isProductDraft }}" hint-placeholder-val="{{ true }}">
+                  <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:12px;">
+                    <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Technical drawing</span>
+                    <label style="display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border:1px dashed #CFC7B6;border-radius:8px;background:#F8F6F1;cursor:pointer;font-size:13px;font-weight:700;color:#292A25;">
+                      {{ drawingButtonLabel }}
+                      <input type="file" accept="application/pdf,.pdf" onChange="{{ onDraftDrawing }}" style="display:none;">
+                    </label>
+                    <sc-if value="{{ hasDraftDrawing }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;justify-content:space-between;gap:10px;font-size:12.5px;">
+                        <a href="{{ draftDrawingUrl }}" target="_blank" rel="noopener" style="color:#A58A62;font-weight:700;text-decoration:none;">View current drawing</a>
+                        <button onClick="{{ removeDraftDrawing }}" style="background:transparent;border:none;color:#A3402F;font-size:12.5px;font-weight:600;cursor:pointer;padding:0;">Remove</button>
+                      </div>
+                    </sc-if>
+                    <span style="color:#7A766D;font-size:12px;">PDF · max 50 MB · listed on the Downloads page</span>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ isProductDraft }}" hint-placeholder-val="{{ true }}">
+                  <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:12px;">
+                    <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Category *</span>
+                    <select value="{{ draft.categoryId }}" onChange="{{ on.categoryId }}" style="width:100%;height:44px;padding:0 12px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;color:#292A25;">
+                      <option value="">Choose a category</option>
+                      <sc-for list="{{ categoryOptions }}" as="o" hint-placeholder-count="6">
+                        <option value="{{ o.value }}">{{ o.label }}</option>
+                      </sc-for>
+                    </select>
+                  </div>
+                </sc-if>
+                <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:12px;">
+                  <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">{{ chipsLabel }}</span>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                    <sc-for list="{{ chips }}" as="chip" hint-placeholder-count="4">
+                      <button onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+                <div style="display:flex;gap:10px;">
+                  <button onClick="{{ cancelDraft }}" style="flex:1;height:48px;border:1px solid #DDD7CB;border-radius:12px;background:#fff;font-size:14px;font-weight:600;cursor:pointer;" style-hover="border-color:#292A25;">Cancel</button>
+                  <button onClick="{{ saveDraft }}" style="flex:2;height:48px;border:1px solid #292A25;border-radius:12px;background:#292A25;color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.28s ease;" style-hover="background:#C8A96A;border-color:#C8A96A;color:#111;">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isCategories }}" hint-placeholder-val="{{ false }}">
+          <div style="max-width:820px;display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <input value="{{ newCategory }}" onChange="{{ onNewCategory }}" onKeyDown="{{ onNewCategoryKey }}" placeholder="New category name, e.g. Reception Furniture" style="flex:1 1 260px;height:44px;padding:0 14px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;color:#292A25;outline:none;" style-focus="border-color:#A58A62;">
+              <button onClick="{{ addCategory }}" style="height:44px;padding:0 22px;border:1px solid #292A25;border-radius:10px;background:#292A25;color:#fff;font-size:13.5px;font-weight:600;cursor:pointer;" style-hover="background:#A58A62;border-color:#A58A62;">Add category</button>
+            </div>
+            <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;overflow:hidden;">
+              <sc-for list="{{ categoryRows }}" as="c" hint-placeholder-count="6">
+                <div style="display:flex;align-items:center;gap:14px;padding:14px 20px;border-top:1px solid #EEEAE2;">
+                  <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;">
+                    <span style="font-weight:700;">{{ c.name }}</span>
+                    <span style="color:#7A766D;font-size:12.5px;">/{{ c.slug }} · {{ c.productCount }} products</span>
+                  </div>
+                  <button onClick="{{ c.onUp }}" aria-label="Move up" style="width:34px;height:34px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;cursor:pointer;">↑</button>
+                  <button onClick="{{ c.onDown }}" aria-label="Move down" style="width:34px;height:34px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;cursor:pointer;">↓</button>
+                  <button onClick="{{ c.onRename }}" style="height:34px;padding:0 12px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:12.5px;font-weight:600;cursor:pointer;">Rename</button>
+                  <button onClick="{{ c.onDelete }}" style="height:34px;padding:0 10px;border:1px solid #EBD3CC;border-radius:8px;background:#fff;color:#A3402F;font-size:12.5px;font-weight:600;cursor:pointer;">Delete</button>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isEnquiries }}" hint-placeholder-val="{{ false }}">
+          <div style="{{ enquiryGridStyle }}">
+            <div style="display:flex;flex-direction:column;gap:12px;min-width:0;">
+              <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                <input type="search" value="{{ enquirySearch }}" onChange="{{ onEnquirySearch }}" placeholder="Search name, company, reference" style="flex:1 1 200px;height:44px;padding:0 14px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;outline:none;" style-focus="border-color:#A58A62;">
+                <select value="{{ enquiryStatusFilter }}" onChange="{{ onEnquiryStatusFilter }}" style="height:44px;padding:0 12px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;">
+                  <option value="all">All statuses</option>
+                  <sc-for list="{{ statusOptions }}" as="o" hint-placeholder-count="4"><option value="{{ o }}">{{ o }}</option></sc-for>
+                </select>
+              </div>
+              <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;overflow:hidden;">
+                <sc-if value="{{ noEnquiryRows }}" hint-placeholder-val="{{ false }}">
+                  <p style="margin:0;padding:24px 20px;color:#7A766D;">No enquiries found.</p>
+                </sc-if>
+                <sc-for list="{{ enquiryRows }}" as="q" hint-placeholder-count="3">
+                  <button onClick="{{ q.onOpen }}" style="{{ q.rowStyle }}">
+                    <span style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
+                      <span style="font-weight:700;">{{ q.name }}</span>
+                      <span style="{{ q.badgeStyle }}">{{ q.status }}</span>
+                    </span>
+                    <span style="color:#7A766D;font-size:12.5px;">{{ q.company }} · {{ q.ref }} · {{ q.dateLabel }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;padding:clamp(20px,2.4vw,30px);min-width:0;">
+              <sc-if value="{{ noSelectedEnquiry }}" hint-placeholder-val="{{ true }}">
+                <p style="margin:0;color:#7A766D;">Select an enquiry to see its details.</p>
+              </sc-if>
+              <sc-if value="{{ hasSelectedEnquiry }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:22px;">
+                  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+                    <div>
+                      <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;letter-spacing:0.1em;color:#A58A62;">{{ sel.ref }} · {{ sel.typeLabel }}</p>
+                      <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:28px;">{{ sel.name }}</h2>
+                      <p style="margin:4px 0 0 0;color:#7A766D;">{{ sel.company }} · {{ sel.country }} · {{ sel.dateLabel }}</p>
+                    </div>
+                    <select value="{{ sel.status }}" onChange="{{ onSelStatus }}" style="height:42px;padding:0 12px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;font-weight:600;">
+                      <sc-for list="{{ statusOptions }}" as="o" hint-placeholder-count="4"><option value="{{ o }}">{{ o }}</option></sc-for>
+                    </select>
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;">
+                    <a href="{{ sel.mailto }}" style="display:flex;flex-direction:column;gap:3px;padding:14px;border:1px solid #EEEAE2;border-radius:10px;color:#292A25;">
+                      <span style="font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Email</span>
+                      <span style="font-weight:600;word-break:break-all;">{{ sel.email }}</span>
+                    </a>
+                    <a href="{{ sel.tel }}" style="display:flex;flex-direction:column;gap:3px;padding:14px;border:1px solid #EEEAE2;border-radius:10px;color:#292A25;">
+                      <span style="font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Phone</span>
+                      <span style="font-weight:600;">{{ sel.phoneLabel }}</span>
+                    </a>
+                  </div>
+                  <div>
+                    <p style="margin:0 0 10px 0;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Requested products</p>
+                    <div style="border:1px solid #EEEAE2;border-radius:10px;overflow:hidden;">
+                      <sc-for list="{{ sel.items }}" as="it" hint-placeholder-count="2">
+                        <div style="display:flex;justify-content:space-between;gap:12px;padding:12px 14px;border-top:1px solid #EEEAE2;">
+                          <span style="font-weight:600;">{{ it.name }}</span>
+                          <span style="color:#7A766D;">Qty {{ it.qty }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div>
+                    <p style="margin:0 0 8px 0;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Message</p>
+                    <p style="margin:0;line-height:1.7;color:#3B3A34;white-space:pre-wrap;">{{ sel.message }}</p>
+                  </div>
+                  <label style="display:flex;flex-direction:column;gap:8px;">
+                    <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Internal notes</span>
+                    <textarea value="{{ sel.notes }}" onChange="{{ onSelNotes }}" rows="3" placeholder="Visible to admins only" style="width:100%;padding:12px 14px;border:1px solid #DDD7CB;border-radius:8px;background:#FAF8F3;font-size:14px;line-height:1.6;outline:none;resize:vertical;" style-focus="border-color:#A58A62;"></textarea>
+                  </label>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isCatalogue }}" hint-placeholder-val="{{ false }}">
+          <div style="max-width:720px;background:#fff;border:1px solid #E2DDD2;border-radius:12px;padding:clamp(22px,3vw,36px);display:flex;flex-direction:column;gap:22px;">
+            <div>
+              <p style="margin:0 0 6px 0;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Current catalogue</p>
+              <p style="margin:0;font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;">{{ catalogueName }}</p>
+              <p style="margin:4px 0 0 0;color:#7A766D;font-size:13px;">{{ catalogueMeta }}</p>
+            </div>
+            <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:36px 20px;border:1.5px dashed #CFC7B6;border-radius:12px;background:#FAF8F3;cursor:pointer;text-align:center;transition:border-color 0.25s ease, background 0.25s ease;" style-hover="border-color:#A58A62;background:#F6F1E7;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#A58A62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9"></path><path d="M7 14l5-5 5 5"></path><path d="M4 3h16"></path></svg>
+              <span style="font-weight:700;">{{ uploadLabel }}</span>
+              <span style="color:#7A766D;font-size:12.5px;">PDF only · max 50 MB · replaces the file behind every “Download Catalogue” button</span>
+              <input type="file" accept="application/pdf,.pdf" onChange="{{ onCatalogueFile }}" style="display:none;">
+            </label>
+            <sc-if value="{{ hasCatalogueUrl }}" hint-placeholder-val="{{ false }}">
+              <a href="{{ catalogueUrl }}" target="_blank" rel="noopener" style="align-self:flex-start;font-weight:700;font-size:13.5px;">Preview uploaded PDF ↗</a>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+          <div style="max-width:820px;display:flex;flex-direction:column;gap:18px;">
+            <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;padding:clamp(22px,3vw,32px);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;">
+              <sc-for list="{{ settingsFields }}" as="f" hint-placeholder-count="8">
+                <label style="display:flex;flex-direction:column;gap:8px;">
+                  <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">{{ f.label }}</span>
+                  <input value="{{ f.value }}" onChange="{{ f.onChange }}" placeholder="{{ f.placeholder }}" style="width:100%;height:44px;padding:0 14px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;color:#292A25;outline:none;" style-focus="border-color:#A58A62;box-shadow:0 0 0 3px rgba(200,169,106,0.18);">
+                </label>
+              </sc-for>
+            </div>
+            <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;">
+              <button onClick="{{ resetData }}" style="background:transparent;border:none;color:#A3402F;font-size:13px;font-weight:700;cursor:pointer;padding:0;">Reset demo data</button>
+              <button onClick="{{ saveSettings }}" style="height:48px;padding:0 32px;border:1px solid #292A25;border-radius:12px;background:#292A25;color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.28s ease;" style-hover="background:#C8A96A;border-color:#C8A96A;color:#111;">Save settings</button>
+            </div>
+          </div>
+        </sc-if>
+      </main>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:200;background:#292A25;color:#fff;padding:13px 22px;border-radius:10px;font-size:13.5px;font-weight:600;box-shadow:0 18px 40px -16px rgba(0,0,0,0.5);animation:toastIn 0.3s ease both;">{{ toast }}</div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    authed: false, loginEmail: '', loginPass: '', loginError: '',
+    section: 'overview', data: null, draft: null, draftType: null, errors: [],
+    search: '', catFilter: 'all', statusFilter: 'all', newCategory: '',
+    selectedEnquiry: null, enquirySearch: '', enquiryStatusFilter: 'all',
+    settingsDraft: null, toast: '', isNarrow: false, catalogueUrl: '',
+  };
+
+  KEY = 'aof-admin-data';
+
+  newId() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (ch) => { const r = Math.random() * 16 | 0; return (ch === 'x' ? r : (r & 0x3 | 0x8)).toString(16); });
+  }
+
+  /* ───────── Supabase adapter ───────── */
+  rows = {
+    categories: (c) => ({ id: c.id, name: c.name, slug: c.slug, sort_order: c.order || 0, status: c.status || 'published', image_url: c.image || null }),
+    collections: (c) => ({ id: c.id, name: c.name, slug: c.slug, short_description: c.shortDescription || null, description: c.description || null, cover_url: c.cover || null, featured: !!c.featured, sort_order: c.order || 0, status: c.status || 'draft' }),
+    products: (p) => ({ id: p.id, name: p.name, slug: p.slug, sku: p.sku || null, category_id: p.categoryId || null, short_description: p.shortDescription || null, description: p.description || '', dimensions: p.dimensions || null, materials: p.materials || null, main_image_url: p.image || null, gallery: p.gallery || [], document_url: p.documentUrl || null, featured: !!p.featured, sort_order: p.order || 0, status: p.status || 'draft' }),
+  };
+
+  async loadRemote() {
+    const sb = this.sb;
+    const r = await Promise.all([
+      sb.from('categories').select('*').order('sort_order'),
+      sb.from('collections').select('*').order('sort_order'),
+      sb.from('products').select('*').order('sort_order'),
+      sb.from('product_collections').select('product_id, collection_id'),
+      sb.from('quote_requests').select('*, quote_request_items(product_name, quantity)').order('created_at', { ascending: false }),
+      sb.from('site_settings').select('*').eq('id', 1).maybeSingle(),
+    ]);
+    const bad = r.find((x) => x.error);
+    if (bad) throw bad.error;
+    const links = r[3].data;
+    const s = r[5].data || {};
+    return {
+      categories: r[0].data.map((c) => ({ id: c.id, name: c.name, slug: c.slug, order: c.sort_order, status: c.status, image: c.image_url || '' })),
+      collections: r[1].data.map((c) => ({ id: c.id, name: c.name, slug: c.slug, shortDescription: c.short_description || '', description: c.description || '', cover: c.cover_url || '', featured: c.featured, order: c.sort_order, status: c.status })),
+      products: r[2].data.map((p) => ({ id: p.id, name: p.name, slug: p.slug, sku: p.sku || '', categoryId: p.category_id || '', collectionIds: links.filter((l) => l.product_id === p.id).map((l) => l.collection_id), shortDescription: p.short_description || '', description: p.description || '', dimensions: p.dimensions || '', materials: p.materials || '', image: p.main_image_url || '', gallery: p.gallery || [], documentUrl: p.document_url || '', featured: p.featured, order: p.sort_order, status: p.status })),
+      enquiries: r[4].data.map((q) => ({ id: q.id, type: q.type, ref: q.ref, date: q.created_at, name: q.full_name, company: q.company || '', email: q.email, phone: q.phone || '', country: q.country || '', items: (q.quote_request_items || []).map((i) => ({ name: i.product_name, qty: i.quantity })), message: [q.message, q.location ? 'Location: ' + q.location : ''].filter(Boolean).join('\n'), status: q.status, notes: q.notes || '' })),
+      catalogue: { fileName: s.catalogue_name || '', url: s.catalogue_url || '', size: 0, updated: s.updated_at || '' },
+      settings: { companyName: s.company_name || '', email: s.email || '', phone: s.phone || '', whatsapp: s.whatsapp || '', address: s.address || '', notifyEmail: s.notify_email || '', instagram: s.instagram || '', linkedin: s.linkedin || '' },
+    };
+  }
+
+  async sync(prev, next) {
+    const sb = this.sb;
+    const ok = (res) => { if (res && res.error) throw res.error; return res; };
+    const diff = (key) => {
+      const toRow = this.rows[key];
+      const before = {};
+      prev[key].forEach((x) => { before[x.id] = JSON.stringify(toRow(x)); });
+      const keep = new Set(next[key].map((x) => x.id));
+      return { up: next[key].filter((x) => before[x.id] !== JSON.stringify(toRow(x))).map(toRow), del: prev[key].filter((x) => !keep.has(x.id)).map((x) => x.id) };
+    };
+    const cats = diff('categories'), cols = diff('collections'), prods = diff('products');
+    if (cats.up.length) ok(await sb.from('categories').upsert(cats.up));
+    if (cols.up.length) ok(await sb.from('collections').upsert(cols.up));
+    if (prods.up.length) ok(await sb.from('products').upsert(prods.up));
+    const prevLinks = {};
+    prev.products.forEach((p) => { prevLinks[p.id] = (p.collectionIds || []).slice().sort().join(','); });
+    for (const p of next.products) {
+      const now = (p.collectionIds || []).slice().sort().join(',');
+      if (prevLinks[p.id] === now) continue;
+      ok(await sb.from('product_collections').delete().eq('product_id', p.id));
+      if (p.collectionIds.length) ok(await sb.from('product_collections').insert(p.collectionIds.map((cid, i) => ({ product_id: p.id, collection_id: cid, sort_order: i }))));
+    }
+    if (prods.del.length) ok(await sb.from('products').delete().in('id', prods.del));
+    if (cols.del.length) ok(await sb.from('collections').delete().in('id', cols.del));
+    if (cats.del.length) ok(await sb.from('categories').delete().in('id', cats.del));
+    const prevEnq = {};
+    prev.enquiries.forEach((q) => { prevEnq[q.id] = q.status + '|' + q.notes; });
+    for (const q of next.enquiries) {
+      if (prevEnq[q.id] !== undefined && prevEnq[q.id] !== q.status + '|' + q.notes) ok(await sb.from('quote_requests').update({ status: q.status, notes: q.notes || null }).eq('id', q.id));
+    }
+    if (JSON.stringify(prev.settings) !== JSON.stringify(next.settings)) {
+      const s = next.settings;
+      ok(await sb.from('site_settings').update({ company_name: s.companyName, email: s.email, phone: s.phone, whatsapp: s.whatsapp || null, address: s.address, notify_email: s.notifyEmail, instagram: s.instagram || null, linkedin: s.linkedin || null, updated_at: new Date().toISOString() }).eq('id', 1));
+    }
+  }
+
+  async uploadFile(bucket, file) {
+    const ext = (file.name.split('.').pop() || 'bin').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const path = new Date().getFullYear() + '/' + this.newId() + '.' + ext;
+    const res = await this.sb.storage.from(bucket).upload(path, file, { contentType: file.type, upsert: false, cacheControl: '31536000' });
+    if (res.error) throw res.error;
+    return this.sb.storage.from(bucket).getPublicUrl(path).data.publicUrl;
+  }
+
+  moveProduct(list, i, dir) {
+    const j = i + dir;
+    if (j < 0 || j >= list.length) return;
+    const all = this.state.data.products.slice().sort((a, b) => (a.order - b.order) || a.name.localeCompare(b.name));
+    const pos = {}; all.forEach((p, k) => { pos[p.id] = (k + 1) * 10; });
+    const a = list[i].id, b = list[j].id;
+    const t = pos[a]; pos[a] = pos[b]; pos[b] = t;
+    const products = this.state.data.products.map((p) => (p.order === pos[p.id] ? p : Object.assign({}, p, { order: pos[p.id] })));
+    this.commit(Object.assign({}, this.state.data, { products }), 'Order updated');
+  }
+
+  optimiseImage(file) {
+    return new Promise((resolve) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        const s = Math.min(1, 2400 / Math.max(img.naturalWidth, img.naturalHeight));
+        if (s === 1 && file.size < 1.5 * 1048576) return resolve(file);
+        const cv = document.createElement('canvas');
+        cv.width = Math.round(img.naturalWidth * s); cv.height = Math.round(img.naturalHeight * s);
+        const ctx = cv.getContext('2d'); ctx.imageSmoothingQuality = 'high'; ctx.drawImage(img, 0, 0, cv.width, cv.height);
+        cv.toBlob((blob) => {
+          if (!blob || blob.size >= file.size) return resolve(file);
+          resolve(new File([blob], file.name.replace(/\.[^.]+$/, '') + '.webp', { type: 'image/webp' }));
+        }, 'image/webp', 0.88);
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+      img.src = url;
+    });
+  }
+
+  onDraftDrawing = (e) => {
+    const f = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if (!f) return;
+    if (f.type !== 'application/pdf') return this.showToast('Drawings must be PDF.');
+    if (f.size > 50 * 1024 * 1024) return this.showToast('Drawing is larger than 50 MB.');
+    if (!this.sb) return this.showToast('Upload needs the live database.');
+    this.setState({ uploadingDrawing: true });
+    this.uploadFile('catalogues', f)
+      .then((url) => { this.setDraft({ documentUrl: url }); this.setState({ uploadingDrawing: false }); this.showToast('Drawing uploaded — save to apply'); })
+      .catch((err) => { this.setState({ uploadingDrawing: false }); this.showToast('Upload failed: ' + (err.message || err)); });
+  };
+
+  removeDraftDrawing = () => this.setDraft({ documentUrl: '' });
+
+  onGalleryFiles = (e) => {
+    const files = Array.from(e.target.files || []);
+    e.target.value = '';
+    if (!files.length) return;
+    if (!this.sb) return this.showToast('Upload needs the live database.');
+    const ok = files.filter((f) => /^image\/(jpeg|png|webp)$/.test(f.type) && f.size <= 15 * 1024 * 1024);
+    if (ok.length < files.length) this.showToast('Skipped ' + (files.length - ok.length) + ' file(s): use JPG/PNG/WebP under 15 MB.');
+    if (!ok.length) return;
+    this.setState({ uploadingGallery: ok.length });
+    const run = async () => {
+      for (const f of ok) {
+        try {
+          const url = await this.optimiseImage(f).then((file) => this.uploadFile('product-images', file));
+          const d = this.state.draft;
+          this.setDraft({ gallery: (d.gallery || []).concat(url) });
+        } catch (err) { this.showToast('Upload failed: ' + (err.message || err)); }
+        this.setState((s) => ({ uploadingGallery: Math.max(0, (s.uploadingGallery || 1) - 1) }));
+      }
+      this.showToast('Images added — save to apply');
+    };
+    run();
+  };
+
+  moveGallery(i, dir) {
+    const g = (this.state.draft.gallery || []).slice();
+    const j = i + dir;
+    if (j < 0 || j >= g.length) return;
+    const t = g[i]; g[i] = g[j]; g[j] = t;
+    this.setDraft({ gallery: g });
+  }
+
+  removeGallery(i) {
+    const g = (this.state.draft.gallery || []).slice();
+    g.splice(i, 1);
+    this.setDraft({ gallery: g });
+  }
+
+  onDraftImage = (e) => {
+    const f = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if (!f) return;
+    if (!/^image\/(jpeg|png|webp)$/.test(f.type)) return this.showToast('Use a JPG, PNG or WebP image.');
+    if (f.size > 15 * 1024 * 1024) return this.showToast('Image is larger than 15 MB.');
+    if (!this.sb) return this.showToast('Image upload needs the live database.');
+    const isProduct = this.state.draftType === 'product';
+    this.setState({ uploading: true });
+    this.optimiseImage(f).then((file) => this.uploadFile(isProduct ? 'product-images' : 'collection-images', file))
+      .then((url) => { this.setDraft(isProduct ? { image: url } : { cover: url }); this.setState({ uploading: false }); this.showToast('Image uploaded — save to apply'); })
+      .catch((err) => { this.setState({ uploading: false }); this.showToast('Upload failed: ' + (err.message || err)); });
+  };
+
+  async afterAuth(session) {
+    const sb = this.sb;
+    const adm = await sb.from('admins').select('user_id').eq('user_id', session.user.id).maybeSingle();
+    if (adm.error || !adm.data) {
+      await sb.auth.signOut();
+      this.setState({ authed: false, checking: false, loginError: 'This account is not an administrator.' });
+      return;
+    }
+    const data = await this.loadRemote();
+    this.setState({ authed: true, checking: false, data, settingsDraft: Object.assign({}, data.settings), loginError: '', loginPass: '' });
+  }
+
+  reloadRemote(msg) {
+    this.loadRemote().then((data) => { this.setState({ data, settingsDraft: Object.assign({}, data.settings) }); if (msg) this.showToast(msg); }).catch(() => {});
+  }
+
+  slugify(s) {
+    return (s || '').toLowerCase().trim().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  }
+
+  seed() {
+    const categories = [['desks', 'Desks'], ['office-chairs', 'Office Chairs'], ['meeting-tables', 'Meeting Tables'], ['sofas', 'Sofa & Armchairs'], ['coffee-tables', 'Coffee Tables'], ['storage', 'Storage']]
+      .map(([slug, name], i) => ({ id: 'cat-' + slug, name, slug, order: i + 1 }));
+    const collections = [['unique', 'Unique Collection'], ['chairman', 'Chairman Collection'], ['title', 'Title Collection'], ['classic', 'Classic Collection']]
+      .map(([slug, name], i) => ({ id: 'col-' + slug, name, slug, shortDescription: '', description: '', status: 'published', featured: true, order: i + 1 }));
+    const codes = { desks: 'DK', 'office-chairs': 'CH', 'meeting-tables': 'MT', sofas: 'SF', 'coffee-tables': 'CT', storage: 'ST' };
+    const labels = { desks: 'Desk', 'office-chairs': 'Office Chair', 'meeting-tables': 'Meeting Table', sofas: 'Sofa', 'coffee-tables': 'Coffee Table', storage: 'Storage Unit' };
+    const products = [];
+    let n = 0;
+    categories.forEach((c) => {
+      for (let i = 1; i <= 2; i++) {
+        n++;
+        const name = labels[c.slug] + ' 0' + i;
+        products.push({ id: 'p' + n, name, slug: this.slugify(name), sku: 'AOF-' + codes[c.slug] + '-0' + i, categoryId: c.id, collectionIds: [collections[(n - 1) % 4].id], shortDescription: '', description: 'Sample product — replace with real details.', dimensions: '', materials: '', status: 'published', featured: i === 1, order: n });
+      }
+    });
+    const now = Date.now();
+    const enquiries = [
+      { id: 'q1', type: 'quote', ref: 'AOF-Q-1001', date: new Date(now - 864e5).toISOString(), name: 'Sample request', company: 'Example Co.', email: 'sample@example.com', phone: '', country: 'Qatar', items: [{ name: 'Desk 01', qty: 2 }, { name: 'Office Chair 01', qty: 6 }], message: 'Sample enquiry so you can try the workflow. Delete-safe — reset from Settings.', status: 'New', notes: '' },
+      { id: 'q2', type: 'contact', ref: 'AOF-C-1002', date: new Date(now - 3 * 864e5).toISOString(), name: 'Sample contact', company: 'Example Studio', email: 'hello@example.com', phone: '', country: 'Qatar', items: [], message: 'Sample contact message.', status: 'In Progress', notes: '' },
+    ];
+    return {
+      categories, collections, products, enquiries,
+      catalogue: { fileName: '', size: 0, updated: '' },
+      settings: { companyName: 'A Office Furniture', email: 'info@aofficefurniture.com', phone: '+974 7078 5000', whatsapp: '', address: 'Old Al Rayyan, Building 395, St. No: 990, Doha - Qatar', notifyEmail: 'info@aofficefurniture.com', instagram: '', linkedin: '' },
+    };
+  }
+
+  componentDidMount() {
+    let data = null;
+    try { data = JSON.parse(localStorage.getItem(this.KEY)); } catch (e) {}
+    if (!data || !data.products) data = this.seed();
+    let authed = false;
+    try { authed = sessionStorage.getItem('aof-admin-session') === '1'; } catch (e) {}
+    const live = !!(window.AOF && window.AOF.usingSupabase);
+    if (live) {
+      this.setState({ live: true, checking: true, authed: false, data: { categories: [], collections: [], products: [], enquiries: [], catalogue: {}, settings: {} }, settingsDraft: {} });
+      window.AOF.client().then((sb) => {
+        this.sb = sb;
+        return sb.auth.getSession().then(({ data: d }) => (d.session ? this.afterAuth(d.session) : this.setState({ checking: false })));
+      }).catch((err) => this.setState({ checking: false, loginError: 'Could not reach the database: ' + (err.message || err) }));
+    } else {
+      this.setState({ data, authed, settingsDraft: Object.assign({}, data.settings) });
+    }
+    this.onResize = () => {
+      const isNarrow = window.innerWidth < 960;
+      if (isNarrow !== this.state.isNarrow) this.setState({ isNarrow });
+    };
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    clearTimeout(this.toastT);
+  }
+
+  commit(data, msg) {
+    const prev = this.state.data;
+    this.setState({ data });
+    if (this.sb) {
+      this.setState({ saving: true });
+      this.sync(prev, data)
+        .then(() => { this.setState({ saving: false }); if (msg) this.showToast(msg); })
+        .catch((err) => { this.setState({ saving: false }); this.showToast('Not saved: ' + (err.message || err)); this.reloadRemote(); });
+      return;
+    }
+    try { localStorage.setItem(this.KEY, JSON.stringify(data)); } catch (e) {}
+    if (msg) this.showToast(msg);
+  }
+
+  showToast(msg) {
+    clearTimeout(this.toastT);
+    this.setState({ toast: msg });
+    this.toastT = setTimeout(() => this.setState({ toast: '' }), 2600);
+  }
+
+  signIn = () => {
+    const { loginEmail, loginPass } = this.state;
+    if (!/^\S+@\S+\.\S+$/.test(loginEmail.trim())) return this.setState({ loginError: 'Enter a valid email address.' });
+    if (loginPass.length < 6) return this.setState({ loginError: 'Password must be at least 6 characters.' });
+    if (this.state.live) {
+      if (!this.sb) return this.setState({ loginError: 'Still connecting — try again in a moment.' });
+      this.setState({ checking: true, loginError: '' });
+      this.sb.auth.signInWithPassword({ email: loginEmail.trim(), password: loginPass })
+        .then(({ data: d, error }) => { if (error) throw error; return this.afterAuth(d.session); })
+        .catch((err) => this.setState({ checking: false, loginError: /invalid/i.test(err.message || '') ? 'Email or password is incorrect.' : (err.message || 'Sign-in failed.') }));
+      return;
+    }
+    try { sessionStorage.setItem('aof-admin-session', '1'); } catch (e) {}
+    this.setState({ authed: true, loginError: '', loginPass: '' });
+  };
+
+  signOut = () => {
+    if (this.sb) this.sb.auth.signOut();
+    try { sessionStorage.removeItem('aof-admin-session'); } catch (e) {}
+    this.setState({ authed: false, draft: null, draftType: null });
+  };
+
+  go = (section) => this.setState({ section, draft: null, draftType: null, errors: [] });
+
+  newProduct = () => {
+    const cats = this.state.data.categories;
+    this.setState({ section: 'products', draftType: 'product', errors: [], draft: { id: this.newId(), isNew: true, name: '', slug: '', sku: '', categoryId: cats[0] ? cats[0].id : '', collectionIds: [], shortDescription: '', description: '', dimensions: '', materials: '', status: 'draft', featured: false, order: (this.state.data.products.reduce((m, p) => Math.max(m, p.order || 0), 0) + 10) } });
+  };
+
+  editProduct = (p) => this.setState({ draftType: 'product', errors: [], draft: Object.assign({ slugTouched: true }, p, { collectionIds: p.collectionIds.slice() }) });
+
+  newCollection = () => this.setState({ section: 'collections', draftType: 'collection', errors: [], draft: { id: this.newId(), isNew: true, name: '', slug: '', shortDescription: '', description: '', status: 'draft', featured: false, order: this.state.data.collections.length + 1, linkedIds: [] } });
+
+  editCollection = (c) => {
+    const linkedIds = this.state.data.products.filter((p) => p.collectionIds.includes(c.id)).map((p) => p.id);
+    this.setState({ draftType: 'collection', errors: [], draft: Object.assign({ slugTouched: true }, c, { linkedIds }) });
+  };
+
+  cancelDraft = () => this.setState({ draft: null, draftType: null, errors: [] });
+
+  setDraft(patch) { this.setState((s) => ({ draft: Object.assign({}, s.draft, patch) })); }
+
+  saveDraft = () => {
+    const { draft, draftType, data } = this.state;
+    const errors = [];
+    if (!draft.name.trim()) errors.push('Name is required.');
+    if (draftType === 'product') {
+      if (!draft.categoryId) errors.push('Choose a category.');
+      if (!draft.description.trim()) errors.push('Description is required.');
+    }
+    let slug = this.slugify(draft.slug || draft.name);
+    if (!slug && draft.name.trim()) errors.push('Slug must contain letters or numbers.');
+    if (errors.length) return this.setState({ errors });
+    const key = draftType === 'product' ? 'products' : 'collections';
+    const others = data[key].filter((x) => x.id !== draft.id);
+    const base = slug;
+    let i = 2;
+    while (others.some((x) => x.slug === slug)) slug = base + '-' + i++;
+    const clean = Object.assign({}, draft, { slug, name: draft.name.trim() });
+    const isNew = !!draft.isNew;
+    delete clean.slugTouched; delete clean.isNew; delete clean.linkedIds;
+    const next = Object.assign({}, data);
+    next[key] = isNew ? data[key].concat([clean]) : data[key].map((x) => (x.id === draft.id ? clean : x));
+    if (draftType === 'collection') {
+      next.products = next.products.map((p) => {
+        const has = p.collectionIds.includes(draft.id);
+        const want = draft.linkedIds.includes(p.id);
+        if (has === want) return p;
+        return Object.assign({}, p, { collectionIds: want ? p.collectionIds.concat([draft.id]) : p.collectionIds.filter((c) => c !== draft.id) });
+      });
+    }
+    this.setState({ draft: null, draftType: null, errors: [] });
+    this.commit(next, (isNew ? 'Created “' : 'Saved “') + clean.name + '”' + (slug !== base ? ' (slug adjusted to ' + slug + ')' : ''));
+  };
+
+  patchItem(key, id, patch, msg) {
+    const data = this.state.data;
+    this.commit(Object.assign({}, data, { [key]: data[key].map((x) => (x.id === id ? Object.assign({}, x, patch) : x)) }), msg);
+  }
+
+  deleteProduct = (p) => {
+    if (!window.confirm('Delete “' + p.name + '”? This cannot be undone.')) return;
+    const data = this.state.data;
+    this.commit(Object.assign({}, data, { products: data.products.filter((x) => x.id !== p.id) }), 'Deleted “' + p.name + '”');
+  };
+
+  deleteCollection = (c) => {
+    if (!window.confirm('Delete “' + c.name + '”? Products stay, they are just unlinked.')) return;
+    const data = this.state.data;
+    this.commit(Object.assign({}, data, {
+      collections: data.collections.filter((x) => x.id !== c.id),
+      products: data.products.map((p) => (p.collectionIds.includes(c.id) ? Object.assign({}, p, { collectionIds: p.collectionIds.filter((x) => x !== c.id) }) : p)),
+    }), 'Deleted “' + c.name + '”');
+  };
+
+  addCategory = () => {
+    const name = this.state.newCategory.trim();
+    if (!name) return;
+    const data = this.state.data;
+    let slug = this.slugify(name);
+    const base = slug;
+    let i = 2;
+    while (data.categories.some((c) => c.slug === slug)) slug = base + '-' + i++;
+    this.setState({ newCategory: '' });
+    this.commit(Object.assign({}, data, { categories: data.categories.concat([{ id: this.newId(), name, slug, status: 'published', order: data.categories.length + 1 }]) }), 'Added “' + name + '”');
+  };
+
+  moveCategory(idx, dir) {
+    const data = this.state.data;
+    const list = data.categories.slice();
+    const j = idx + dir;
+    if (j < 0 || j >= list.length) return;
+    const t = list[idx]; list[idx] = list[j]; list[j] = t;
+    this.commit(Object.assign({}, data, { categories: list.map((c, k) => Object.assign({}, c, { order: k + 1 })) }));
+  }
+
+  renameCategory(c) {
+    const name = window.prompt('Rename category', c.name);
+    if (!name || !name.trim()) return;
+    this.patchItem('categories', c.id, { name: name.trim() }, 'Renamed to “' + name.trim() + '”');
+  }
+
+  deleteCategory(c, count) {
+    if (count > 0) return this.showToast('“' + c.name + '” has ' + count + ' products — reassign them first.');
+    if (!window.confirm('Delete category “' + c.name + '”?')) return;
+    const data = this.state.data;
+    this.commit(Object.assign({}, data, { categories: data.categories.filter((x) => x.id !== c.id) }), 'Deleted “' + c.name + '”');
+  }
+
+  onCatalogueFile = (e) => {
+    const f = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if (!f) return;
+    if (f.type !== 'application/pdf' && !/\.pdf$/i.test(f.name)) return this.showToast('Please choose a PDF file.');
+    if (f.size > 50 * 1024 * 1024) return this.showToast('File is larger than 50 MB.');
+    if (this.sb) {
+      this.showToast('Uploading catalogue…');
+      this.uploadFile('catalogues', f).then((url) => this.sb.from('site_settings').update({ catalogue_url: url, catalogue_name: f.name, updated_at: new Date().toISOString() }).eq('id', 1).then((r) => {
+        if (r.error) throw r.error;
+        this.setState({ data: Object.assign({}, this.state.data, { catalogue: { fileName: f.name, url, size: f.size, updated: new Date().toISOString() } }) });
+        this.showToast('Catalogue replaced — live on the website');
+      })).catch((err) => this.showToast('Upload failed: ' + (err.message || err)));
+      return;
+    }
+    if (this.state.catalogueUrl) URL.revokeObjectURL(this.state.catalogueUrl);
+    const data = this.state.data;
+    this.setState({ catalogueUrl: URL.createObjectURL(f) });
+    this.commit(Object.assign({}, data, { catalogue: { fileName: f.name, size: f.size, updated: new Date().toISOString() } }), 'Catalogue replaced');
+  };
+
+  saveSettings = () => {
+    const s = this.state.settingsDraft;
+    if (s.email && !/^\S+@\S+\.\S+$/.test(s.email)) return this.showToast('Contact email looks invalid.');
+    if (s.notifyEmail && !/^\S+@\S+\.\S+$/.test(s.notifyEmail)) return this.showToast('Notification email looks invalid.');
+    if (s.whatsapp && s.whatsapp.replace(/\D/g, '').length < 8) return this.showToast('WhatsApp number needs country code + number.');
+    this.commit(Object.assign({}, this.state.data, { settings: Object.assign({}, s) }), 'Settings saved');
+  };
+
+  resetData = () => {
+    if (this.sb) return this.showToast('Reset is disabled on the live database.');
+    if (!window.confirm('Reset all dashboard data to the demo set?')) return;
+    const data = this.seed();
+    this.setState({ settingsDraft: Object.assign({}, data.settings), selectedEnquiry: null });
+    this.commit(data, 'Demo data restored');
+  };
+
+  fmtDate(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  statusBadge(status) {
+    const map = {
+      published: ['#E8F0E6', '#3C6B3A'], draft: ['#EFECE5', '#6E6A60'],
+      New: ['#F6EEDD', '#8A6A2E'], 'In Progress': ['#E6EDF3', '#36597A'], Responded: ['#E8F0E6', '#3C6B3A'], Closed: ['#EFECE5', '#6E6A60'],
+    };
+    const c = map[status] || map.draft;
+    return { display: 'inline-flex', alignItems: 'center', height: '24px', padding: '0 10px', borderRadius: '999px', background: c[0], color: c[1], fontSize: '11.5px', fontWeight: 700, whiteSpace: 'nowrap', justifySelf: 'start' };
+  }
+
+  renderVals() {
+    const st = this.state;
+    const data = st.data || { products: [], collections: [], categories: [], enquiries: [], catalogue: {}, settings: {} };
+    const { section, draft, draftType, isNarrow } = st;
+    const catName = {};
+    data.categories.forEach((c) => { catName[c.id] = c.name; });
+    const colName = {};
+    data.collections.forEach((c) => { colName[c.id] = c.name; });
+
+    const newQuotes = data.enquiries.filter((q) => q.status === 'New').length;
+    const navDefs = [
+      ['overview', 'Overview', ''],
+      ['products', 'Products', data.products.length],
+      ['collections', 'Collections', data.collections.length],
+      ['categories', 'Categories', data.categories.length],
+      ['enquiries', 'Enquiries', newQuotes ? newQuotes + ' new' : data.enquiries.length],
+      ['catalogue', 'Catalogue', ''],
+      ['settings', 'Settings', ''],
+    ];
+    const navItems = navDefs.map(([id, label, count]) => {
+      const active = section === id;
+      return {
+        label, count,
+        onClick: () => this.go(id),
+        style: {
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', flexShrink: 0,
+          padding: '11px 12px', border: 'none', borderRadius: '8px', cursor: 'pointer', textAlign: 'left',
+          background: active ? 'rgba(200,169,106,0.16)' : 'transparent', color: active ? '#E9D6AE' : '#C9C2B4',
+          fontSize: '14px', fontWeight: active ? 700 : 600, transition: 'background 0.2s ease, color 0.2s ease', whiteSpace: 'nowrap',
+        },
+        countStyle: { fontSize: '11.5px', color: active ? '#E9D6AE' : '#8E887C', fontWeight: 600, display: count === '' ? 'none' : 'inline' },
+      };
+    });
+
+    const layoutStyle = isNarrow ? { display: 'block' } : { display: 'grid', gridTemplateColumns: '248px minmax(0,1fr)', minHeight: '100vh' };
+    const sidebarStyle = isNarrow
+      ? { position: 'sticky', top: 0, zIndex: 50, background: '#1A1917', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: '18px' }
+      : { position: 'sticky', top: 0, height: '100vh', background: '#1A1917', padding: '28px 18px', display: 'flex', flexDirection: 'column', gap: '30px' };
+    const navListStyle = isNarrow
+      ? { display: 'flex', gap: '4px', overflowX: 'auto', flex: 1, minWidth: 0 }
+      : { display: 'flex', flexDirection: 'column', gap: '4px' };
+
+    const titles = { overview: 'Overview', products: 'Products', collections: 'Collections', categories: 'Categories', enquiries: 'Enquiries & quotes', catalogue: 'Catalogue', settings: 'Website settings' };
+    let sectionTitle = titles[section];
+    if (draft) sectionTitle = (draft.isNew ? 'New ' : 'Edit ') + (draftType === 'product' ? 'product' : 'collection');
+
+    const showPrimaryAction = !draft && (section === 'products' || section === 'collections');
+    const primaryActionLabel = section === 'products' ? '+ Add product' : '+ New collection';
+    const primaryAction = section === 'products' ? this.newProduct : this.newCollection;
+
+    const enqRow = (q) => ({
+      ref: q.ref, name: q.name, company: q.company || '—', status: q.status, dateLabel: this.fmtDate(q.date),
+      itemsLabel: q.items.length ? q.items.length + ' product' + (q.items.length > 1 ? 's' : '') : 'Contact message',
+      badgeStyle: this.statusBadge(q.status),
+      onOpen: () => this.setState({ section: 'enquiries', selectedEnquiry: q.id, draft: null }),
+    });
+    const sortedEnq = data.enquiries.slice().sort((a, b) => (a.date < b.date ? 1 : -1));
+
+    const stats = [
+      ['Published products', data.products.filter((p) => p.status === 'published').length, 'products'],
+      ['Collections', data.collections.length, 'collections'],
+      ['Categories', data.categories.length, 'categories'],
+      ['New quote requests', data.enquiries.filter((q) => q.type === 'quote' && q.status === 'New').length, 'enquiries'],
+      ['In progress', data.enquiries.filter((q) => q.status === 'In Progress').length, 'enquiries'],
+    ].map(([label, value, to]) => ({ label, value, onClick: () => this.go(to) }));
+
+    const q = st.search.trim().toLowerCase();
+    const productRows = data.products
+      .filter((p) => (st.catFilter === 'all' || p.categoryId === st.catFilter) && (st.statusFilter === 'all' || p.status === st.statusFilter) && (!q || p.name.toLowerCase().includes(q) || (p.sku || '').toLowerCase().includes(q)))
+      .sort((a, b) => (a.order - b.order) || a.name.localeCompare(b.name));
+    const arrow = (off) => ({ width: '26px', height: '20px', border: 'none', borderRadius: '5px', background: off ? 'transparent' : '#F3F0E9', color: off ? '#D5CFC3' : '#292A25', fontSize: '9px', lineHeight: 1, cursor: off ? 'default' : 'pointer', padding: 0 });
+    const productRowsView = productRows
+      .map((p, i, arr) => ({
+        pos: i + 1,
+        upStyle: arrow(i === 0), downStyle: arrow(i === arr.length - 1),
+        onUp: () => this.moveProduct(arr, i, -1), onDown: () => this.moveProduct(arr, i, 1),
+        thumbStyle: { display: 'block', width: '100%', height: '100%', backgroundImage: p.image ? 'url("' + p.image + '")' : 'none', backgroundSize: 'cover', backgroundPosition: 'center' },
+        id: p.id, name: p.name, sku: p.sku || '—',
+        categoryName: catName[p.categoryId] || 'Uncategorised',
+        collectionNames: p.collectionIds.map((c) => colName[c]).filter(Boolean).join(', ') || '—',
+        statusLabel: p.status === 'published' ? 'Published' : 'Draft',
+        badgeStyle: this.statusBadge(p.status),
+        featuredStyle: { display: p.featured ? 'inline' : 'none', marginLeft: '8px', fontSize: '11px', color: '#A58A62', fontWeight: 700 },
+        toggleLabel: p.status === 'published' ? 'Unpublish' : 'Publish',
+        onEdit: () => this.editProduct(p),
+        onToggle: () => this.patchItem('products', p.id, { status: p.status === 'published' ? 'draft' : 'published' }, p.status === 'published' ? 'Moved to draft' : 'Published'),
+        onDelete: () => this.deleteProduct(p),
+      }));
+
+    const collectionRows = data.collections.slice().sort((a, b) => a.order - b.order).map((c) => ({
+      id: c.id, name: c.name, slug: c.slug,
+      productCount: data.products.filter((p) => p.collectionIds.includes(c.id)).length,
+      statusLabel: c.status === 'published' ? 'Published' : 'Draft',
+      badgeStyle: this.statusBadge(c.status),
+      toggleLabel: c.status === 'published' ? 'Unpublish' : 'Publish',
+      featureLabel: c.featured ? '★ Featured' : '☆ Feature',
+      featureBtnStyle: { height: '34px', padding: '0 12px', border: '1px solid ' + (c.featured ? '#C8A96A' : '#DDD7CB'), borderRadius: '8px', background: c.featured ? '#F6EEDD' : '#fff', color: c.featured ? '#8A6A2E' : '#292A25', fontSize: '12.5px', fontWeight: 600, cursor: 'pointer' },
+      onEdit: () => this.editCollection(c),
+      onToggle: () => this.patchItem('collections', c.id, { status: c.status === 'published' ? 'draft' : 'published' }, c.status === 'published' ? 'Moved to draft' : 'Published'),
+      onFeature: () => this.patchItem('collections', c.id, { featured: !c.featured }, c.featured ? 'Removed from homepage' : 'Featured on homepage'),
+      onDelete: () => this.deleteCollection(c),
+    }));
+
+    const categoryOptions = data.categories.map((c) => ({ value: c.id, label: c.name }));
+    const categoryRows = data.categories.map((c, idx) => {
+      const count = data.products.filter((p) => p.categoryId === c.id).length;
+      return {
+        name: c.name, slug: c.slug, productCount: count,
+        onUp: () => this.moveCategory(idx, -1), onDown: () => this.moveCategory(idx, 1),
+        onRename: () => this.renameCategory(c), onDelete: () => this.deleteCategory(c, count),
+      };
+    });
+
+    const fieldKeys = ['name', 'slug', 'sku', 'shortDescription', 'description', 'dimensions', 'materials', 'categoryId'];
+    const on = {};
+    fieldKeys.forEach((k) => {
+      on[k] = (e) => {
+        const v = e.target.value;
+        this.setState((s) => {
+          const d = Object.assign({}, s.draft, { [k]: v });
+          if (k === 'name' && !s.draft.slugTouched) d.slug = this.slugify(v);
+          if (k === 'slug') d.slugTouched = true;
+          return { draft: d };
+        });
+      };
+    });
+
+    const pub = draft && draft.status === 'published';
+    const segBtn = (active) => ({ height: '38px', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '13px', fontWeight: 700, background: active ? '#fff' : 'transparent', color: active ? '#292A25' : '#7A766D', boxShadow: active ? '0 2px 8px -3px rgba(0,0,0,0.2)' : 'none', transition: 'all 0.2s ease' });
+    const featuredOn = !!(draft && draft.featured);
+
+    const chipStyle = (on2) => ({ height: '34px', padding: '0 14px', borderRadius: '999px', border: '1px solid ' + (on2 ? '#292A25' : '#DDD7CB'), background: on2 ? '#292A25' : '#fff', color: on2 ? '#fff' : '#292A25', fontSize: '12.5px', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s ease' });
+    let chips = [];
+    if (draft && draftType === 'product') {
+      chips = data.collections.map((c) => {
+        const active = draft.collectionIds.includes(c.id);
+        return { label: c.name, style: chipStyle(active), onClick: () => this.setDraft({ collectionIds: active ? draft.collectionIds.filter((x) => x !== c.id) : draft.collectionIds.concat([c.id]) }) };
+      });
+    } else if (draft && draftType === 'collection') {
+      chips = data.products.map((p) => {
+        const active = draft.linkedIds.includes(p.id);
+        return { label: p.name, style: chipStyle(active), onClick: () => this.setDraft({ linkedIds: active ? draft.linkedIds.filter((x) => x !== p.id) : draft.linkedIds.concat([p.id]) }) };
+      });
+    }
+
+    const statusOptions = ['New', 'In Progress', 'Responded', 'Closed'];
+    const eq = st.enquirySearch.trim().toLowerCase();
+    const enquiryRows = sortedEnq
+      .filter((x) => (st.enquiryStatusFilter === 'all' || x.status === st.enquiryStatusFilter) && (!eq || (x.name + ' ' + x.company + ' ' + x.ref).toLowerCase().includes(eq)))
+      .map((x) => {
+        const r = enqRow(x);
+        const active = st.selectedEnquiry === x.id;
+        r.rowStyle = { width: '100%', display: 'flex', flexDirection: 'column', gap: '4px', padding: '14px 18px', border: 'none', borderTop: '1px solid #EEEAE2', borderLeft: '3px solid ' + (active ? '#C8A96A' : 'transparent'), background: active ? '#FAF8F3' : '#fff', textAlign: 'left', cursor: 'pointer' };
+        return r;
+      });
+    const selRaw = data.enquiries.find((x) => x.id === st.selectedEnquiry);
+    const sel = selRaw ? {
+      ref: selRaw.ref, name: selRaw.name, company: selRaw.company || '—', country: selRaw.country || '—', status: selRaw.status,
+      typeLabel: selRaw.type === 'quote' ? 'QUOTE REQUEST' : 'CONTACT',
+      dateLabel: this.fmtDate(selRaw.date), email: selRaw.email, mailto: 'mailto:' + selRaw.email,
+      phoneLabel: selRaw.phone || 'Not provided', tel: selRaw.phone ? 'tel:' + selRaw.phone.replace(/\s/g, '') : '#',
+      items: selRaw.items.length ? selRaw.items : [{ name: 'No products — general enquiry', qty: '—' }],
+      message: selRaw.message || '—', notes: selRaw.notes || '',
+    } : { items: [] };
+
+    const cat = data.catalogue || {};
+    const sd = st.settingsDraft || {};
+    const settingsDefs = [
+      ['companyName', 'Company name', 'A Office Furniture'],
+      ['email', 'Public contact email', 'info@…'],
+      ['phone', 'Public phone', '+974 …'],
+      ['whatsapp', 'WhatsApp number', '+974 … (hidden on site if empty)'],
+      ['address', 'Address', 'Street, City, Country'],
+      ['notifyEmail', 'Quote notification email', 'Where new requests are sent'],
+      ['instagram', 'Instagram URL', 'https://instagram.com/…'],
+      ['linkedin', 'LinkedIn URL', 'https://linkedin.com/company/…'],
+    ];
+    const settingsFields = settingsDefs.map(([k, label, placeholder]) => ({
+      label, placeholder, value: sd[k] || '',
+      onChange: (e) => { const v = e.target.value; this.setState((s) => ({ settingsDraft: Object.assign({}, s.settingsDraft, { [k]: v }) })); },
+    }));
+
+    return {
+      showLogin: !st.authed, authed: st.authed,
+      loginNote: st.live ? (st.checking ? 'Checking session…' : 'Secure sign-in · administrators only') : 'Demo mode — add Supabase keys in site-data.js to go live.',
+      hasDraftImage: !!(draft && (draft.image || draft.cover)),
+      draftImageStyle: { position: 'absolute', inset: 0, backgroundImage: draft && (draft.image || draft.cover) ? 'url("' + (draft.image || draft.cover) + '")' : 'none', backgroundSize: 'cover', backgroundPosition: 'center' },
+      imageButtonLabel: st.uploading ? 'Uploading…' : ((draft && (draft.image || draft.cover)) ? 'Replace image' : 'Upload image'),
+      onDraftImage: this.onDraftImage,
+      loginEmail: st.loginEmail, loginPass: st.loginPass, loginError: st.loginError, hasLoginError: !!st.loginError,
+      onLoginEmail: (e) => this.setState({ loginEmail: e.target.value, loginError: '' }),
+      onLoginPass: (e) => this.setState({ loginPass: e.target.value, loginError: '' }),
+      onLoginKey: (e) => { if (e.key === 'Enter') this.signIn(); },
+      signIn: this.signIn, signOut: this.signOut,
+      layoutStyle, sidebarStyle, navListStyle, navItems, isNarrow, isWide: !isNarrow,
+      sectionTitle, showPrimaryAction, primaryActionLabel, primaryAction,
+      isOverview: section === 'overview' && !draft, stats,
+      recentEnquiries: sortedEnq.slice(0, 5).map(enqRow), hasNoEnquiries: data.enquiries.length === 0,
+      goEnquiries: () => this.go('enquiries'),
+      showProductList: section === 'products' && !draft, productRows: productRowsView, noProducts: productRowsView.length === 0,
+      search: st.search, onSearch: (e) => this.setState({ search: e.target.value }),
+      catFilter: st.catFilter, onCatFilter: (e) => this.setState({ catFilter: e.target.value }),
+      statusFilter: st.statusFilter, onStatusFilter: (e) => this.setState({ statusFilter: e.target.value }),
+      categoryOptions,
+      showCollectionList: section === 'collections' && !draft, collectionRows,
+      showEditor: !!draft, draft: draft || {}, on, errors: st.errors, hasErrors: st.errors.length > 0,
+      isProductDraft: draftType === 'product',
+      descriptionLabel: draftType === 'product' ? 'Description *' : 'Full description',
+      imageLabel: draftType === 'product' ? 'Main image' : 'Cover image',
+      imageHint: draftType === 'product' ? 'Best: 2000 × 2400 px (portrait 5:6), product centred with space around it. Any size works — large photos are optimised automatically.' : 'Best: 2400 × 1600 px (landscape 3:2), subject in the middle. Any size works — large photos are optimised automatically.',
+      drawingButtonLabel: st.uploadingDrawing ? 'Uploading…' : ((draft && draft.documentUrl) ? 'Replace drawing (PDF)' : 'Upload drawing (PDF)'),
+      hasDraftDrawing: !!(draft && draft.documentUrl), draftDrawingUrl: draft ? (draft.documentUrl || '') : '',
+      onDraftDrawing: this.onDraftDrawing, removeDraftDrawing: this.removeDraftDrawing,
+      galleryItems: ((draft && draft.gallery) || []).map((src, i) => ({
+        style: { position: 'absolute', inset: 0, backgroundImage: 'url("' + src + '")', backgroundSize: 'cover', backgroundPosition: 'center' },
+        btnStyle: { width: '22px', height: '22px', border: 'none', borderRadius: '5px', background: 'rgba(255,255,255,0.92)', fontSize: '9px', lineHeight: 1, cursor: 'pointer', padding: 0, color: '#292A25' },
+        onLeft: () => this.moveGallery(i, -1), onRight: () => this.moveGallery(i, 1), onRemove: () => this.removeGallery(i),
+      })),
+      galleryCount: ((draft && draft.gallery) || []).length + ' image(s)',
+      galleryAddLabel: st.uploadingGallery ? 'Uploading ' + st.uploadingGallery + '…' : 'Add images',
+      onGalleryFiles: this.onGalleryFiles,
+      draftImageId: draft ? (draftType === 'product' ? 'product-' + draft.id : 'collection-cover-' + draft.id) : 'draft-image',
+      chipsLabel: draftType === 'product' ? 'Collections' : 'Linked products',
+      chips, cancelDraft: this.cancelDraft, saveDraft: this.saveDraft,
+      setPublished: () => this.setDraft({ status: 'published' }), setDraftStatus: () => this.setDraft({ status: 'draft' }),
+      publishedBtnStyle: segBtn(pub), draftBtnStyle: segBtn(!pub),
+      toggleFeatured: () => this.setDraft({ featured: !featuredOn }),
+      featuredMark: featuredOn ? '✓' : '',
+      featuredBoxStyle: { width: '20px', height: '20px', borderRadius: '5px', border: '1.5px solid ' + (featuredOn ? '#C8A96A' : '#CFC7B6'), background: featuredOn ? '#C8A96A' : '#fff', color: '#111', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 800 },
+      formGridStyle: { display: 'grid', gap: '18px', gridTemplateColumns: isNarrow ? 'minmax(0,1fr)' : 'minmax(0,1.6fr) minmax(0,1fr)', alignItems: 'start' },
+      isCategories: section === 'categories', categoryRows,
+      newCategory: st.newCategory, onNewCategory: (e) => this.setState({ newCategory: e.target.value }),
+      onNewCategoryKey: (e) => { if (e.key === 'Enter') this.addCategory(); }, addCategory: this.addCategory,
+      isEnquiries: section === 'enquiries',
+      enquiryGridStyle: { display: 'grid', gap: '18px', gridTemplateColumns: isNarrow ? 'minmax(0,1fr)' : 'minmax(0,1fr) minmax(0,1.5fr)', alignItems: 'start' },
+      enquirySearch: st.enquirySearch, onEnquirySearch: (e) => this.setState({ enquirySearch: e.target.value }),
+      enquiryStatusFilter: st.enquiryStatusFilter, onEnquiryStatusFilter: (e) => this.setState({ enquiryStatusFilter: e.target.value }),
+      statusOptions, enquiryRows, noEnquiryRows: enquiryRows.length === 0,
+      sel, hasSelectedEnquiry: !!selRaw, noSelectedEnquiry: !selRaw,
+      onSelStatus: (e) => this.patchItem('enquiries', selRaw.id, { status: e.target.value }, 'Status → ' + e.target.value),
+      onSelNotes: (e) => this.patchItem('enquiries', selRaw.id, { notes: e.target.value }),
+      isCatalogue: section === 'catalogue',
+      catalogueName: cat.fileName || 'No catalogue uploaded yet',
+      catalogueMeta: cat.fileName ? (cat.size ? (cat.size / 1048576).toFixed(1) + ' MB · ' : '') + 'updated ' + this.fmtDate(cat.updated) : 'Upload a PDF to activate the download buttons.',
+      uploadLabel: cat.fileName ? 'Replace catalogue PDF' : 'Upload catalogue PDF',
+      onCatalogueFile: this.onCatalogueFile, catalogueUrl: cat.url || st.catalogueUrl, hasCatalogueUrl: !!(cat.url || st.catalogueUrl),
+      isSettings: section === 'settings', settingsFields, saveSettings: this.saveSettings, resetData: this.resetData,
+      toast: st.toast, hasToast: !!st.toast,
+    };
+  }
+}
+</script>
+</body>
+</html>

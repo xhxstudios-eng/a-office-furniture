@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; padding: 0; background: oklch(99% 0.003 90); }
+    ::selection { background: oklch(80% 0.09 75 / 0.35); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes bounceDown { 0%, 100% { transform: translateY(0); opacity: 0.7; } 50% { transform: translateY(8px); opacity: 1; } }
+    @keyframes heroReveal { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: scale(1); } }
+    #hero-image::part(empty) { align-items: flex-end; padding-right: 8vw; text-align: right; }
+    [id^="item-"]::part(empty) { justify-content: flex-start; padding-top: 10%; font-size: 10px; gap: 3px; }
+    @media (min-width: 1024px) {
+      header[data-desktop-fx] { transition: height 0.35s ease, transform 0.35s ease, background 0.4s ease, border-color 0.4s ease; }
+      header[data-desktop-fx][data-scrolled="true"] { height: 72px !important; box-shadow: 0 8px 30px -14px rgba(0,0,0,0.2); }
+      header[data-desktop-fx][data-hide="true"] { transform: translateY(-100%) !important; }
+      [data-desktop-nav]:hover > a[data-nav-link]:not(:hover) { opacity: 0.5; }
+      [data-nav-link] { position: relative; letter-spacing: 0; transition: color 0.3s ease, opacity 0.3s ease, letter-spacing 0.3s ease; }
+      [data-nav-link]::after { content: ''; position: absolute; left: 50%; right: 50%; bottom: -6px; height: 1px; background: currentColor; transition: left 0.3s ease, right 0.3s ease; }
+      [data-nav-link]:hover::after { left: 0; right: 0; }
+      [data-nav-link]:hover { letter-spacing: 0.3px; }
+      [data-logo-link] { transition: transform 0.3s ease, opacity 0.3s ease; cursor: pointer; }
+      [data-logo-link]:hover { transform: scale(1.03); }
+      [data-cta-desktop] svg { transition: transform 0.3s ease; }
+      [data-cta-desktop]:hover svg { transform: translateX(3px); }
+      [data-collection-card] { transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: pointer; }
+      [data-collection-card]:hover { transform: translateY(-4px); box-shadow: 0 26px 50px -22px rgba(0,0,0,0.4); }
+      [data-collection-image] { transition: transform 0.35s ease, filter 0.35s ease; }
+      [data-collection-card]:hover [data-collection-image] { transform: scale(1.05); filter: brightness(1.04) contrast(1.05); }
+      [data-collection-gradient] { transition: background 0.35s ease; }
+      [data-collection-card]:hover [data-collection-gradient] { background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.62) 100%) !important; }
+      [data-collection-title] { transition: transform 0.3s ease, color 0.3s ease; }
+      [data-collection-card]:hover [data-collection-title] { transform: translateY(-3px); color: #C8A96A; }
+      [data-item-card] { transition: transform 0.35s ease, box-shadow 0.35s ease; cursor: pointer; }
+      [data-item-card]:hover { transform: translateY(-4px); box-shadow: 0 26px 50px -22px rgba(0,0,0,0.4); }
+      [data-item-image] { transition: transform 0.35s ease, filter 0.35s ease; }
+      [data-item-card]:hover [data-item-image] { transform: scale(1.05); filter: brightness(1.04) contrast(1.05); }
+      [data-item-gradient] { transition: background 0.35s ease; }
+      [data-item-card]:hover [data-item-gradient] { background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.62) 100%) !important; }
+      [data-item-title] { display: inline-block; transition: transform 0.3s ease, color 0.3s ease; }
+      [data-item-card]:hover [data-item-title] { transform: translateY(-3px); color: #C8A96A; }
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;display=swap" rel="stylesheet">
+  <script src="./image-slot.js"></script>
+  <script src="./theme.js"></script>
+  <script src="./site-data.js"></script>
+</helmet>
+<div id="top" style="{{ pageWrapperStyle }}" data-screen-label="Home">
+
+  <header data-desktop-fx data-scrolled="{{ scrolledAttr }}" data-hide="{{ hideHeaderAttr }}" style="{{ navBarStyle }}">
+    <div style="display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1400px;margin:0 auto;padding:0 clamp(20px,4vw,56px);">
+      <a href="#top" data-logo-link style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;">
+        <img src="logo-mark.png" alt="A Office Furniture" style="height:40px;width:auto;display:block;">
+        <span style="{{ navWordmarkStyle }}">OFFICE FURNITURE</span>
+      </a>
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+        <nav data-desktop-nav style="display:flex;align-items:center;gap:clamp(16px,1.7vw,26px);flex-wrap:nowrap;">
+          <a href="Home.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">Home</a>
+          <div style="position:relative;" onMouseEnter="{{ openCollections }}" onMouseLeave="{{ closeCollections }}">
+            <a href="Collections.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">Collections</a>
+            <div style="{{ collectionsDropdownStyle }}">
+              <sc-for list="{{ collectionLinks }}" as="col" hint-placeholder-count="4">
+                <a href="{{ col.href }}" style="{{ productsDropdownLinkStyle }}" style-hover="{{ productsDropdownLinkHoverStyle }}">{{ col.name }}</a>
+              </sc-for>
+            </div>
+          </div>
+          <div style="position:relative;" onMouseEnter="{{ openProducts }}" onMouseLeave="{{ closeProducts }}">
+            <a href="Products.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">Products</a>
+            <div style="{{ productsDropdownStyle }}">
+              <sc-for list="{{ productCategories }}" as="cat" hint-placeholder-count="6">
+                <a href="{{ cat.href }}" style="{{ productsDropdownLinkStyle }}" style-hover="{{ productsDropdownLinkHoverStyle }}">{{ cat.name }}</a>
+              </sc-for>
+            </div>
+          </div>
+          <a href="Contact.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">Contact Us</a>
+          <a href="Catalogue.dc.html" data-cta-desktop data-no-dark style="{{ catalogueBtnStyle }}" style-hover="{{ catalogueBtnHoverStyle }}" style-focus="{{ catalogueBtnFocusStyle }}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M4 21h16"></path></svg>
+            Downloads
+          </a>
+          <a href="OurStory.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">About the Brand</a>
+          <aof-quote-link style="color:inherit;"></aof-quote-link>
+          <button data-no-dark aria-label="Toggle dark mode" onClick="{{ toggleTheme }}" style="{{ themeToggleStyle }}" style-hover="{{ themeToggleHoverStyle }}">{{ themeToggleIcon }}</button>
+        </nav>
+      </sc-if>
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+        <button aria-label="Toggle menu" onClick="{{ toggleNav }}" style="background:transparent;border:none;cursor:pointer;width:44px;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;">
+          <span style="{{ bar1Style }}"></span>
+          <span style="{{ bar2Style }}"></span>
+          <span style="{{ bar3Style }}"></span>
+        </button>
+      </sc-if>
+    </div>
+  </header>
+
+  
+
+  <main>
+    <section style="position:relative;width:100%;height:100vh;min-height:640px;overflow:hidden;" data-screen-label="Hero">
+      <div style="{{ heroParallaxStyle }}">
+        <div style="width:100%;height:100%;animation:heroReveal 1.6s ease both;">
+          <img src="coming-soon.png" alt="A Office Furniture" style="width:100%;height:100%;object-fit:cover;object-position:88% 40%;display:block;">
+        </div>
+      </div>
+      <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(0deg, rgba(10,8,6,0.55) 0%, rgba(10,8,6,0.28) 32%, rgba(10,8,6,0) 60%);pointer-events:none;"></div>
+      <div style="position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;max-width:1500px;margin:0 auto;padding:0 clamp(20px,6vw,96px) clamp(80px,10vh,120px) clamp(20px,6vw,96px);">
+        <p style="font-size:12.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#D9B979;margin:0 0 24px 0;animation:fadeUp 0.9s ease both;">A Office Furniture</p>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:clamp(38px,4.4vw,68px);line-height:1.16;letter-spacing:-0.005em;color:#fff;margin:0;max-width:640px;text-shadow:0 2px 24px rgba(0,0,0,0.3);animation:fadeUp 0.9s ease 0.1s both;">Designing Executive Spaces That Last.</h1>
+        <p style="font-size:clamp(13.5px,1.15vw,15px);line-height:1.65;color:rgba(255,255,255,0.85);max-width:440px;margin:30px 0 44px 0;font-weight:500;animation:fadeUp 0.9s ease 0.2s both;">Luxury office furniture designed with timeless aesthetics, premium materials and exceptional craftsmanship.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;animation:fadeUp 0.9s ease 0.3s both;">
+          <a href="Collections.dc.html" data-no-dark style="{{ catalogueBtnStyle }}" style-hover="{{ catalogueBtnHoverStyle }}" style-focus="{{ catalogueBtnFocusStyle }}">Explore Collections</a>
+          <a href="Products.dc.html" style="display:inline-flex;align-items:center;height:40px;padding:0 22px;border-radius:12px;border:1px solid rgba(255,255,255,0.55);color:#fff;font-size:13.5px;font-weight:600;text-decoration:none;transition:background 0.28s ease, border-color 0.28s ease;" style-hover="background:rgba(255,255,255,0.12);border-color:#fff;">Discover Our Products</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="collection" data-screen-label="Collection" style="max-width:1600px;margin:0 auto;padding:clamp(40px,5vw,64px) clamp(12px,2vw,24px) clamp(60px,7vw,100px) clamp(12px,2vw,24px);">
+      <h2 style="{{ storyHeadingStyle }}">The Collection</h2>
+      <div style="{{ collectionGridStyle }}">
+        <sc-for list="{{ categories }}" as="item" hint-placeholder-count="4">
+          <a href="{{ item.href }}" data-collection-card style="{{ collectionTileStyle }}">
+            <img src="{{ item.img }}" alt="{{ item.name }}" loading="lazy" data-collection-image style="{{ collectionImageWrapStyle }}">
+            <div data-collection-gradient style="{{ collectionGradientStyle }}"></div>
+            <div style="{{ collectionTextWrapStyle }}">
+              <div data-collection-title style="{{ collectionNameStyle }}">{{ item.name }}</div>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+
+    <section id="shop-by-item" data-screen-label="Shop by Item" style="max-width:1600px;margin:0 auto;padding:clamp(20px,3vw,32px) clamp(12px,2vw,24px) clamp(70px,8vw,110px) clamp(12px,2vw,24px);">
+      <h2 style="{{ storyHeadingStyle }}">Shop by Item</h2>
+      <div style="{{ shopByItemGridStyle }}">
+        <sc-for list="{{ itemCategories }}" as="item" hint-placeholder-count="6">
+          <a href="{{ item.href }}" data-item-card style="position:relative;aspect-ratio:1;overflow:hidden;border-radius:2px;text-decoration:none;display:block;">
+            <img src="{{ item.img }}" alt="{{ item.name }}" loading="lazy" data-item-image style="width:100%;height:100%;object-fit:cover;display:block;">
+            <div data-item-gradient style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.5) 100%);pointer-events:none;"></div>
+            <div style="position:absolute;left:0;right:0;bottom:16px;text-align:center;pointer-events:none;">
+              <span data-item-title style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:19px;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,0.4);">{{ item.name }}</span>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+
+    <sc-if value="{{ hasFeatured }}" hint-placeholder-val="{{ false }}">
+      <section id="featured" data-screen-label="Featured Products" style="max-width:1500px;margin:0 auto;padding:0 clamp(20px,5vw,80px) clamp(80px,9vw,130px) clamp(20px,5vw,80px);">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:clamp(8px,1.4vw,16px);">
+          <h2 style="{{ storyHeadingStyle }}">Featured Pieces</h2>
+          <a href="Products.dc.html" style="font-size:13.5px;font-weight:700;color:#A58A62;text-decoration:none;">Discover our products →</a>
+        </div>
+        <div style="{{ featuredGridStyle }}">
+          <sc-for list="{{ featuredProducts }}" as="p" hint-placeholder-count="0">
+            <div data-item-card style="display:flex;flex-direction:column;gap:16px;min-width:0;">
+              <a href="{{ p.href }}" style="position:relative;display:block;aspect-ratio:0.86;overflow:hidden;border-radius:2px;background:oklch(95% 0.006 85);">
+                <img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy" data-item-image style="width:100%;height:100%;object-fit:cover;display:block;">
+              </a>
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+                <a href="{{ p.href }}" style="display:flex;flex-direction:column;gap:5px;text-decoration:none;color:inherit;min-width:0;flex:1 1 140px;">
+                  <span style="font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.6;">{{ p.categoryName }}</span>
+                  <span style="font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:500;line-height:1.15;">{{ p.name }}</span>
+                </a>
+                <button onClick="{{ p.onQuote }}" data-no-dark style="{{ p.quoteBtnStyle }}">{{ p.quoteLabel }}</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
+    <section id="craft" data-screen-label="Craftsmanship" style="background:oklch(15% 0.004 90);padding:clamp(48px,6vw,88px) clamp(20px,5vw,80px);">
+      <div style="max-width:1360px;margin:0 auto;display:flex;flex-wrap:wrap;gap:clamp(40px,6vw,96px);align-items:center;">
+        <div style="flex:1 1 460px;min-width:300px;">
+          <div style="position:relative;height:clamp(320px,36vw,520px);border-radius:4px;overflow:hidden;">
+            <image-slot id="craft-detail" shape="rect" src="craft-sketch.jpg" placeholder="Drop a macro detail shot — joinery, stitching, hardware" style="width:100%;height:100%;"></image-slot>
+          </div>
+        </div>
+        <div style="flex:1 1 420px;min-width:300px;">
+          <p style="font-size:13px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:oklch(60% 0.01 90);margin:0 0 14px 0;">Timeless Design</p>
+          <h2 style="font-size:clamp(32px,4.5vw,58px);font-weight:800;line-height:1.1;color:oklch(97% 0.003 90);margin:0 0 22px 0;">Designed for today. Built for decades.</h2>
+          <p style="font-size:clamp(15px,1.6vw,18px);line-height:1.7;color:oklch(72% 0.01 90);max-width:480px;margin:0 0 44px 0;">Our furniture is designed with timeless proportions, refined materials, and exceptional attention to detail, creating workspaces that remain elegant, functional, and relevant for years to come.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px,1fr));gap:clamp(24px,3vw,40px);">
+            <sc-for list="{{ specs }}" as="item" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <p style="{{ specNumberStyle }}">{{ item.n }}</p>
+                <p style="font-size:16px;font-weight:700;color:oklch(96% 0.003 90);margin:0;">{{ item.label }}</p>
+                <p style="font-size:13.5px;line-height:1.5;color:oklch(66% 0.01 90);margin:0;">{{ item.sub }}</p>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<section id="story" data-screen-label="Our Story" style="max-width:1400px;margin:0 auto;padding:clamp(80px,11vw,150px) clamp(20px,5vw,80px);">
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(40px,6vw,96px);align-items:center;">
+        <div style="flex:1 1 420px;min-width:300px;">
+          <p style="{{ eyebrowStyle }}">Our Story</p>
+          <h2 style="{{ storyHeadingStyle }}">Built by people who take work seriously.</h2>
+          <p style="{{ storyBodyStyle }}">A Office Furniture started with a simple frustration: most office furniture is built for a showroom floor, not an eight-hour day. We set out to make pieces that hold up to real work and still look considered a decade in.</p>
+          <p style="{{ storyBodyStyle }}">Every piece leaves our shop finished by hand — measured, sanded, and checked by someone who will put their name behind it.</p>
+          <p style="{{ storyQuoteStyle }}">“We don't design furniture. We design focus.”</p>
+          <a href="OurStory.dc.html" style="display:inline-flex;margin-top:28px;font-size:13.5px;font-weight:700;color:#A58A62;text-decoration:none;">About the brand →</a>
+        </div>
+        <div style="flex:1 1 420px;min-width:300px;">
+          <div style="position:relative;height:clamp(360px,40vw,560px);border-radius:4px;overflow:hidden;">
+            <img src="our-story-hero.jpg" alt="A Office Furniture workspace" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <sc-if value="{{ showFinishes }}" hint-placeholder-val="{{ false }}">
+    <section id="finishes" data-screen-label="Finishes and Materials" style="display:flex;flex-wrap:wrap;min-height:520px;">
+      <div style="{{ finishesPanelStyle }}">
+        <h2 style="{{ finishesHeadingStyle }}">Materials that make the difference.</h2>
+        <p style="{{ finishesBodyStyle }}">Explore our finishes — veneers, leather, textiles and metals — to specify a piece that fits the space exactly.</p>
+        <a href="Finishes.dc.html" style="{{ finishesLinkStyle }}" style-hover="{{ finishesLinkHoverStyle }}">View Finishes</a>
+      </div>
+      <div style="flex:1 1 420px;min-width:300px;display:grid;grid-template-columns:repeat(2, 1fr);">
+        <sc-for list="{{ finishes }}" as="item" hint-placeholder-count="4">
+          <div style="position:relative;aspect-ratio:1;overflow:hidden;">
+            <image-slot id="finish-{{ item.slug }}" shape="rect" src="{{ item.img }}" placeholder="Drop a {{ item.name }} swatch" style="width:100%;height:100%;"></image-slot>
+            <div style="position:absolute;left:14px;bottom:14px;pointer-events:none;">
+              <span style="font-size:12.5px;font-weight:700;letter-spacing:0.04em;color:#fff;background:rgba(0,0,0,0.45);padding:4px 9px;border-radius:4px;">{{ item.name }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+    </sc-if>
+  <div style="{{ mobileOverlayStyle }}">
+    <nav style="display:flex;flex-direction:column;gap:24px;align-items:center;">
+      <a href="Home.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">Home</a>
+      <div style="display:flex;flex-direction:column;align-items:center;">
+        <span onClick="{{ toggleMobileCollections }}" style="{{ mobileNavLinkStyle }}">Collections<span style="{{ mobileCollectionsChevronStyle }}">▾</span></span>
+        <div style="{{ mobileCollectionsListStyle }}">
+          <sc-for list="{{ collectionLinks }}" as="col" hint-placeholder-count="4">
+            <a href="{{ col.href }}" style="color:oklch(46% 0.006 90);text-decoration:none;font-size:17px;font-weight:600;">{{ col.name }}</a>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;">
+        <span onClick="{{ toggleMobileProducts }}" style="{{ mobileNavLinkStyle }}">Products<span style="{{ mobileProductsChevronStyle }}">▾</span></span>
+        <div style="{{ mobileProductsListStyle }}">
+          <sc-for list="{{ productCategories }}" as="cat" hint-placeholder-count="6">
+            <a href="{{ cat.href }}" onClick="{{ closeNav }}" style="color:oklch(46% 0.006 90);text-decoration:none;font-size:17px;font-weight:600;">{{ cat.name }}</a>
+          </sc-for>
+        </div>
+      </div>
+      <a href="Contact.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">Contact Us</a>
+      <a href="Catalogue.dc.html" onClick="{{ closeNav }}" data-no-dark style="{{ catalogueBtnStyle }}" style-hover="{{ catalogueBtnHoverStyle }}" style-focus="{{ catalogueBtnFocusStyle }}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M4 21h16"></path></svg>
+        Downloads
+      </a>
+      <a href="OurStory.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">About the Brand</a>
+      <aof-quote-link style="color:inherit;font-size:20px;"></aof-quote-link>
+      <button data-no-dark aria-label="Toggle dark mode" onClick="{{ toggleTheme }}" style="{{ themeToggleStyle }}" style-hover="{{ themeToggleHoverStyle }}">{{ themeToggleIcon }}</button>
+    </nav>
+  </div></main>
+
+  <footer data-site-footer id="contact" data-screen-label="Footer" style="{{ footerStyle }}">
+    <div style="max-width:1400px;margin:0 auto;">
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(40px,6vw,96px);justify-content:space-between;padding-bottom:clamp(48px,6vw,80px);">
+        <div style="flex:1 1 280px;max-width:380px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+            <img src="logo-mark.png" alt="A Office Furniture" style="height:30px;width:auto;display:block;">
+            <span style="{{ footerWordmarkStyle }}">OFFICE FURNITURE</span>
+          </div>
+          <p style="{{ footerTaglineStyle }}">Furniture for how you work — handcrafted desks, seating, and storage for offices built to perform.</p>
+        </div>
+        <div style="display:flex;gap:clamp(40px,6vw,96px);flex-wrap:wrap;">
+          <div>
+            <p data-footer-heading style="{{ footerHeadingStyle }}">Shop</p>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <a href="Collections.dc.html" style="{{ footerLinkStyle }}" style-hover="{{ footerLinkHoverStyle }}">Collections</a>
+              <a href="Products.dc.html" style="{{ footerLinkStyle }}" style-hover="{{ footerLinkHoverStyle }}">Products</a>
+              <a href="Finishes.dc.html" style="{{ footerLinkStyle }}" style-hover="{{ footerLinkHoverStyle }}">Finishes</a>
+              <a href="Quote.dc.html" style="{{ footerLinkStyle }}" style-hover="{{ footerLinkHoverStyle }}">Request a Quote</a>
+              <a href="Catalogue.dc.html" style="{{ footerLinkStyle }}" style-hover="{{ footerLinkHoverStyle }}">Downloads</a>
+            </div>
+          </div>
+          <div>
+            <p data-footer-heading style="{{ footerHeadingStyle }}">Company</p>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <a href="OurStory.dc.html" style="{{ footerLinkStyle }}" style-hover="{{ footerLinkHoverStyle }}">About the Brand</a>
+              <a href="Contact.dc.html" style="{{ footerLinkStyle }}" style-hover="{{ footerLinkHoverStyle }}">Contact Us</a>
+            </div>
+          </div>
+          <div>
+            <p data-footer-heading style="{{ footerHeadingStyle }}">Get in Touch</p>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <a data-aof="email" href="mailto:info@aofficefurniture.com" style="{{ footerLinkStyle }}" style-hover="{{ footerLinkHoverStyle }}">info@aofficefurniture.com</a>
+              <a data-aof="phone" href="tel:+97470785000" style="{{ footerLinkStyle }}" style-hover="{{ footerLinkHoverStyle }}">+974 7078 5000</a>
+              <span style="{{ footerLinkStyle }}">Address:<br><span data-aof="address">Old Al Rayyan, Building 395, St. No: 990<br>Doha - Qatar</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="{{ footerDividerStyle }}">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px 24px;flex-wrap:wrap;"><p style="{{ footerCopyStyle }}">© 2026 A Office Furniture. All rights reserved.</p><p style="{{ footerCopyStyle }}">Designed &amp; developed by XHX Studios</p></div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;colorMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;light&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#B8873E&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#B8873E&quot;,&quot;#8C5A3C&quot;,&quot;#4A4A46&quot;],&quot;section&quot;:&quot;Theme&quot;},&quot;navTransparentOverHero&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;}}">
+class Component extends DCLogic {
+  state = {
+    isMobile: (typeof window !== 'undefined' && window.innerWidth < 1180),
+    scrolled: false,
+    navOpen: false,
+    scrollY: 0,
+    productsOpen: false,
+    mobileProductsOpen: false,
+    collectionsOpen: false,
+    mobileCollectionsOpen: false,
+    hideHeader: false,
+  };
+
+  lastScrollY = 0;
+
+  componentDidMount() {
+    this.onQuoteChange = () => this.forceUpdate();
+    document.addEventListener('aof-quote-change', this.onQuoteChange);
+    const go = () => { if (!window.AOF) { setTimeout(go, 40); return; } window.AOF.load().then((site) => this.setState({ site })); };
+    go();
+    this.handleResize = () => {
+      const isMobile = window.innerWidth < 1180;
+      if (isMobile !== this.state.isMobile) this.setState({ isMobile });
+    };
+    this.handleScroll = () => {
+      const scrollY = window.scrollY;
+      const scrolled = scrollY > 32;
+      const delta = scrollY - this.lastScrollY;
+      let scrollDir = this.scrollDir || 'up';
+      if (delta > 4) scrollDir = 'down';
+      else if (delta < -4) scrollDir = 'up';
+      this.scrollDir = scrollDir;
+      const hideHeader = scrolled && scrollDir === 'down' && scrollY > 160;
+      this.lastScrollY = scrollY;
+      if (scrolled !== this.state.scrolled || hideHeader !== this.state.hideHeader || Math.abs(scrollY - this.state.scrollY) > 2) {
+        this.setState({ scrolled, scrollY, hideHeader });
+      }
+    };
+    document.addEventListener('aof-theme-change', this.onThemeChange);
+    window.addEventListener('resize', this.handleResize);
+    window.addEventListener('scroll', this.handleScroll, { passive: true });
+    this.handleResize();
+    this.handleScroll();
+  }
+
+  onThemeChange = () => this.forceUpdate();
+
+  toggleTheme = () => {
+    if (window.AOFTheme) window.AOFTheme.toggle();
+    this.forceUpdate();
+  };
+
+  componentWillUnmount() {
+    document.removeEventListener('aof-theme-change', this.onThemeChange);
+    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  toggleNav = () => {
+    this.setState((s) => ({ navOpen: !s.navOpen }));
+  };
+
+  closeNav = () => {
+    if (this.state.navOpen) this.setState({ navOpen: false, mobileProductsOpen: false, mobileCollectionsOpen: false });
+  };
+
+  openProducts = () => this.setState({ productsOpen: true });
+  closeProducts = () => this.setState({ productsOpen: false });
+  toggleMobileProducts = () => this.setState((s) => ({ mobileProductsOpen: !s.mobileProductsOpen }));
+  openCollections = () => this.setState({ collectionsOpen: true });
+  closeCollections = () => this.setState({ collectionsOpen: false });
+  toggleMobileCollections = () => this.setState((s) => ({ mobileCollectionsOpen: !s.mobileCollectionsOpen }));
+
+  renderVals() {
+    const isDarkMode = typeof document !== 'undefined' && document.body.getAttribute('data-theme') === 'dark';
+    const themeToggleIcon = isDarkMode ? '\u2600' : '\u263D';
+    const themeToggleStyle = {
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+      width: '36px', height: '36px', borderRadius: '50%', cursor: 'pointer',
+      background: 'transparent', border: '1px solid rgba(128,128,128,0.32)',
+      color: isDarkMode ? '#F2E7D2' : '#2A2724', fontSize: '15px', lineHeight: 1,
+      transition: 'background 0.25s ease, border-color 0.25s ease, transform 0.25s ease',
+    };
+    const themeToggleHoverStyle = { background: 'rgba(200,169,106,0.16)', borderColor: '#C8A96A', transform: 'translateY(-1px)' };
+    const accent = this.props.accentColor ?? '#B8873E';
+    const accentLight = 'color-mix(in oklch, ' + accent + ' 65%, white)';
+    const navTransparentPref = this.props.navTransparentOverHero ?? false;
+    const isDark = (this.props.colorMode ?? 'light') === 'dark';
+    const theme = isDark ? {
+      pageBg: 'oklch(14% 0.006 90)', textPrimary: 'oklch(96% 0.004 90)',
+      textSecondary: 'oklch(70% 0.01 90)', textTertiary: 'oklch(60% 0.01 90)',
+      border: 'oklch(28% 0.006 90)', footerBg: 'oklch(11% 0.006 90)',
+      navSolidBg: 'oklch(14% 0.006 90 / 0.86)',
+    } : {
+      pageBg: 'oklch(99% 0.003 90)', textPrimary: 'oklch(20% 0.005 90)',
+      textSecondary: 'oklch(46% 0.006 90)', textTertiary: 'oklch(56% 0.006 90)',
+      border: 'oklch(90% 0.004 90)', footerBg: 'oklch(97% 0.004 90)',
+      navSolidBg: 'oklch(99% 0.003 90 / 0.86)',
+    };
+    const { isMobile, scrolled, navOpen, scrollY, productsOpen, mobileProductsOpen, collectionsOpen, mobileCollectionsOpen, hideHeader } = this.state;
+    const scrolledAttr = scrolled ? 'true' : 'false';
+    const hideHeaderAttr = (hideHeader && !navOpen) ? 'true' : 'false';
+    const productCategories = [
+      { slug: 'desks', name: 'Desks', href: 'Products.dc.html?category=desks' },
+      { slug: 'office-chairs', name: 'Office Chairs', href: 'Products.dc.html?category=office-chairs' },
+      { slug: 'meeting-tables', name: 'Meeting Tables', href: 'Products.dc.html?category=meeting-tables' },
+      { slug: 'sofas', name: 'Sofa & Armchairs', href: 'Products.dc.html?category=sofas' },
+      { slug: 'coffee-tables', name: 'Coffee Tables', href: 'Products.dc.html?category=coffee-tables' },
+      { slug: 'storage', name: 'Storage', href: 'Products.dc.html?category=storage' },
+    ];
+    const productsDropdownStyle = {
+      position: 'absolute', top: '100%', left: '50%', transform: productsOpen ? 'translate(-50%,0)' : 'translate(-50%,6px)',
+      minWidth: '220px', background: theme.pageBg, border: '1px solid ' + theme.border, borderRadius: '10px',
+      boxShadow: '0 24px 48px -16px rgba(0,0,0,0.22)', padding: '10px', marginTop: '0', borderTop: '14px solid transparent', backgroundClip: 'padding-box',
+      opacity: productsOpen ? 1 : 0, pointerEvents: productsOpen ? 'auto' : 'none',
+      transition: 'opacity 0.2s ease, transform 0.2s ease', zIndex: 110,
+    };
+    const productsDropdownLinkStyle = { display: 'block', padding: '10px 14px', borderRadius: '6px', color: theme.textPrimary, textDecoration: 'none', fontSize: '14.5px', fontWeight: 600 };
+    const productsDropdownLinkHoverStyle = { background: theme.border };
+    const mobileProductsChevronStyle = { display: 'inline-block', marginLeft: '8px', transition: 'transform 0.2s ease', transform: mobileProductsOpen ? 'rotate(180deg)' : 'none' };
+    const mobileProductsListStyle = {
+      display: mobileProductsOpen ? 'flex' : 'none', flexDirection: 'column', gap: '18px', alignItems: 'center', marginTop: '4px',
+    };
+
+    const collectionLinks = [
+      { slug: 'unique', name: 'Unique Collection', href: 'Collection.dc.html?slug=unique' },
+      { slug: 'chairman', name: 'Chairman Collection', href: 'Collection.dc.html?slug=chairman' },
+      { slug: 'title', name: 'Title Collection', href: 'Collection.dc.html?slug=title' },
+      { slug: 'classic', name: 'Classic Collection', href: 'Collection.dc.html?slug=classic' },
+    ];
+    const navSite = this.state.site;
+    if (navSite && navSite.collections.length) collectionLinks.splice(0, collectionLinks.length, ...navSite.collections.map((k) => ({ slug: k.slug, name: k.name, href: 'Collection.dc.html?slug=' + k.slug })));
+    if (navSite && navSite.categories.length) productCategories.splice(0, productCategories.length, ...navSite.categories.map((k) => ({ slug: k.slug, name: k.name, href: 'Products.dc.html?category=' + k.slug })));
+    const collectionsDropdownStyle = {
+      position: 'absolute', top: '100%', left: '50%', transform: collectionsOpen ? 'translate(-50%,0)' : 'translate(-50%,6px)',
+      minWidth: '220px', background: theme.pageBg, border: '1px solid ' + theme.border, borderRadius: '10px',
+      boxShadow: '0 24px 48px -16px rgba(0,0,0,0.22)', padding: '10px', marginTop: '0', borderTop: '14px solid transparent', backgroundClip: 'padding-box',
+      opacity: collectionsOpen ? 1 : 0, pointerEvents: collectionsOpen ? 'auto' : 'none',
+      transition: 'opacity 0.2s ease, transform 0.2s ease', zIndex: 110,
+    };
+    const mobileCollectionsChevronStyle = { display: 'inline-block', marginLeft: '8px', transition: 'transform 0.2s ease', transform: mobileCollectionsOpen ? 'rotate(180deg)' : 'none' };
+    const mobileCollectionsListStyle = {
+      display: mobileCollectionsOpen ? 'flex' : 'none', flexDirection: 'column', gap: '18px', alignItems: 'center', marginTop: '4px',
+    };
+    const heroParallaxStyle = { position: 'absolute', inset: 0, zIndex: 0, transform: 'translateY(' + Math.min(scrollY * 0.12, 100) + 'px)', willChange: 'transform' };
+
+    const isDesktop = !isMobile;
+    const navTransparent = navTransparentPref && !scrolled && !navOpen;
+    const navTextColor = navTransparent ? 'oklch(99% 0.003 90)' : theme.textPrimary;
+
+    const pageWrapperStyle = {
+      position: 'relative', width: '100%', background: theme.pageBg, color: theme.textPrimary,
+      fontFamily: "'Manrope',sans-serif", overflowX: 'hidden', transition: 'background 0.3s ease, color 0.3s ease',
+    };
+
+    const navBarStyle = {
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+      height: isMobile ? '64px' : '84px',
+      display: 'flex', alignItems: 'center',
+      background: navTransparent ? 'transparent' : theme.navSolidBg,
+      backdropFilter: navTransparent ? 'none' : 'blur(18px)',
+      WebkitBackdropFilter: navTransparent ? 'none' : 'blur(18px)',
+      borderBottom: navTransparent ? '1px solid transparent' : '1px solid ' + theme.border,
+      transition: 'background 0.4s ease, border-color 0.4s ease',
+    };
+    const navWordmarkStyle = { color: navTextColor, fontSize: '13px', fontWeight: 600, letterSpacing: '0.06em', fontFamily: "'Cormorant Garamond',serif", transition: 'color 0.4s ease' };
+    const navLinkStyle = { color: navTextColor, textDecoration: 'none', fontSize: '15px', fontWeight: 600, opacity: 0.9, whiteSpace: 'nowrap', transition: 'color 0.4s ease, opacity 0.2s ease' };
+
+    const ctaButtonStyle = {
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+      padding: '15px 30px', borderRadius: '999px', background: accent,
+      color: 'oklch(99% 0.003 90)', fontSize: '15px', fontWeight: 700,
+      textDecoration: 'none', border: 'none', cursor: 'pointer',
+      transition: 'transform 0.25s ease, box-shadow 0.25s ease', whiteSpace: 'nowrap',
+    };
+    const ctaButtonHoverStyle = { transform: 'translateY(-2px)', boxShadow: '0 14px 30px -10px ' + accent + '66' };
+
+    const catalogueGold = '#C8A96A';
+    const catalogueBtnStyle = {
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '7px',
+      height: '40px', padding: '0 20px', borderRadius: '12px',
+      background: catalogueGold, border: '1px solid ' + catalogueGold,
+      color: '#111111', fontSize: '13px', fontWeight: 600, letterSpacing: '0.01em',
+      textDecoration: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
+      transition: 'background 0.28s ease, color 0.28s ease, transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease',
+    };
+    const catalogueBtnHoverStyle = {
+      background: '#161616', borderColor: '#161616', color: '#ffffff',
+      transform: 'translateY(-2px)', boxShadow: '0 16px 32px -12px rgba(0,0,0,0.45)',
+    };
+    const catalogueBtnFocusStyle = { outline: '2px solid ' + catalogueGold, outlineOffset: '3px' };
+
+    const hamburgerBarColor = navOpen ? theme.textPrimary : navTextColor;
+    const bar1Style = { display: 'block', width: '22px', height: '2px', background: hamburgerBarColor, transition: 'transform 0.3s ease, opacity 0.3s ease, background 0.3s ease', transform: navOpen ? 'translateY(7px) rotate(45deg)' : 'none' };
+    const bar2Style = { display: 'block', width: '22px', height: '2px', background: hamburgerBarColor, transition: 'opacity 0.2s ease, background 0.3s ease', opacity: navOpen ? 0 : 1 };
+    const bar3Style = { display: 'block', width: '22px', height: '2px', background: hamburgerBarColor, transition: 'transform 0.3s ease, opacity 0.3s ease, background 0.3s ease', transform: navOpen ? 'translateY(-7px) rotate(-45deg)' : 'none' };
+
+    const mobileOverlayStyle = {
+      position: 'fixed', inset: 0, zIndex: 99,
+      background: theme.pageBg,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      opacity: navOpen ? 1 : 0,
+      pointerEvents: navOpen ? 'auto' : 'none',
+      transform: navOpen ? 'translateY(0)' : 'translateY(-12px)',
+      transition: 'opacity 0.35s ease, transform 0.35s ease, background 0.3s ease',
+    };
+    const mobileNavLinkStyle = { color: theme.textPrimary, textDecoration: 'none', fontSize: '26px', fontWeight: 700 };
+    mobileNavLinkStyle.cursor = 'pointer';
+
+    const manifestoTextStyle = { fontSize: 'clamp(28px,4.2vw,54px)', fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.01em', color: theme.textPrimary, margin: 0 };
+    const eyebrowStyle = { fontSize: '13px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: theme.textSecondary, margin: '0 0 14px 0' };
+    const storyHeadingStyle = { fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: 'clamp(30px,4vw,50px)', lineHeight: 1.2, color: theme.textPrimary, margin: '0 0 26px 0' };
+    const storyBodyStyle = { fontSize: 'clamp(15px,1.6vw,17px)', lineHeight: 1.75, color: theme.textSecondary, maxWidth: '480px', margin: '0 0 20px 0' };
+    const storyQuoteStyle = { fontFamily: "'Cormorant Garamond',serif", fontStyle: 'italic', fontSize: 'clamp(21px,2.4vw,28px)', lineHeight: 1.4, color: theme.textPrimary, margin: 0 };
+
+    const footerStyle = { background: theme.footerBg, borderTop: '1px solid ' + theme.border, padding: 'clamp(64px,8vw,110px) clamp(20px,5vw,80px) clamp(32px,4vw,48px) clamp(20px,5vw,80px)', transition: 'background 0.3s ease, border-color 0.3s ease' };
+    const footerWordmarkStyle = { fontSize: '13px', fontWeight: 700, letterSpacing: '0.18em', color: theme.textPrimary };
+    const footerTaglineStyle = { fontSize: '14px', lineHeight: 1.6, color: theme.textSecondary, margin: 0 };
+    const footerHeadingStyle = { fontSize: '13px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: theme.textPrimary, margin: '0 0 18px 0' };
+    const footerLinkStyle = { color: theme.textSecondary, textDecoration: 'none', fontSize: '14.5px' };
+    const footerLinkHoverStyle = { color: theme.textPrimary };
+    const footerDividerStyle = { borderTop: '1px solid ' + theme.border, paddingTop: '24px', transition: 'border-color 0.3s ease' };
+    const footerCopyStyle = { fontSize: '13px', color: theme.textTertiary, margin: 0 };
+
+    const collectionGridStyle = {
+      display: 'grid',
+      gap: 'clamp(16px, 2vw, 24px)',
+      gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+    };
+    const collectionTileStyle = { position: 'relative', display: 'block', textDecoration: 'none', aspectRatio: '1.65', overflow: 'hidden', borderRadius: '2px', cursor: 'pointer' };
+    const collectionImageWrapStyle = { width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.3s ease' };
+    const collectionImageWrapHoverStyle = { transform: 'scale(1.04)' };
+    const collectionGradientStyle = {
+      position: 'absolute', inset: 0, pointerEvents: 'none',
+      background: 'linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.55) 100%)',
+      transition: 'background 0.3s ease',
+    };
+    const collectionGradientHoverStyle = { background: 'linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.7) 100%)' };
+    const collectionTextWrapStyle = {
+      position: 'absolute', left: 0, right: 0, bottom: '24px', textAlign: 'center', pointerEvents: 'none', padding: '0 20px', zIndex: 1,
+    };
+    const collectionNameStyle = {
+      fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: '20px',
+      color: '#fff', margin: 0, letterSpacing: '0.02em', textShadow: '0 2px 16px rgba(0,0,0,0.4)',
+    };
+    const collectionBlurbStyle = { fontSize: '13.5px', color: 'rgba(255,255,255,0.8)', margin: 0 };
+
+    const shopByItemGridStyle = { display: 'grid', gap: 'clamp(14px,1.8vw,24px)', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)' };
+    const site = this.state.site;
+    const staticItems = [
+      { slug: 'desks', name: 'Desks', img: 'coming-soon.png', href: 'Products.dc.html?category=desks' },
+      { slug: 'office-chairs', name: 'Office Chairs', img: 'coming-soon.png', href: 'Products.dc.html?category=office-chairs' },
+      { slug: 'meeting-tables', name: 'Meeting Tables', img: 'coming-soon.png', href: 'Products.dc.html?category=meeting-tables' },
+      { slug: 'sofas', name: 'Sofa & Armchairs', img: 'coming-soon.png', href: 'Products.dc.html?category=sofas' },
+      { slug: 'coffee-tables', name: 'Coffee Tables', img: 'coming-soon.png', href: 'Products.dc.html?category=coffee-tables' },
+      { slug: 'storage', name: 'Storages', img: 'coming-soon.png', href: 'Products.dc.html?category=storage' },
+    ];
+    const itemCategories = site && site.categories.length
+      ? site.categories.map((k) => ({ slug: k.slug, name: k.name, img: k.image, href: 'Products.dc.html?category=' + k.slug }))
+      : staticItems;
+    const featured = site ? site.products.filter((p) => p.featured).slice(0, 6) : [];
+    const featuredProducts = featured.map((p) => {
+      const inQ = !!(window.AOF && window.AOF.quote.has(p.id));
+      return {
+        name: p.name, categoryName: p.categoryName, image: p.image, href: 'Product.dc.html?slug=' + encodeURIComponent(p.slug),
+        quoteLabel: inQ ? 'In quote \u2713' : '+ Quote',
+        onQuote: () => { if (inQ) location.href = 'Quote.dc.html'; else window.AOF.quote.add(p, 1); },
+        quoteBtnStyle: { flexShrink: 0, height: '36px', padding: '0 14px', borderRadius: '999px', cursor: 'pointer', whiteSpace: 'nowrap', border: '1px solid #C8A96A', background: inQ ? '#C8A96A' : 'transparent', color: inQ ? '#111' : 'inherit', fontSize: '12.5px', fontWeight: 700, transition: 'background 0.25s ease, color 0.25s ease' },
+      };
+    });
+    const w = typeof window !== 'undefined' ? window.innerWidth : 1200;
+    const featuredGridStyle = { display: 'grid', gap: 'clamp(28px,3vw,44px) clamp(14px,1.6vw,24px)', gridTemplateColumns: w < 560 ? 'minmax(0,1fr)' : (w < 1024 ? 'repeat(2,minmax(0,1fr))' : 'repeat(3,minmax(0,1fr))') };
+
+    const specNumberStyle = { fontSize: '13px', fontWeight: 800, letterSpacing: '0.08em', color: accentLight, margin: 0 };
+
+    const staticCollections = [
+      { slug: 'unique', name: 'Unique Collection', href: 'Collection.dc.html?slug=unique', img: 'coming-soon.png' },
+      { slug: 'chairman', name: 'Chairman Collection', href: 'Collection.dc.html?slug=chairman', img: 'coming-soon.png' },
+      { slug: 'title', name: 'Title Collection', href: 'Collection.dc.html?slug=title', img: 'coming-soon.png' },
+      { slug: 'classic', name: 'Classic Collection', href: 'Collection.dc.html?slug=classic', img: 'coming-soon.png' },
+    ];
+    const liveCols = site ? site.collections.filter((k) => k.featured) : [];
+    const categories = liveCols.length
+      ? liveCols.map((k) => ({ slug: k.slug, name: k.name, href: 'Collection.dc.html?slug=' + k.slug, img: k.cover }))
+      : staticCollections;
+
+    const finishesPanelStyle = {
+      flex: '1 1 420px', minWidth: '300px', background: 'oklch(15% 0.004 90)',
+      padding: 'clamp(48px,6vw,80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center',
+    };
+    const finishesHeadingStyle = { fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: 'clamp(28px,3.4vw,42px)', lineHeight: 1.2, color: 'oklch(97% 0.003 90)', margin: '0 0 20px 0', maxWidth: '420px' };
+    const finishesBodyStyle = { fontSize: 'clamp(15px,1.6vw,17px)', lineHeight: 1.65, color: 'oklch(72% 0.01 90)', maxWidth: '420px', margin: '0 0 32px 0' };
+    const finishesLinkStyle = {
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 'fit-content',
+      padding: '13px 26px', borderRadius: '4px', border: '1px solid oklch(97% 0.003 90 / 0.5)',
+      color: 'oklch(97% 0.003 90)', fontSize: '14.5px', fontWeight: 600, textDecoration: 'none',
+      transition: 'background 0.25s ease, color 0.25s ease, border-color 0.25s ease',
+    };
+    const finishesLinkHoverStyle = { background: 'oklch(97% 0.003 90)', color: 'oklch(15% 0.004 90)', borderColor: 'oklch(97% 0.003 90)' };
+
+    const finishes = [
+      { slug: 'veneer', img: 'finish-veneer.webp', name: 'Veneers' },
+      { slug: 'leather', img: 'finish-leather.webp', name: 'Leather' },
+      { slug: 'textile', img: 'finish-textile.webp', name: 'Textiles' },
+      { slug: 'metal', img: 'finish-metal.webp', name: 'Metals' },
+    ];
+
+    const specs = [
+      { n: '01', label: 'Enduring Aesthetics', sub: 'Clean lines and balanced proportions that never go out of style.' },
+      { n: '02', label: 'Functional Elegance', sub: 'Every detail is designed to enhance comfort, productivity, and daily use.' },
+      { n: '03', label: 'Premium Materials', sub: 'Carefully selected veneers, metals, and finishes for lasting beauty.' },
+      { n: '04', label: 'Built to Last', sub: 'Engineered for durability and backed by our commitment to long-term quality.' },
+    ];
+
+    return {
+      toggleTheme: this.toggleTheme, themeToggleIcon, themeToggleStyle, themeToggleHoverStyle,
+      isMobile, isDesktop, navOpen, scrolledAttr, hideHeaderAttr,
+      toggleNav: this.toggleNav, closeNav: this.closeNav,
+      openProducts: this.openProducts, closeProducts: this.closeProducts, toggleMobileProducts: this.toggleMobileProducts,
+      productCategories, productsDropdownStyle, productsDropdownLinkStyle, productsDropdownLinkHoverStyle,
+      mobileProductsChevronStyle, mobileProductsListStyle, mobileProductsOpen,
+      openCollections: this.openCollections, closeCollections: this.closeCollections, toggleMobileCollections: this.toggleMobileCollections,
+      collectionLinks, collectionsDropdownStyle, mobileCollectionsChevronStyle, mobileCollectionsListStyle, mobileCollectionsOpen,
+      pageWrapperStyle,
+      navBarStyle, navWordmarkStyle, navLinkStyle,
+      ctaButtonStyle, ctaButtonHoverStyle,
+      catalogueBtnStyle, catalogueBtnHoverStyle, catalogueBtnFocusStyle,
+      bar1Style, bar2Style, bar3Style,
+      mobileOverlayStyle, mobileNavLinkStyle,
+      heroParallaxStyle,
+      manifestoTextStyle, eyebrowStyle,
+      storyHeadingStyle, storyBodyStyle, storyQuoteStyle,
+      footerStyle, footerWordmarkStyle, footerTaglineStyle, footerHeadingStyle,
+      footerLinkStyle, footerLinkHoverStyle, footerDividerStyle, footerCopyStyle,
+      collectionGridStyle, collectionTileStyle, collectionImageWrapStyle, collectionImageWrapHoverStyle,
+      collectionGradientStyle, collectionGradientHoverStyle, collectionTextWrapStyle,
+      collectionNameStyle, collectionBlurbStyle, specNumberStyle,
+      categories, specs, shopByItemGridStyle, itemCategories, featuredProducts, hasFeatured: featuredProducts.length > 0, featuredGridStyle,
+      finishesPanelStyle, finishesHeadingStyle, finishesBodyStyle, finishesLinkStyle, finishesLinkHoverStyle, finishes,
+      showFinishes: true,
+    };
+  }
+}
+</script>
+</body>
+</html>
