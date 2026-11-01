@@ -64,7 +64,7 @@
           <img src="logo-mark.png" alt="A Office Furniture" style="height:34px;width:auto;">
           <span style="font-family:'Cormorant Garamond',serif;font-size:12px;font-weight:600;letter-spacing:0.08em;color:#EDE7DC;">OFFICE FURNITURE</span>
         </a>
-        <span style="padding:0 6px;font-size:11px;color:#8F897C;">Version 24 Oct</span>
+        <span style="padding:0 6px;font-size:11px;color:#8F897C;">Version 1 Nov · sub-collections</span>
         <nav style="{{ navListStyle }}">
           <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
             <button onClick="{{ item.onClick }}" style="{{ item.style }}">
@@ -191,7 +191,7 @@
                   <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
                     <div style="display:flex;flex-direction:column;gap:3px;">
                       <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;">{{ c.name }}</span>
-                      <span style="color:#7A766D;font-size:12.5px;">{{ c.productCount }} products · /{{ c.slug }}</span>
+                      <span style="color:#7A766D;font-size:12.5px;">{{ c.meta }}</span>
                     </div>
                     <span style="{{ c.badgeStyle }}">{{ c.statusLabel }}</span>
                   </div>
@@ -329,6 +329,18 @@
                         <option value="{{ o.value }}">{{ o.label }}</option>
                       </sc-for>
                     </select>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ isCollectionDraft }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:12px;">
+                    <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A766D;">Parent collection</span>
+                    <select value="{{ draftParentId }}" onChange="{{ onParentId }}" style="width:100%;height:44px;padding:0 12px;border:1px solid #DDD7CB;border-radius:8px;background:#fff;font-size:14px;color:#292A25;">
+                      <option value="">None — main collection</option>
+                      <sc-for list="{{ parentOptions }}" as="o" hint-placeholder-count="0">
+                        <option value="{{ o.value }}">{{ o.label }}</option>
+                      </sc-for>
+                    </select>
+                    <span style="color:#7A766D;font-size:12px;line-height:1.5;">{{ parentHint }}</span>
                   </div>
                 </sc-if>
                 <div style="background:#fff;border:1px solid #E2DDD2;border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:12px;">
@@ -512,7 +524,7 @@ class Component extends DCLogic {
   /* ───────── Supabase adapter ───────── */
   rows = {
     categories: (c) => ({ id: c.id, name: c.name, slug: c.slug, sort_order: c.order || 0, status: c.status || 'published', image_url: c.image || null }),
-    collections: (c) => ({ id: c.id, name: c.name, slug: c.slug, short_description: c.shortDescription || null, description: c.description || null, cover_url: c.cover || null, featured: !!c.featured, sort_order: c.order || 0, status: c.status || 'draft' }),
+    collections: (c) => ({ id: c.id, name: c.name, slug: c.slug, short_description: c.shortDescription || null, description: c.description || null, cover_url: c.cover || null, parent_id: c.parentId || null, featured: !!c.featured, sort_order: c.order || 0, status: c.status || 'draft' }),
     products: (p) => ({ id: p.id, name: p.name, slug: p.slug, sku: p.sku || null, category_id: p.categoryId || null, short_description: p.shortDescription || null, description: p.description || '', dimensions: p.dimensions || null, materials: p.materials || null, main_image_url: p.image || null, gallery: p.gallery || [], document_url: p.documentUrl || null, featured: !!p.featured, sort_order: p.order || 0, status: p.status || 'draft' }),
   };
 
@@ -532,7 +544,7 @@ class Component extends DCLogic {
     const s = r[5].data || {};
     return {
       categories: r[0].data.map((c) => ({ id: c.id, name: c.name, slug: c.slug, order: c.sort_order, status: c.status, image: c.image_url || '' })),
-      collections: r[1].data.map((c) => ({ id: c.id, name: c.name, slug: c.slug, shortDescription: c.short_description || '', description: c.description || '', cover: c.cover_url || '', featured: c.featured, order: c.sort_order, status: c.status })),
+      collections: r[1].data.map((c) => ({ id: c.id, name: c.name, slug: c.slug, shortDescription: c.short_description || '', description: c.description || '', cover: c.cover_url || '', parentId: c.parent_id || '', featured: c.featured, order: c.sort_order, status: c.status })),
       products: r[2].data.map((p) => ({ id: p.id, name: p.name, slug: p.slug, sku: p.sku || '', categoryId: p.category_id || '', collectionIds: links.filter((l) => l.product_id === p.id).map((l) => l.collection_id), shortDescription: p.short_description || '', description: p.description || '', dimensions: p.dimensions || '', materials: p.materials || '', image: p.main_image_url || '', gallery: p.gallery || [], documentUrl: p.document_url || '', featured: p.featured, order: p.sort_order, status: p.status })),
       enquiries: r[4].data.map((q) => ({ id: q.id, type: q.type, ref: q.ref, date: q.created_at, name: q.full_name, company: q.company || '', email: q.email, phone: q.phone || '', country: q.country || '', items: (q.quote_request_items || []).map((i) => ({ name: i.product_name, qty: i.quantity })), message: [q.message, q.location ? 'Location: ' + q.location : ''].filter(Boolean).join('\n'), status: q.status, notes: q.notes || '' })),
       catalogue: { fileName: s.catalogue_name || '', url: s.catalogue_url || '', size: 0, updated: s.updated_at || '' },
@@ -1049,8 +1061,19 @@ class Component extends DCLogic {
         onDelete: () => this.deleteProduct(p),
       }));
 
-    const collectionRows = data.collections.slice().sort((a, b) => a.order - b.order).map((c) => ({
-      id: c.id, name: c.name, slug: c.slug,
+    const colById = {}; data.collections.forEach((c) => { colById[c.id] = c; });
+    const colSorted = data.collections.slice().sort((a, b) => a.order - b.order);
+    const colTree = [];
+    colSorted.filter((c) => !c.parentId || !colById[c.parentId]).forEach((p) => { colTree.push(p); colSorted.filter((k) => k.parentId === p.id).forEach((k) => colTree.push(k)); });
+    const collectionRows = colTree.map((c) => ({
+      id: c.id, slug: c.slug,
+      name: (c.parentId && colById[c.parentId] ? '↳ ' : '') + c.name,
+      meta: (() => {
+        const n = data.products.filter((p) => p.collectionIds.includes(c.id)).length;
+        const subs = data.collections.filter((k) => k.parentId === c.id).length;
+        const parent = c.parentId && colById[c.parentId] ? 'In ' + colById[c.parentId].name + ' · ' : '';
+        return parent + (subs ? subs + ' sub-collections · ' : '') + n + ' products · /' + c.slug;
+      })(),
       productCount: data.products.filter((p) => p.collectionIds.includes(c.id)).length,
       statusLabel: c.status === 'published' ? 'Published' : 'Draft',
       badgeStyle: this.statusBadge(c.status),
@@ -1173,6 +1196,15 @@ class Component extends DCLogic {
       drawingButtonLabel: st.uploadingDrawing ? 'Uploading…' : ((draft && draft.documentUrl) ? 'Replace drawing (PDF)' : 'Upload drawing (PDF)'),
       hasDraftDrawing: !!(draft && draft.documentUrl), draftDrawingUrl: draft ? (draft.documentUrl || '') : '',
       onDraftDrawing: this.onDraftDrawing, removeDraftDrawing: this.removeDraftDrawing,
+      isCollectionDraft: draftType === 'collection',
+      draftParentId: (draft && draft.parentId) || '',
+      parentOptions: draft && draftType === 'collection' && !data.collections.some((k) => k.parentId === draft.id)
+        ? data.collections.filter((k) => k.id !== draft.id && !k.parentId).map((k) => ({ value: k.id, label: k.name }))
+        : [],
+      parentHint: draft && draftType === 'collection' && data.collections.some((k) => k.parentId === draft.id)
+        ? 'This collection has its own sub-collections, so it stays a main collection.'
+        : 'Pick a main collection (e.g. The Wave) to show this one inside it as a sub-collection.',
+      onParentId: (e) => this.setDraft({ parentId: e.target.value }),
       galleryItems: ((draft && draft.gallery) || []).map((src, i) => ({
         style: { position: 'absolute', inset: 0, backgroundImage: 'url("' + src + '")', backgroundSize: 'cover', backgroundPosition: 'center' },
         btnStyle: { width: '22px', height: '22px', border: 'none', borderRadius: '5px', background: 'rgba(255,255,255,0.92)', fontSize: '9px', lineHeight: 1, cursor: 'pointer', padding: 0, color: '#292A25' },

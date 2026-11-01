@@ -33,6 +33,16 @@ window.AOF_CONFIG = window.AOF_CONFIG || {
   var useSupabase = !!(cfg.supabaseUrl && cfg.supabaseAnonKey);
   var clientPromise = null;
 
+  function withTree(site) {
+    var all = site.collections || [];
+    var ids = {}; all.forEach(function (c) { ids[c.id] = c; });
+    all.forEach(function (c) { if (c.parentId && !ids[c.parentId]) c.parentId = ''; });
+    site.allCollections = all;
+    site.collections = all.filter(function (c) { return !c.parentId; });
+    site.subCollections = function (id) { return all.filter(function (c) { return c.parentId === id; }); };
+    return site;
+  }
+
   function client() {
     if (!clientPromise) {
       clientPromise = import('https://esm.sh/@supabase/supabase-js@2').then(function (m) {
@@ -81,7 +91,7 @@ window.AOF_CONFIG = window.AOF_CONFIG || {
     var categories = d.categories.slice().sort(function (a, b) { return a.order - b.order; })
       .map(function (c) { return { id: c.id, name: c.name, slug: c.slug, image: c.image || CAT_IMG[c.slug] || COMING_SOON }; });
     var collections = d.collections.filter(function (c) { return c.status === 'published'; }).sort(function (a, b) { return a.order - b.order; })
-      .map(function (c) { return { id: c.id, name: c.name, slug: c.slug, shortDescription: c.shortDescription || '', description: c.description || '', cover: c.cover || COL_IMG[c.slug] || COMING_SOON, featured: !!c.featured }; });
+      .map(function (c) { return { id: c.id, name: c.name, slug: c.slug, shortDescription: c.shortDescription || '', description: c.description || '', cover: c.cover || COL_IMG[c.slug] || COMING_SOON, featured: !!c.featured, parentId: c.parentId || '' }; });
     var products = d.products.filter(function (p) { return p.status === 'published'; }).sort(function (a, b) { return a.order - b.order; })
       .map(function (p) {
         var cat = catById[p.categoryId] || {};
@@ -92,7 +102,7 @@ window.AOF_CONFIG = window.AOF_CONFIG || {
           image: p.image || COMING_SOON, gallery: p.gallery || [], documentUrl: p.documentUrl || '', featured: !!p.featured,
         };
       });
-    return { categories: categories, collections: collections, products: products, settings: d.settings || {}, catalogueUrl: '', source: 'local' };
+    return withTree({ categories: categories, collections: collections, products: products, settings: d.settings || {}, catalogueUrl: '', source: 'local' });
   }
 
   function fromSupabase() {
@@ -105,10 +115,10 @@ window.AOF_CONFIG = window.AOF_CONFIG || {
       ]).then(function (r) {
         r.forEach(function (x) { if (x.error) throw x.error; });
         var s = r[3].data || {};
-        return {
+        return withTree({
           source: 'supabase',
           categories: r[0].data.map(function (c) { return { id: c.id, name: c.name, slug: c.slug, image: c.image_url || CAT_IMG[c.slug] || COMING_SOON }; }),
-          collections: r[1].data.map(function (c) { return { id: c.id, name: c.name, slug: c.slug, shortDescription: c.short_description || '', description: c.description || '', cover: c.cover_url || COL_IMG[c.slug] || COMING_SOON, featured: !!c.featured }; }),
+          collections: r[1].data.map(function (c) { return { id: c.id, name: c.name, slug: c.slug, shortDescription: c.short_description || '', description: c.description || '', cover: c.cover_url || COL_IMG[c.slug] || COMING_SOON, featured: !!c.featured, parentId: c.parent_id || '' }; }),
           products: r[2].data.map(function (p) {
             var cat = p.categories || {};
             return {
@@ -120,7 +130,7 @@ window.AOF_CONFIG = window.AOF_CONFIG || {
           }),
           settings: { companyName: s.company_name, email: s.email, phone: s.phone, whatsapp: s.whatsapp, address: s.address, instagram: s.instagram, linkedin: s.linkedin },
           catalogueUrl: s.catalogue_url || '', catalogueName: s.catalogue_name || '',
-        };
+        });
       });
     });
   }

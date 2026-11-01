@@ -303,8 +303,11 @@ class Component extends DCLogic {
     const cols = site ? site.collections : [];
     const w = typeof window !== 'undefined' ? window.innerWidth : 1200;
     const card = (c) => {
-      const n = site.products.filter((p) => p.collectionSlugs.includes(c.slug)).length;
-      return { name: c.name, href: 'Collection.dc.html?slug=' + c.slug, cover: c.cover, shortDescription: c.shortDescription, hasDesc: !!c.shortDescription, countLabel: n + (n === 1 ? ' piece' : ' pieces') };
+      const subs = site.subCollections ? site.subCollections(c.id) : [];
+      const fam = [c.slug].concat(subs.map((s) => s.slug));
+      const n = site.products.filter((p) => p.collectionSlugs.some((s) => fam.includes(s))).length;
+      const label = subs.length ? subs.length + ' collections · ' + n + (n === 1 ? ' piece' : ' pieces') : n + (n === 1 ? ' piece' : ' pieces');
+      return { name: c.name, href: 'Collection.dc.html?slug=' + c.slug, cover: c.cover, shortDescription: c.shortDescription, hasDesc: !!c.shortDescription, countLabel: label };
     };
     return {
       loading: !site, hasLead: !!cols[0], lead: cols[0] ? card(cols[0]) : {}, rest: cols.slice(1).map(card), noCollections: !!site && !cols.length,
