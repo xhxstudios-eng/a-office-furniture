@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>Contact Us | A Office Furniture</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <style>
+    * { box-sizing: border-box; }
+    button, input, select, textarea { font-family: inherit; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; padding: 0; background: oklch(99% 0.003 90); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    input::placeholder, textarea::placeholder { color:oklch(48% 0.008 90); }
+    @media (min-width: 1024px) {
+      header[data-desktop-fx] { transition: height 0.35s ease, transform 0.35s ease, background 0.4s ease, border-color 0.4s ease; }
+      header[data-desktop-fx][data-scrolled="true"] { height: 72px !important; box-shadow: 0 8px 30px -14px rgba(0,0,0,0.2); }
+      header[data-desktop-fx][data-hide="true"] { transform: translateY(-100%) !important; }
+      [data-desktop-nav]:hover > a[data-nav-link]:not(:hover) { opacity: 0.5; }
+      [data-nav-link] { position: relative; letter-spacing: 0; transition: color 0.3s ease, opacity 0.3s ease, letter-spacing 0.3s ease; }
+      [data-nav-link]::after { content: ''; position: absolute; left: 50%; right: 50%; bottom: -6px; height: 1px; background: currentColor; transition: left 0.3s ease, right 0.3s ease; }
+      [data-nav-link]:hover::after { left: 0; right: 0; }
+      [data-nav-link]:hover { letter-spacing: 0.3px; }
+      [data-logo-link] { transition: transform 0.3s ease, opacity 0.3s ease; cursor: pointer; }
+      [data-logo-link]:hover { transform: scale(1.03); }
+      [data-cta-desktop] svg { transition: transform 0.3s ease; }
+      [data-cta-desktop]:hover svg { transform: translateX(3px); }
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <script src="./image-slot.js"></script>
+  <script src="./theme.js"></script>
+  <script src="./site-data.js"></script>
+</helmet>
+<div style="position:relative;width:100%;background:oklch(99% 0.003 90);color:oklch(20% 0.005 90);font-family:'Cormorant Garamond',serif;font-weight:500;overflow-x:hidden;" data-screen-label="Contact">
+
+  <header data-desktop-fx data-scrolled="{{ scrolledAttr }}" data-hide="{{ hideHeaderAttr }}" style="{{ navBarStyle }}">
+    <div style="display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1400px;margin:0 auto;padding:0 clamp(20px,4vw,56px);">
+      <a href="Home.dc.html" data-logo-link style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;">
+        <img src="logo-mark.png" alt="A Office Furniture" style="height:40px;width:auto;display:block;">
+        <span style="{{ navWordmarkStyle }}">OFFICE FURNITURE</span>
+      </a>
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+        <nav data-desktop-nav style="display:flex;align-items:center;gap:clamp(16px,1.7vw,26px);flex-wrap:nowrap;">
+          <a href="Home.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">Home</a>
+          <div style="position:relative;" onMouseEnter="{{ openCollections }}" onMouseLeave="{{ closeCollections }}">
+            <a href="Collections.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">Collections</a>
+            <div style="{{ collectionsDropdownStyle }}">
+              <sc-for list="{{ collectionLinks }}" as="col" hint-placeholder-count="4">
+                <a href="{{ col.href }}" style="{{ productsDropdownLinkStyle }}" style-hover="{{ productsDropdownLinkHoverStyle }}">{{ col.name }}</a>
+              </sc-for>
+            </div>
+          </div>
+          <div style="position:relative;" onMouseEnter="{{ openProducts }}" onMouseLeave="{{ closeProducts }}">
+            <a href="Products.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">Products</a>
+            <div style="{{ productsDropdownStyle }}">
+              <sc-for list="{{ productCategories }}" as="cat" hint-placeholder-count="6">
+                <a href="{{ cat.href }}" style="{{ productsDropdownLinkStyle }}" style-hover="{{ productsDropdownLinkHoverStyle }}">{{ cat.name }}</a>
+              </sc-for>
+            </div>
+          </div>
+          <a href="Contact.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">Contact Us</a>
+          <a href="Catalogue.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">Downloads</a>
+          <a href="OurStory.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">About the Brand</a>
+          <aof-quote-link style="color:inherit;"></aof-quote-link>
+          <button data-no-dark aria-label="Toggle dark mode" onClick="{{ toggleTheme }}" style="{{ themeToggleStyle }}" style-hover="{{ themeToggleHoverStyle }}">{{ themeToggleIcon }}</button>
+        </nav>
+      </sc-if>
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+        <button aria-label="Toggle menu" onClick="{{ toggleNav }}" style="background:transparent;border:none;cursor:pointer;width:44px;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;">
+          <span style="{{ bar1Style }}"></span>
+          <span style="{{ bar2Style }}"></span>
+          <span style="{{ bar3Style }}"></span>
+        </button>
+      </sc-if>
+    </div>
+  </header>
+
+  <div style="{{ mobileOverlayStyle }}">
+    <nav style="display:flex;flex-direction:column;gap:24px;align-items:center;">
+      <a href="Home.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">Home</a>
+      <div style="display:flex;flex-direction:column;align-items:center;">
+        <span onClick="{{ toggleMobileCollections }}" style="{{ mobileNavLinkStyle }}">Collections<span style="{{ mobileCollectionsChevronStyle }}">▾</span></span>
+        <div style="{{ mobileCollectionsListStyle }}">
+          <sc-for list="{{ collectionLinks }}" as="col" hint-placeholder-count="4">
+            <a href="{{ col.href }}" style="color:oklch(32% 0.006 90);text-decoration:none;font-size:17px;font-weight:600;">{{ col.name }}</a>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;">
+        <span onClick="{{ toggleMobileProducts }}" style="{{ mobileNavLinkStyle }}">Products<span style="{{ mobileProductsChevronStyle }}">▾</span></span>
+        <div style="{{ mobileProductsListStyle }}">
+          <sc-for list="{{ productCategories }}" as="cat" hint-placeholder-count="6">
+            <a href="{{ cat.href }}" onClick="{{ closeNav }}" style="color:oklch(32% 0.006 90);text-decoration:none;font-size:17px;font-weight:600;">{{ cat.name }}</a>
+          </sc-for>
+        </div>
+      </div>
+      <a href="Contact.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">Contact Us</a>
+      <a href="Catalogue.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">Downloads</a>
+      <a href="OurStory.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">About the Brand</a>
+      <aof-quote-link style="color:inherit;font-size:20px;"></aof-quote-link>
+      <button data-no-dark aria-label="Toggle dark mode" onClick="{{ toggleTheme }}" style="{{ themeToggleStyle }}" style-hover="{{ themeToggleHoverStyle }}">{{ themeToggleIcon }}</button>
+    </nav>
+  </div>
+
+  <main>
+    <section style="max-width:1400px;margin:0 auto;padding:clamp(140px,16vh,190px) clamp(20px,5vw,80px) clamp(20px,5vw,40px) clamp(20px,5vw,80px);">
+      <p style="font-size:14.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:oklch(32% 0.006 90);margin:0 0 14px 0;animation:fadeUp 0.8s ease both;">Contact</p>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(32px,4.6vw,58px);line-height:1.15;color:oklch(20% 0.005 90);margin:0;max-width:640px;animation:fadeUp 0.8s ease 0.1s both;">Let's talk about your next space.</h1>
+    </section>
+
+    <section style="max-width:1400px;margin:0 auto;padding:clamp(20px,4vw,40px) clamp(20px,5vw,80px) clamp(90px,11vw,140px) clamp(20px,5vw,80px);">
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(40px,6vw,80px);">
+        <div style="flex:1 1 340px;min-width:280px;">
+          <div style="display:flex;flex-direction:column;gap:36px;">
+            <div>
+              <p style="{{ labelStyle }}">Address</p>
+              <p style="{{ valueStyle }}"><span data-aof="address">Old Al Rayyan, Building 395, St. No: 990<br>Doha - Qatar</span></p>
+            </div>
+            <div>
+              <p style="{{ labelStyle }}">Phone</p>
+              <a data-aof="phone" href="tel:+97470785000" style="{{ valueLinkStyle }}" style-hover="{{ valueLinkHoverStyle }}">+974 7078 5000</a>
+            </div>
+            <div>
+              <p style="{{ labelStyle }}">Email</p>
+              <a data-aof="email" href="mailto:info@aofficefurniture.com" style="{{ valueLinkStyle }}" style-hover="{{ valueLinkHoverStyle }}">info@aofficefurniture.com</a>
+            </div>
+          </div>
+        </div>
+
+        <div style="flex:2 1 560px;min-width:320px;max-width:720px;padding:0;">
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(22px,2.6vw,28px);color:oklch(20% 0.005 90);margin:0 0 28px 0;">Send us a message</h2>
+          <sc-if value="{{ contactSent }}" hint-placeholder-val="{{ false }}">
+            <div role="status" style="padding:28px;border:1px solid oklch(90% 0.004 90);border-radius:8px;display:flex;flex-direction:column;gap:10px;">
+              <p style="font-family:'Cormorant Garamond',serif;font-size:26px;margin:0;color:oklch(20% 0.005 90);">Thank you — message received.</p>
+              <p style="margin:0;font-size:16.5px;line-height:1.7;color:oklch(28% 0.006 90);">Reference {{ contactRef }}. We'll reply to you by email.</p>
+            </div>
+          </sc-if>
+          <sc-if value="{{ contactOpen }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:22px;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:22px;">
+              <sc-for list="{{ contactFields }}" as="f" hint-placeholder-count="5">
+                <label style="display:block;">
+                  <p style="{{ formLabelStyle }}">{{ f.label }}</p>
+                  <input type="{{ f.type }}" value="{{ f.value }}" onChange="{{ f.onChange }}" placeholder="{{ f.placeholder }}" autocomplete="{{ f.autocomplete }}" style="{{ inputStyle }}" />
+                </label>
+              </sc-for>
+            </div>
+            <label style="display:block;">
+              <p style="{{ formLabelStyle }}">Message *</p>
+              <textarea value="{{ contactMessage }}" onChange="{{ onContactMessage }}" placeholder="Tell us about your space" rows="8" style="{{ messageBoxStyle }}"></textarea>
+            </label>
+            <input value="{{ contactHp }}" onChange="{{ onContactHp }}" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" />
+            <sc-if value="{{ hasContactError }}" hint-placeholder-val="{{ false }}">
+              <p role="alert" style="margin:0;font-size:15.5px;color:#A3402F;">{{ contactError }}</p>
+            </sc-if>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+              <button onClick="{{ sendContact }}" style="{{ sendBtnStyle }}" style-hover="{{ sendBtnHoverStyle }}">{{ sendLabel }}</button>
+              <sc-if value="{{ hasWhatsapp }}" hint-placeholder-val="{{ false }}">
+                <a href="{{ whatsappHref }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;height:48px;padding:0 22px;border-radius:8px;border:1px solid oklch(86% 0.006 85);color:oklch(22% 0.006 90);font-size:16px;font-weight:600;text-decoration:none;">Chat on WhatsApp</a>
+              </sc-if>
+            </div>
+          </div>
+          </sc-if>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer data-site-footer style="font-family:'Cormorant Garamond',serif;background:oklch(96.5% 0.006 85);color:oklch(22% 0.006 90);border-top:1px solid oklch(90% 0.004 90);padding:clamp(56px,7vw,96px) clamp(20px,5vw,80px) 32px clamp(20px,5vw,80px);">
+    <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(40px,5vw,64px);">
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(36px,6vw,96px);justify-content:space-between;">
+        <a href="Home.dc.html" style="display:flex;flex-direction:column;gap:14px;text-decoration:none;color:inherit;max-width:320px;flex:1 1 240px;">
+          <span style="display:flex;align-items:center;gap:10px;"><img src="logo-mark.png" alt="A Office Furniture" style="height:30px;width:auto;display:block;"><span style="font-family:'Cormorant Garamond',serif;font-size:16.5px;font-weight:600;letter-spacing:0.06em;">OFFICE FURNITURE</span></span>
+          <span style="font-size:16.5px;line-height:1.7;opacity:0.7;">Executive furniture designed with timeless proportions and premium materials.</span>
+        </a>
+        <div style="display:flex;gap:clamp(36px,6vw,88px);flex-wrap:wrap;">
+          <div><p style="font-size:15px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;margin:0 0 16px 0;">Explore</p><div style="display:flex;flex-direction:column;gap:12px;">
+            <a href="Collections.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Collections</a>
+            <a href="Products.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Products</a>
+            <a href="Quote.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Request a Quote</a>
+            <a href="Catalogue.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Downloads</a>
+          </div></div>
+          <div><p style="font-size:15px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;margin:0 0 16px 0;">Company</p><div style="display:flex;flex-direction:column;gap:12px;">
+            <a href="OurStory.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">About the Brand</a>
+            <a href="Contact.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Contact Us</a>
+          </div></div>
+          <div><p style="font-size:15px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;margin:0 0 16px 0;">Get in touch</p><div style="display:flex;flex-direction:column;gap:12px;">
+            <a data-aof="email" href="mailto:info@aofficefurniture.com" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">info@aofficefurniture.com</a>
+            <a data-aof="phone" href="tel:+97470785000" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">+974 7078 5000</a>
+            <span style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;line-height:1.6;"><span data-aof="address">Old Al Rayyan, Building 395, St. No: 990<br>Doha - Qatar</span></span>
+          </div></div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px 24px;flex-wrap:wrap;padding-top:24px;border-top:1px solid oklch(88% 0.004 90);font-size:17.5px;"><span style="opacity:0.55;">© 2026 A Office Furniture. All rights reserved.</span><span style="opacity:0.55;">Designed &amp; developed by SASUL Studios</span></div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    isMobile: (typeof window !== 'undefined' && window.innerWidth < 1180),
+    scrolled: false, navOpen: false, hideHeader: false,
+    productsOpen: false, mobileProductsOpen: false,
+    collectionsOpen: false, mobileCollectionsOpen: false,
+  };
+
+  lastScrollY = 0;
+
+  componentDidMount() {
+    const go = () => { if (!window.AOF) { setTimeout(go, 40); return; } window.AOF.load().then((site) => this.setState({ site })); };
+    go();
+    this.handleResize = () => {
+      const isMobile = window.innerWidth < 1180;
+      if (isMobile !== this.state.isMobile) this.setState({ isMobile });
+    };
+    this.handleScroll = () => {
+      const scrollY = window.scrollY;
+      const scrolled = scrollY > 32;
+      const delta = scrollY - this.lastScrollY;
+      let scrollDir = this.scrollDir || 'up';
+      if (delta > 4) scrollDir = 'down';
+      else if (delta < -4) scrollDir = 'up';
+      this.scrollDir = scrollDir;
+      const hideHeader = scrolled && scrollDir === 'down' && scrollY > 160;
+      this.lastScrollY = scrollY;
+      if (scrolled !== this.state.scrolled || hideHeader !== this.state.hideHeader) {
+        this.setState({ scrolled, hideHeader });
+      }
+    };
+    document.addEventListener('aof-theme-change', this.onThemeChange);
+    window.addEventListener('resize', this.handleResize);
+    window.addEventListener('scroll', this.handleScroll, { passive: true });
+    this.handleResize();
+    this.handleScroll();
+  }
+
+  onThemeChange = () => this.forceUpdate();
+
+  componentWillUnmount() {
+    document.removeEventListener('aof-theme-change', this.onThemeChange);
+    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  toggleTheme = () => {
+    if (window.AOFTheme) window.AOFTheme.toggle();
+    this.setState({ themeTick: (this.state.themeTick || 0) + 1 });
+  };
+  toggleNav = () => this.setState((s) => ({ navOpen: !s.navOpen }));
+  closeNav = () => { if (this.state.navOpen) this.setState({ navOpen: false, mobileProductsOpen: false, mobileCollectionsOpen: false }); };
+  openProducts = () => this.setState({ productsOpen: true });
+  closeProducts = () => this.setState({ productsOpen: false });
+  toggleMobileProducts = () => this.setState((s) => ({ mobileProductsOpen: !s.mobileProductsOpen }));
+  openCollections = () => this.setState({ collectionsOpen: true });
+  closeCollections = () => this.setState({ collectionsOpen: false });
+  toggleMobileCollections = () => this.setState((s) => ({ mobileCollectionsOpen: !s.mobileCollectionsOpen }));
+
+  setContact(k, v) { this.setState((s) => ({ contact: Object.assign({}, s.contact, { [k]: v }), contactError: '' })); }
+
+  sendContact = () => {
+    const c = this.state.contact || {};
+    if (this.state.contactSending) return;
+    if (!(c.full_name || '').trim()) return this.setState({ contactError: 'Please enter your name.' });
+    if (!/^\S+@\S+\.\S+$/.test((c.email || '').trim())) return this.setState({ contactError: 'Please enter a valid email address.' });
+    if (!(c.message || '').trim()) return this.setState({ contactError: 'Please write a short message.' });
+    if (c.website) return this.setState({ contactRef: 'AOF-C-0000' });
+    this.setState({ contactSending: true });
+    window.AOF.submitEnquiry({ type: 'contact', full_name: c.full_name.trim(), email: c.email.trim(), company: (c.company || '').trim(), phone: (c.phone || '').trim(), country: (c.country || '').trim(), message: c.message.trim(), items: [] })
+      .then((ref) => this.setState({ contactSending: false, contactRef: ref }))
+      .catch(() => this.setState({ contactSending: false, contactError: 'Sending failed. Please try again or email info@aofficefurniture.com.' }));
+  };
+
+  contactVals() {
+    const c = this.state.contact || {};
+    const site = this.state.site;
+    const defs = [['full_name', 'Name *', 'text', 'Your name', 'name'], ['company', 'Company', 'text', 'Company name', 'organization'], ['email', 'Email *', 'email', 'you@company.com', 'email'], ['phone', 'Phone', 'tel', '+974 …', 'tel'], ['country', 'Country', 'text', 'Qatar', 'country-name']];
+    const wa = site && window.AOF ? window.AOF.whatsappUrl(site.settings.whatsapp, 'Hello A Office Furniture, I have an enquiry.') : '';
+    return {
+      contactFields: defs.map(([k, label, type, placeholder, autocomplete]) => ({ label, type, placeholder, autocomplete, value: c[k] || '', onChange: (e) => this.setContact(k, e.target.value) })),
+      contactMessage: c.message || '', onContactMessage: (e) => this.setContact('message', e.target.value),
+      contactHp: c.website || '', onContactHp: (e) => this.setContact('website', e.target.value),
+      contactError: this.state.contactError || '', hasContactError: !!this.state.contactError,
+      sendContact: this.sendContact, sendLabel: this.state.contactSending ? 'Sending…' : 'Send message',
+      contactSent: !!this.state.contactRef, contactOpen: !this.state.contactRef, contactRef: this.state.contactRef || '',
+      hasWhatsapp: !!wa, whatsappHref: wa,
+    };
+  }
+
+  renderVals() { return Object.assign(this.baseVals(), this.contactVals()); }
+
+  baseVals() {
+    const isDarkMode = typeof document !== 'undefined' && document.body.getAttribute('data-theme') === 'dark';
+    const themeToggleIcon = isDarkMode ? '\u2600' : '\u263D';
+    const themeToggleStyle = {
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+      width: '36px', height: '36px', borderRadius: '50%', cursor: 'pointer',
+      background: 'transparent', border: '1px solid rgba(128,128,128,0.32)',
+      color: isDarkMode ? '#F2E7D2' : '#2A2724', fontSize: '17.5px', lineHeight: 1,
+      transition: 'background 0.25s ease, border-color 0.25s ease, transform 0.25s ease',
+    };
+    const themeToggleHoverStyle = { background: 'rgba(200,169,106,0.16)', borderColor: '#C8A96A', transform: 'translateY(-1px)' };
+    const { isMobile, scrolled, navOpen } = this.state;
+    const isDesktop = !isMobile;
+    const productCategories = [
+      { slug: 'desks', name: 'Desks', href: 'Products.dc.html?category=desks' },
+      { slug: 'office-chairs', name: 'Office Chairs', href: 'Products.dc.html?category=office-chairs' },
+      { slug: 'meeting-tables', name: 'Meeting Tables', href: 'Products.dc.html?category=meeting-tables' },
+      { slug: 'sofas', name: 'Sofa & Armchairs', href: 'Products.dc.html?category=sofas' },
+      { slug: 'coffee-tables', name: 'Coffee Tables', href: 'Products.dc.html?category=coffee-tables' },
+      { slug: 'storage', name: 'Storage', href: 'Products.dc.html?category=storage' },
+    ];
+    const collectionLinks = [
+      { slug: 'unique', name: 'Unique Collection', href: 'Collection.dc.html?slug=unique' },
+      { slug: 'chairman', name: 'Chairman Collection', href: 'Collection.dc.html?slug=chairman' },
+      { slug: 'title', name: 'Title Collection', href: 'Collection.dc.html?slug=title' },
+      { slug: 'classic', name: 'Classic Collection', href: 'Collection.dc.html?slug=classic' },
+    ];
+    const navSite = this.state.site;
+    if (navSite && navSite.collections.length) collectionLinks.splice(0, collectionLinks.length, ...navSite.collections.map((k) => ({ slug: k.slug, name: k.name, href: 'Collection.dc.html?slug=' + k.slug })));
+    if (navSite && navSite.categories.length) productCategories.splice(0, productCategories.length, ...navSite.categories.map((k) => ({ slug: k.slug, name: k.name, href: 'Products.dc.html?category=' + k.slug })));
+    const productsDropdownStyle = {
+      position: 'absolute', top: '100%', left: '50%', transform: this.state.productsOpen ? 'translate(-50%,0)' : 'translate(-50%,6px)',
+      minWidth: '220px', background: 'oklch(99% 0.003 90)', border: '1px solid oklch(90% 0.004 90)', borderRadius: '10px',
+      boxShadow: '0 24px 48px -16px rgba(0,0,0,0.22)', padding: '10px', marginTop: '0', borderTop: '14px solid transparent', backgroundClip: 'padding-box',
+      opacity: this.state.productsOpen ? 1 : 0, pointerEvents: this.state.productsOpen ? 'auto' : 'none',
+      transition: 'opacity 0.2s ease, transform 0.2s ease', zIndex: 110,
+    };
+    const collectionsDropdownStyle = {
+      position: 'absolute', top: '100%', left: '50%', transform: this.state.collectionsOpen ? 'translate(-50%,0)' : 'translate(-50%,6px)',
+      minWidth: '220px', background: 'oklch(99% 0.003 90)', border: '1px solid oklch(90% 0.004 90)', borderRadius: '10px',
+      boxShadow: '0 24px 48px -16px rgba(0,0,0,0.22)', padding: '10px', marginTop: '0', borderTop: '14px solid transparent', backgroundClip: 'padding-box',
+      opacity: this.state.collectionsOpen ? 1 : 0, pointerEvents: this.state.collectionsOpen ? 'auto' : 'none',
+      transition: 'opacity 0.2s ease, transform 0.2s ease', zIndex: 110,
+    };
+    const productsDropdownLinkStyle = { display: 'block', padding: '10px 14px', borderRadius: '6px', color: 'oklch(20% 0.005 90)', textDecoration: 'none', fontFamily: "'Cormorant Garamond',serif", fontSize: '17px', fontWeight: 600 };
+    const productsDropdownLinkHoverStyle = { background: 'oklch(90% 0.004 90)' };
+    const mobileProductsChevronStyle = { display: 'inline-block', marginLeft: '8px', transition: 'transform 0.2s ease', transform: this.state.mobileProductsOpen ? 'rotate(180deg)' : 'none' };
+    const mobileCollectionsChevronStyle = { display: 'inline-block', marginLeft: '8px', transition: 'transform 0.2s ease', transform: this.state.mobileCollectionsOpen ? 'rotate(180deg)' : 'none' };
+    const mobileProductsListStyle = { display: this.state.mobileProductsOpen ? 'flex' : 'none', flexDirection: 'column', gap: '18px', alignItems: 'center', marginTop: '4px' };
+    const mobileCollectionsListStyle = { display: this.state.mobileCollectionsOpen ? 'flex' : 'none', flexDirection: 'column', gap: '18px', alignItems: 'center', marginTop: '4px' };
+    const navWordmarkStyle = { color: 'oklch(22% 0.006 90)', fontSize: '15px', fontWeight: 600, letterSpacing: '0.06em', fontFamily: "'Cormorant Garamond',serif" };
+    const mobileNavLinkStyle = { color: 'oklch(22% 0.006 90)', textDecoration: 'none', fontFamily: "'Cormorant Garamond',serif", fontSize: '30px', fontWeight: 600 };
+    mobileNavLinkStyle.cursor = 'pointer';
+    const scrolledAttr = this.state.scrolled ? 'true' : 'false';
+    const hideHeaderAttr = (this.state.hideHeader && !navOpen) ? 'true' : 'false';
+    const navBarStyle = {
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+      height: isMobile ? '64px' : '84px', display: 'flex', alignItems: 'center',
+      background: 'oklch(99% 0.003 90 / 0.9)', backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)',
+      borderBottom: '1px solid oklch(90% 0.004 90)',
+    };
+    const navLinkStyle = { color: 'oklch(22% 0.006 90)', textDecoration: 'none', fontFamily: "'Cormorant Garamond',serif", fontSize: '18px', fontWeight: 600, opacity: 0.9, whiteSpace: 'nowrap' };
+    const activeNavLinkStyle = Object.assign({}, navLinkStyle, { opacity: 1 });
+    const catalogueGold = '#C8A96A';
+    const catalogueBtnFocusStyle = { outline: '2px solid ' + catalogueGold, outlineOffset: '3px' };
+    const catalogueBtnStyle = {
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '7px',
+      height: '40px', padding: '0 22px', borderRadius: '12px', background: catalogueGold, border: '1px solid ' + catalogueGold,
+      color: '#111111', fontSize: '15.5px', fontWeight: 600, textDecoration: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
+      transition: 'background 0.28s ease, color 0.28s ease, transform 0.28s ease, box-shadow 0.28s ease',
+    };
+    const catalogueBtnHoverStyle = { background: '#161616', borderColor: '#161616', color: '#ffffff', transform: 'translateY(-2px)', boxShadow: '0 16px 32px -12px rgba(0,0,0,0.45)' };
+
+    const hamburgerBarColor = 'oklch(22% 0.006 90)';
+    const bar1Style = { display: 'block', width: '22px', height: '2px', background: hamburgerBarColor, transition: 'transform 0.3s ease', transform: navOpen ? 'translateY(7px) rotate(45deg)' : 'none' };
+    const bar2Style = { display: 'block', width: '22px', height: '2px', background: hamburgerBarColor, transition: 'opacity 0.2s ease', opacity: navOpen ? 0 : 1 };
+    const bar3Style = { display: 'block', width: '22px', height: '2px', background: hamburgerBarColor, transition: 'transform 0.3s ease', transform: navOpen ? 'translateY(-7px) rotate(-45deg)' : 'none' };
+
+    const mobileOverlayStyle = {
+      position: 'fixed', inset: 0, zIndex: 99, background: 'oklch(99% 0.003 90)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      opacity: navOpen ? 1 : 0, pointerEvents: navOpen ? 'auto' : 'none',
+      transform: navOpen ? 'translateY(0)' : 'translateY(-12px)', transition: 'opacity 0.35s ease, transform 0.35s ease',
+    };
+
+    const labelStyle = { fontSize: '14.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'oklch(42% 0.006 90)', margin: '0 0 8px 0' };
+    const valueStyle = { fontSize: '17px', lineHeight: 1.6, color: 'oklch(24% 0.006 90)', margin: 0, fontWeight: 500 };
+    const valueLinkStyle = { fontSize: '17px', lineHeight: 1.6, color: 'oklch(24% 0.006 90)', fontWeight: 600, textDecoration: 'none', transition: 'color 0.2s ease' };
+    const valueLinkHoverStyle = { color: '#B8873E' };
+
+    const inputStyle = {
+      width: '100%', padding: '13px 16px', borderRadius: '6px', border: '1px solid oklch(88% 0.004 90)',
+      background: '#fff', fontSize: '16.5px', color: 'oklch(22% 0.006 90)', outline: 'none',
+    };
+    const messageBoxStyle = Object.assign({}, inputStyle, { resize: 'vertical', fontFamily: 'inherit', minHeight: '220px' });
+    const formLabelStyle = { fontSize: '15.5px', fontWeight: 600, color: '#B8703E', margin: '0 0 8px 0' };
+    const sendBtnStyle = {
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 'fit-content', border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+      padding: '15px 30px', borderRadius: '8px', background: '#B8703E', color: '#fff',
+      fontSize: '16.5px', fontWeight: 700, textDecoration: 'none', cursor: 'pointer',
+      transition: 'background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease',
+    };
+    const sendBtnHoverStyle = { background: '#9c5d31', transform: 'translateY(-2px)', boxShadow: '0 14px 30px -10px rgba(184,112,62,0.5)' };
+
+    return {
+      toggleTheme: this.toggleTheme, themeToggleIcon, themeToggleStyle, themeToggleHoverStyle,
+      isMobile, isDesktop, navOpen, toggleNav: this.toggleNav, closeNav: this.closeNav,
+      openProducts: this.openProducts, closeProducts: this.closeProducts, toggleMobileProducts: this.toggleMobileProducts,
+      openCollections: this.openCollections, closeCollections: this.closeCollections, toggleMobileCollections: this.toggleMobileCollections,
+      productCategories, collectionLinks, productsDropdownStyle, collectionsDropdownStyle, productsDropdownLinkStyle, productsDropdownLinkHoverStyle,
+      mobileProductsChevronStyle, mobileCollectionsChevronStyle, mobileProductsListStyle, mobileCollectionsListStyle, mobileProductsOpen: this.state.mobileProductsOpen, mobileCollectionsOpen: this.state.mobileCollectionsOpen,
+      navWordmarkStyle, mobileNavLinkStyle, scrolledAttr, hideHeaderAttr, catalogueBtnFocusStyle,
+      navBarStyle, navLinkStyle, activeNavLinkStyle, catalogueBtnStyle, catalogueBtnHoverStyle,
+      bar1Style, bar2Style, bar3Style, mobileOverlayStyle,
+      labelStyle, valueStyle, valueLinkStyle, valueLinkHoverStyle, inputStyle, messageBoxStyle,
+      formLabelStyle, sendBtnStyle, sendBtnHoverStyle,
+    };
+  }
+}
+</script>
+</body>
+</html>
