@@ -240,10 +240,10 @@ window.AOF_CONFIG = window.AOF_CONFIG || {
       }
       _render() {
         var n = quote.count();
-        this._root.innerHTML = '<style>a{transition:opacity .3s ease}a:hover{opacity:.7}</style><a href="Quote.dc.html" aria-label="Quote list, ' + n + ' items" style="display:inline-flex;align-items:center;gap:7px;color:inherit;text-decoration:none;font-size:15px;font-weight:600;white-space:nowrap;">' +
+        this._root.innerHTML = '<style>a{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:40px;padding:0 20px;border-radius:12px;background:#C8A96A;border:1px solid #C8A96A;color:#111;text-decoration:none;font-family:"Cormorant Garamond",serif;font-size:17px;font-weight:600;white-space:nowrap;transition:background .28s ease,color .28s ease,transform .28s ease,box-shadow .28s ease}a:hover{background:#161616;border-color:#161616;color:#fff;transform:translateY(-2px);box-shadow:0 16px 32px -12px rgba(0,0,0,.45)}a:hover .b{background:#C8A96A;color:#111}a:focus-visible{outline:2px solid #C8A96A;outline-offset:3px}</style><a href="Quote.dc.html" aria-label="Quote list, ' + n + ' items">' +
           '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 3h4v15H4V6h4z"></path><path d="M9 12h6M9 16h4"></path></svg>' +
           '<span>Quote</span>' +
-          (n ? '<span style="min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#C8A96A;color:#111;font-size:11px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;">' + n + '</span>' : '') +
+          (n ? '<span class="b" style="min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#111;color:#C8A96A;font-size:12.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;">' + n + '</span>' : '') +
           '</a>';
       }
     });

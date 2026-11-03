@@ -12,6 +12,7 @@
   <link rel="apple-touch-icon" href="favicon.png">
   <style>
     * { box-sizing: border-box; }
+    button, input, select, textarea { font-family: inherit; }
     html { scroll-behavior: smooth; }
     body { margin: 0; padding: 0; background: oklch(99% 0.003 90); }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
@@ -37,12 +38,12 @@
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
   <script src="./image-slot.js"></script>
   <script src="./theme.js"></script>
   <script src="./site-data.js"></script>
 </helmet>
-<div style="position:relative;width:100%;background:oklch(99% 0.003 90);color:oklch(20% 0.005 90);font-family:'Manrope',sans-serif;overflow-x:hidden;" data-screen-label="Product detail">
+<div style="position:relative;width:100%;background:oklch(99% 0.003 90);color:oklch(20% 0.005 90);font-family:'Cormorant Garamond',serif;font-weight:500;overflow-x:hidden;" data-screen-label="Product detail">
 
   <header data-desktop-fx data-scrolled="{{ scrolledAttr }}" data-hide="{{ hideHeaderAttr }}" style="{{ navBarStyle }}">
     <div style="display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1400px;margin:0 auto;padding:0 clamp(20px,4vw,56px);">
@@ -70,10 +71,7 @@
             </div>
           </div>
           <a href="Contact.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">Contact Us</a>
-          <a href="Catalogue.dc.html" data-cta-desktop data-no-dark style="{{ catalogueBtnStyle }}" style-hover="{{ catalogueBtnHoverStyle }}" style-focus="{{ catalogueBtnFocusStyle }}">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M4 21h16"></path></svg>
-            Downloads
-          </a>
+          <a href="Catalogue.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">Downloads</a>
           <a href="OurStory.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">About the Brand</a>
           <aof-quote-link style="color:inherit;"></aof-quote-link>
           <button data-no-dark aria-label="Toggle dark mode" onClick="{{ toggleTheme }}" style="{{ themeToggleStyle }}" style-hover="{{ themeToggleHoverStyle }}">{{ themeToggleIcon }}</button>
@@ -96,7 +94,7 @@
         <span onClick="{{ toggleMobileCollections }}" style="{{ mobileNavLinkStyle }}">Collections<span style="{{ mobileCollectionsChevronStyle }}">▾</span></span>
         <div style="{{ mobileCollectionsListStyle }}">
           <sc-for list="{{ collectionLinks }}" as="col" hint-placeholder-count="4">
-            <a href="{{ col.href }}" style="color:oklch(46% 0.006 90);text-decoration:none;font-size:17px;font-weight:600;">{{ col.name }}</a>
+            <a href="{{ col.href }}" style="color:oklch(32% 0.006 90);text-decoration:none;font-size:17px;font-weight:600;">{{ col.name }}</a>
           </sc-for>
         </div>
       </div>
@@ -104,15 +102,12 @@
         <span onClick="{{ toggleMobileProducts }}" style="{{ mobileNavLinkStyle }}">Products<span style="{{ mobileProductsChevronStyle }}">▾</span></span>
         <div style="{{ mobileProductsListStyle }}">
           <sc-for list="{{ productCategories }}" as="cat" hint-placeholder-count="6">
-            <a href="{{ cat.href }}" onClick="{{ closeNav }}" style="color:oklch(46% 0.006 90);text-decoration:none;font-size:17px;font-weight:600;">{{ cat.name }}</a>
+            <a href="{{ cat.href }}" onClick="{{ closeNav }}" style="color:oklch(32% 0.006 90);text-decoration:none;font-size:17px;font-weight:600;">{{ cat.name }}</a>
           </sc-for>
         </div>
       </div>
       <a href="Contact.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">Contact Us</a>
-      <a href="Catalogue.dc.html" onClick="{{ closeNav }}" data-no-dark style="{{ catalogueBtnStyle }}" style-hover="{{ catalogueBtnHoverStyle }}" style-focus="{{ catalogueBtnFocusStyle }}">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M4 21h16"></path></svg>
-        Downloads
-      </a>
+      <a href="Catalogue.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">Downloads</a>
       <a href="OurStory.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">About the Brand</a>
       <aof-quote-link style="color:inherit;font-size:20px;"></aof-quote-link>
       <button data-no-dark aria-label="Toggle dark mode" onClick="{{ toggleTheme }}" style="{{ themeToggleStyle }}" style-hover="{{ themeToggleHoverStyle }}">{{ themeToggleIcon }}</button>
@@ -123,22 +118,23 @@
     <sc-if value="{{ notFound }}" hint-placeholder-val="{{ false }}">
       <section style="max-width:760px;margin:0 auto;padding:clamp(170px,22vh,240px) 24px 140px 24px;text-align:center;display:flex;flex-direction:column;gap:18px;align-items:center;">
         <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(36px,4.6vw,60px);line-height:1.08;color:oklch(20% 0.005 90);margin:0;">Product not found</h1>
-        <p style="color:oklch(46% 0.006 90);margin:0;">It may have been renamed or is no longer available.</p>
+        <p style="color:oklch(32% 0.006 90);margin:0;">It may have been renamed or is no longer available.</p>
         <a href="Products.dc.html" style="{{ catalogueBtnStyle }}" data-no-dark>Browse all products</a>
       </section>
     </sc-if>
     <sc-if value="{{ showProduct }}" hint-placeholder-val="{{ false }}">
       <section style="max-width:1440px;margin:0 auto;padding:clamp(116px,14vh,150px) clamp(20px,5vw,80px) clamp(64px,8vw,110px) clamp(20px,5vw,80px);">
-        <nav aria-label="Breadcrumb" style="display:flex;gap:8px;flex-wrap:wrap;font-size:12.5px;font-weight:600;color:oklch(56% 0.006 90);margin-bottom:clamp(22px,3vw,36px);">
+        <nav aria-label="Breadcrumb" style="display:flex;gap:8px;flex-wrap:wrap;font-size:14.5px;font-weight:600;color:oklch(42% 0.006 90);margin-bottom:clamp(22px,3vw,36px);">
           <a href="Products.dc.html" style="color:inherit;text-decoration:none;">Products</a><span>/</span>
           <a href="{{ categoryHref }}" style="color:inherit;text-decoration:none;">{{ product.categoryName }}</a><span>/</span>
           <span style="color:oklch(24% 0.006 90);">{{ product.name }}</span>
         </nav>
         <div style="{{ detailGridStyle }}">
           <div style="display:flex;flex-direction:column;gap:12px;min-width:0;">
-            <div style="aspect-ratio:1;overflow:hidden;border-radius:2px;background:oklch(95% 0.006 85);">
+            <button onClick="{{ openLightbox }}" aria-label="Enlarge image" style="position:relative;display:block;width:100%;padding:0;border:none;aspect-ratio:16/9;overflow:hidden;border-radius:2px;background:oklch(95% 0.006 85);cursor:zoom-in;">
               <img src="{{ activeImage }}" alt="{{ product.name }}" style="width:100%;height:100%;object-fit:cover;display:block;">
-            </div>
+              <span data-no-dark style="position:absolute;right:14px;bottom:14px;width:40px;height:40px;border-radius:50%;background:rgba(17,17,17,0.55);color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg></span>
+            </button>
             <sc-if value="{{ hasThumbs }}" hint-placeholder-val="{{ false }}">
               <div style="display:flex;gap:10px;flex-wrap:wrap;">
                 <sc-for list="{{ thumbs }}" as="t" hint-placeholder-count="0">
@@ -146,67 +142,86 @@
                 </sc-for>
               </div>
             </sc-if>
+            <div style="display:flex;flex-direction:column;gap:24px;margin-top:clamp(16px,2vw,28px);">
+              <dl style="margin:0;border-top:1px solid oklch(90% 0.004 90);">
+                <sc-for list="{{ specs }}" as="s" hint-placeholder-count="3">
+                  <div style="display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px solid oklch(92% 0.004 90);">
+                    <dt style="font-size:14px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:oklch(40% 0.006 90);">{{ s.label }}</dt>
+                    <dd style="margin:0;font-size:16.5px;color:oklch(24% 0.006 90);">{{ s.value }}</dd>
+                  </div>
+                </sc-for>
+              </dl>
+              <sc-if value="{{ hasDescription }}" hint-placeholder-val="{{ false }}">
+                <p style="margin:0;font-size:18px;line-height:1.8;color:oklch(26% 0.006 90);white-space:pre-line;text-wrap:pretty;">{{ product.description }}</p>
+              </sc-if>
+              <sc-if value="{{ hasDocument }}" hint-placeholder-val="{{ false }}">
+                <a href="{{ product.documentUrl }}" target="_blank" rel="noopener" style="align-self:flex-start;font-size:15.5px;font-weight:700;color:#A58A62;">Download technical sheet ↓</a>
+              </sc-if>
+            </div>
           </div>
           <div style="display:flex;flex-direction:column;gap:24px;min-width:0;">
             <div style="display:flex;flex-direction:column;gap:10px;">
-              <p style="font-size:12px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:oklch(52% 0.03 75);margin:0 0 14px 0;margin:0;">{{ product.categoryName }}</p>
+              <p style="font-size:14px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:oklch(38% 0.03 75);margin:0 0 14px 0;margin:0;">{{ product.categoryName }}</p>
               <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(36px,4vw,56px);line-height:1.05;margin:0;color:oklch(20% 0.005 90);">{{ product.name }}</h1>
               <sc-if value="{{ hasSku }}" hint-placeholder-val="{{ true }}">
-                <p style="margin:0;font-size:13px;letter-spacing:0.08em;color:oklch(52% 0.006 90);">{{ product.sku }}</p>
+                <p style="margin:0;font-size:15px;letter-spacing:0.08em;color:oklch(38% 0.006 90);">{{ product.sku }}</p>
               </sc-if>
               <sc-if value="{{ hasShort }}" hint-placeholder-val="{{ false }}">
-                <p style="margin:8px 0 0 0;font-size:16px;line-height:1.7;color:oklch(38% 0.006 90);text-wrap:pretty;">{{ product.shortDescription }}</p>
+                <p style="margin:8px 0 0 0;font-size:18.5px;line-height:1.7;color:oklch(26% 0.006 90);text-wrap:pretty;">{{ product.shortDescription }}</p>
               </sc-if>
             </div>
             <div style="border-top:1px solid oklch(90% 0.004 90);padding-top:24px;display:flex;flex-direction:column;gap:14px;">
               <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
                 <div style="display:inline-flex;align-items:center;height:50px;border:1px solid oklch(86% 0.006 85);border-radius:12px;overflow:hidden;">
                   <button onClick="{{ dec }}" aria-label="Decrease quantity" style="width:46px;height:100%;border:none;background:transparent;font-size:18px;cursor:pointer;color:oklch(24% 0.006 90);">−</button>
-                  <input value="{{ qty }}" onChange="{{ onQty }}" inputmode="numeric" aria-label="Quantity" style="width:52px;height:100%;border:none;text-align:center;font-size:15px;font-weight:700;background:transparent;outline:none;color:oklch(22% 0.006 90);font-family:inherit;">
+                  <input value="{{ qty }}" onChange="{{ onQty }}" inputmode="numeric" aria-label="Quantity" style="width:52px;height:100%;border:none;text-align:center;font-size:17.5px;font-weight:700;background:transparent;outline:none;color:oklch(22% 0.006 90);font-family:inherit;">
                   <button onClick="{{ inc }}" aria-label="Increase quantity" style="width:46px;height:100%;border:none;background:transparent;font-size:18px;cursor:pointer;color:oklch(24% 0.006 90);">+</button>
                 </div>
-                <button onClick="{{ addToQuote }}" data-no-dark style="flex:1 1 200px;height:50px;padding:0 24px;border-radius:12px;border:1px solid #C8A96A;background:#C8A96A;color:#111;font-size:14.5px;font-weight:600;cursor:pointer;transition:all 0.28s ease;" style-hover="background:#161616;border-color:#161616;color:#fff;transform:translateY(-2px);box-shadow:0 16px 32px -12px rgba(0,0,0,0.45);">Add to quote list</button>
+                <button onClick="{{ addToQuote }}" data-no-dark style="flex:1 1 200px;height:50px;padding:0 24px;border-radius:12px;border:1px solid #C8A96A;background:#C8A96A;color:#111;font-size:16.5px;font-weight:600;cursor:pointer;transition:all 0.28s ease;" style-hover="background:#161616;border-color:#161616;color:#fff;transform:translateY(-2px);box-shadow:0 16px 32px -12px rgba(0,0,0,0.45);">Add to quote list</button>
               </div>
-              <button onClick="{{ requestNow }}" style="height:50px;border-radius:12px;border:1px solid oklch(24% 0.006 90);background:transparent;color:oklch(22% 0.006 90);font-size:14.5px;font-weight:600;cursor:pointer;transition:all 0.28s ease;" style-hover="background:oklch(22% 0.006 90);color:#fff;">Request a Quote</button>
+              <button onClick="{{ requestNow }}" style="height:50px;border-radius:12px;border:1px solid oklch(24% 0.006 90);background:transparent;color:oklch(22% 0.006 90);font-size:16.5px;font-weight:600;cursor:pointer;transition:all 0.28s ease;" style-hover="background:oklch(22% 0.006 90);color:#fff;">Request a Quote</button>
               <sc-if value="{{ hasWhatsapp }}" hint-placeholder-val="{{ false }}">
-                <a href="{{ whatsappHref }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:12px;border:1px solid oklch(88% 0.006 85);color:oklch(24% 0.006 90);font-size:14px;font-weight:600;text-decoration:none;">Ask on WhatsApp</a>
+                <a href="{{ whatsappHref }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:12px;border:1px solid oklch(88% 0.006 85);color:oklch(24% 0.006 90);font-size:16px;font-weight:600;text-decoration:none;">Ask on WhatsApp</a>
               </sc-if>
               <sc-if value="{{ inQuote }}" hint-placeholder-val="{{ false }}">
-                <p style="margin:0;font-size:13.5px;color:oklch(40% 0.03 75);">{{ inQuoteNote }} <a href="Quote.dc.html" style="color:#A58A62;font-weight:700;">View quote list →</a></p>
+                <p style="margin:0;font-size:15.5px;color:oklch(26% 0.03 75);">{{ inQuoteNote }} <a href="Quote.dc.html" style="color:#A58A62;font-weight:700;">View quote list →</a></p>
               </sc-if>
             </div>
-            <dl style="margin:0;border-top:1px solid oklch(90% 0.004 90);">
-              <sc-for list="{{ specs }}" as="s" hint-placeholder-count="3">
-                <div style="display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px solid oklch(92% 0.004 90);">
-                  <dt style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:oklch(54% 0.006 90);">{{ s.label }}</dt>
-                  <dd style="margin:0;font-size:14.5px;color:oklch(24% 0.006 90);">{{ s.value }}</dd>
-                </div>
-              </sc-for>
-            </dl>
-            <sc-if value="{{ hasDescription }}" hint-placeholder-val="{{ false }}">
-              <p style="margin:0;font-size:15.5px;line-height:1.8;color:oklch(36% 0.006 90);white-space:pre-line;text-wrap:pretty;">{{ product.description }}</p>
-            </sc-if>
-            <sc-if value="{{ hasDocument }}" hint-placeholder-val="{{ false }}">
-              <a href="{{ product.documentUrl }}" target="_blank" rel="noopener" style="align-self:flex-start;font-size:13.5px;font-weight:700;color:#A58A62;">Download technical sheet ↓</a>
-            </sc-if>
           </div>
         </div>
       </section>
+      <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
+        <div data-no-dark onClick="{{ closeLightbox }}" style="position:fixed;inset:0;z-index:300;background:rgba(10,10,10,0.94);display:flex;align-items:center;justify-content:center;padding:clamp(16px,4vw,64px);">
+          <img src="{{ activeImage }}" alt="{{ product.name }}" onClick="{{ stop }}" style="max-width:100%;max-height:100%;width:auto;height:auto;aspect-ratio:16/9;object-fit:contain;display:block;">
+          <button onClick="{{ closeLightbox }}" aria-label="Close" style="position:absolute;top:18px;right:18px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.08);color:#fff;font-size:22px;cursor:pointer;">✕</button>
+          <sc-if value="{{ hasThumbs }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ prevImg }}" aria-label="Previous image" style="position:absolute;left:clamp(8px,2vw,28px);top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.08);color:#fff;font-size:24px;cursor:pointer;" style-hover="background:#C8A96A;color:#111;border-color:#C8A96A;">‹</button>
+            <button onClick="{{ nextImg }}" aria-label="Next image" style="position:absolute;right:clamp(8px,2vw,28px);top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.08);color:#fff;font-size:24px;cursor:pointer;" style-hover="background:#C8A96A;color:#111;border-color:#C8A96A;">›</button>
+            <span style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.8);font-size:15px;font-weight:600;letter-spacing:0.1em;">{{ imageCounter }}</span>
+          </sc-if>
+        </div>
+      </sc-if>
       <sc-if value="{{ hasRelated }}" hint-placeholder-val="{{ false }}">
         <section style="background:oklch(96.5% 0.008 85);padding:clamp(64px,8vw,110px) clamp(20px,5vw,80px);">
           <div style="max-width:1440px;margin:0 auto;">
-            <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(28px,3vw,38px);margin:0 0 clamp(28px,3vw,40px) 0;color:oklch(20% 0.005 90);">You may also consider</h2>
-            <div style="{{ gridStyle }}">
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin:0 0 clamp(28px,3vw,40px) 0;">
+              <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(28px,3vw,38px);margin:0;color:oklch(20% 0.005 90);">You may also consider</h2>
+              <div style="display:flex;gap:10px;flex-shrink:0;">
+                <button onClick="{{ slidePrev }}" aria-label="Previous products" style="width:46px;height:46px;border-radius:50%;border:1px solid oklch(80% 0.006 85);background:transparent;color:oklch(22% 0.006 90);font-size:20px;cursor:pointer;transition:all 0.25s ease;" style-hover="background:#C8A96A;border-color:#C8A96A;color:#111;">‹</button>
+                <button onClick="{{ slideNext }}" aria-label="Next products" style="width:46px;height:46px;border-radius:50%;border:1px solid oklch(80% 0.006 85);background:transparent;color:oklch(22% 0.006 90);font-size:20px;cursor:pointer;transition:all 0.25s ease;" style-hover="background:#C8A96A;border-color:#C8A96A;color:#111;">›</button>
+              </div>
+            </div>
+            <div ref="{{ sliderRef }}" style="display:flex;gap:clamp(16px,2vw,28px);overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding-bottom:4px;">
               <sc-for list="{{ related }}" as="p" hint-placeholder-count="0">
-          <div data-product-card style="display:flex;flex-direction:column;gap:16px;min-width:0;">
-            <a href="{{ p.href }}" style="position:relative;display:block;aspect-ratio:0.86;overflow:hidden;border-radius:2px;background:oklch(95% 0.006 85);">
+          <div data-product-card style="{{ slideCardStyle }}">
+            <a href="{{ p.href }}" style="position:relative;display:block;aspect-ratio:16/9;overflow:hidden;border-radius:2px;background:oklch(95% 0.006 85);">
               <img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy" data-product-image style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s ease;">
             </a>
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
               <a href="{{ p.href }}" style="display:flex;flex-direction:column;gap:5px;text-decoration:none;min-width:0;flex:1 1 140px;">
-                <span style="font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:oklch(56% 0.006 90);">{{ p.categoryName }}</span>
+                <span style="font-size:12.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:oklch(42% 0.006 90);">{{ p.categoryName }}</span>
                 <span style="font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:500;line-height:1.15;color:oklch(20% 0.005 90);">{{ p.name }}</span>
-                <span style="font-size:12px;letter-spacing:0.06em;color:oklch(56% 0.006 90);">{{ p.sku }}</span>
+                <span style="font-size:14px;letter-spacing:0.06em;color:oklch(42% 0.006 90);">{{ p.sku }}</span>
               </a>
               <button onClick="{{ p.onQuote }}" data-no-dark style="{{ p.quoteBtnStyle }}">{{ p.quoteLabel }}</button>
             </div>
@@ -219,32 +234,32 @@
     </sc-if>
   </main>
 
-  <footer data-site-footer style="background:oklch(96.5% 0.006 85);color:oklch(22% 0.006 90);border-top:1px solid oklch(90% 0.004 90);padding:clamp(56px,7vw,96px) clamp(20px,5vw,80px) 32px clamp(20px,5vw,80px);">
+  <footer data-site-footer style="font-family:'Cormorant Garamond',serif;background:oklch(96.5% 0.006 85);color:oklch(22% 0.006 90);border-top:1px solid oklch(90% 0.004 90);padding:clamp(56px,7vw,96px) clamp(20px,5vw,80px) 32px clamp(20px,5vw,80px);">
     <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(40px,5vw,64px);">
       <div style="display:flex;flex-wrap:wrap;gap:clamp(36px,6vw,96px);justify-content:space-between;">
         <a href="Home.dc.html" style="display:flex;flex-direction:column;gap:14px;text-decoration:none;color:inherit;max-width:320px;flex:1 1 240px;">
-          <span style="display:flex;align-items:center;gap:10px;"><img src="logo-mark.png" alt="A Office Furniture" style="height:30px;width:auto;display:block;"><span style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;letter-spacing:0.06em;">OFFICE FURNITURE</span></span>
-          <span style="font-size:14px;line-height:1.7;opacity:0.7;">Executive furniture designed with timeless proportions and premium materials.</span>
+          <span style="display:flex;align-items:center;gap:10px;"><img src="logo-mark.png" alt="A Office Furniture" style="height:30px;width:auto;display:block;"><span style="font-family:'Cormorant Garamond',serif;font-size:16.5px;font-weight:600;letter-spacing:0.06em;">OFFICE FURNITURE</span></span>
+          <span style="font-size:16.5px;line-height:1.7;opacity:0.7;">Executive furniture designed with timeless proportions and premium materials.</span>
         </a>
         <div style="display:flex;gap:clamp(36px,6vw,88px);flex-wrap:wrap;">
-          <div><p style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;margin:0 0 16px 0;">Explore</p><div style="display:flex;flex-direction:column;gap:12px;">
-            <a href="Collections.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Collections</a>
-            <a href="Products.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Products</a>
-            <a href="Quote.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Request a Quote</a>
-            <a href="Catalogue.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Downloads</a>
+          <div><p style="font-size:15px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;margin:0 0 16px 0;">Explore</p><div style="display:flex;flex-direction:column;gap:12px;">
+            <a href="Collections.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Collections</a>
+            <a href="Products.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Products</a>
+            <a href="Quote.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Request a Quote</a>
+            <a href="Catalogue.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Downloads</a>
           </div></div>
-          <div><p style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;margin:0 0 16px 0;">Company</p><div style="display:flex;flex-direction:column;gap:12px;">
-            <a href="OurStory.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">About the Brand</a>
-            <a href="Contact.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Contact Us</a>
+          <div><p style="font-size:15px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;margin:0 0 16px 0;">Company</p><div style="display:flex;flex-direction:column;gap:12px;">
+            <a href="OurStory.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">About the Brand</a>
+            <a href="Contact.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Contact Us</a>
           </div></div>
-          <div><p style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;margin:0 0 16px 0;">Get in touch</p><div style="display:flex;flex-direction:column;gap:12px;">
-            <a data-aof="email" href="mailto:info@aofficefurniture.com" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">info@aofficefurniture.com</a>
-            <a data-aof="phone" href="tel:+97470785000" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">+974 7078 5000</a>
-            <span style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;line-height:1.6;"><span data-aof="address">Old Al Rayyan, Building 395, St. No: 990<br>Doha - Qatar</span></span>
+          <div><p style="font-size:15px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;margin:0 0 16px 0;">Get in touch</p><div style="display:flex;flex-direction:column;gap:12px;">
+            <a data-aof="email" href="mailto:info@aofficefurniture.com" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">info@aofficefurniture.com</a>
+            <a data-aof="phone" href="tel:+97470785000" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">+974 7078 5000</a>
+            <span style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;line-height:1.6;"><span data-aof="address">Old Al Rayyan, Building 395, St. No: 990<br>Doha - Qatar</span></span>
           </div></div>
         </div>
       </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px 24px;flex-wrap:wrap;padding-top:24px;border-top:1px solid oklch(88% 0.004 90);font-size:12.5px;"><span style="opacity:0.55;">© 2026 A Office Furniture. All rights reserved.</span><span style="opacity:0.55;">Designed &amp; developed by XHX Studios</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px 24px;flex-wrap:wrap;padding-top:24px;border-top:1px solid oklch(88% 0.004 90);font-size:17.5px;"><span style="opacity:0.55;">© 2026 A Office Furniture. All rights reserved.</span><span style="opacity:0.55;">Designed &amp; developed by SASUL Studios</span></div>
     </div>
   </footer>
 
@@ -264,6 +279,14 @@ class Component extends DCLogic {
 
   componentDidMount() {
     this.pageMount();
+    this.onLbKey = (e) => {
+      if (!this.state.lightbox) return;
+      const btn = (l) => document.querySelector('[aria-label="' + l + '"]');
+      if (e.key === 'Escape') this.setState({ lightbox: false });
+      else if (e.key === 'ArrowLeft' && btn('Previous image')) btn('Previous image').click();
+      else if (e.key === 'ArrowRight' && btn('Next image')) btn('Next image').click();
+    };
+    window.addEventListener('keydown', this.onLbKey);
     this.handleResize = () => {
       const isMobile = window.innerWidth < 1180;
       if (isMobile !== this.state.isMobile) this.setState({ isMobile });
@@ -336,7 +359,7 @@ class Component extends DCLogic {
       quoteBtnStyle: {
         flexShrink: 0, height: '36px', padding: '0 14px', borderRadius: '999px', cursor: 'pointer', whiteSpace: 'nowrap',
         border: '1px solid #C8A96A', background: inQ ? '#C8A96A' : 'transparent', color: inQ ? '#111' : 'oklch(24% 0.006 90)',
-        fontSize: '12.5px', fontWeight: 700, transition: 'background 0.25s ease, color 0.25s ease',
+        fontSize: '14.5px', fontWeight: 700, transition: 'background 0.25s ease, color 0.25s ease',
       },
     };
   }
@@ -372,9 +395,17 @@ class Component extends DCLogic {
     const specs = p ? [['Code', p.sku], ['Category', p.categoryName], ['Dimensions', p.dimensions], ['Materials & finishes', p.materials], ['Collection', colNames]].filter((s) => s[1]).map((s) => ({ label: s[0], value: s[1] })) : [];
     let related = [];
     if (p) {
-      related = site.products.filter((x) => x.id !== p.id && x.categorySlug === p.categorySlug);
-      site.products.forEach((x) => { if (related.length < 3 && x.id !== p.id && !related.includes(x) && x.collectionSlugs.some((s) => p.collectionSlugs.includes(s))) related.push(x); });
-      related = related.slice(0, 3);
+      const others = site.products.filter((x) => x.id !== p.id);
+      const sameCol = (x) => x.collectionSlugs.some((s) => p.collectionSlugs.includes(s));
+      const sameCat = others.filter((x) => x.categorySlug === p.categorySlug);
+      const first = sameCat.find(sameCol) || sameCat[0];
+      const pool = others.filter((x) => x.categorySlug !== p.categorySlug);
+      const ordered = pool.filter(sameCol).concat(pool.filter((x) => !sameCol(x)));
+      const byCat = {}; const catOrder = [];
+      ordered.forEach((x) => { if (!byCat[x.categorySlug]) { byCat[x.categorySlug] = []; catOrder.push(x.categorySlug); } byCat[x.categorySlug].push(x); });
+      const mixed = [];
+      for (let round = 0; mixed.length < ordered.length; round++) catOrder.forEach((c) => { if (byCat[c][round]) mixed.push(byCat[c][round]); });
+      related = (first ? [first] : []).concat(mixed).slice(0, 12);
     }
     const inQ = p ? this.inQuote(p.id) : false;
     const quoteItem = inQ ? window.AOF.quote.get().find((i) => i.id === p.id) : null;
@@ -384,14 +415,23 @@ class Component extends DCLogic {
       categoryHref: p ? 'Products.dc.html?category=' + p.categorySlug : 'Products.dc.html',
       hasSku: !!(p && p.sku), hasShort: !!(p && p.shortDescription), hasDescription: !!(p && p.description), hasDocument: !!(p && p.documentUrl),
       activeImage: images[active] || '', hasThumbs: images.length > 1,
-      thumbs: images.map((src, i) => ({ src, onClick: () => this.setState({ activeImg: i }), style: { width: '76px', height: '76px', padding: 0, borderRadius: '2px', overflow: 'hidden', cursor: 'pointer', background: 'none', border: '1px solid ' + (i === active ? '#292A25' : 'transparent'), opacity: i === active ? 1 : 0.7 } })),
+      lightboxOpen: !!this.state.lightbox, imageCounter: (active + 1) + ' / ' + images.length,
+      openLightbox: () => this.setState({ lightbox: true }), closeLightbox: () => this.setState({ lightbox: false }),
+      stop: (e) => e.stopPropagation(),
+      prevImg: (e) => { if (e) e.stopPropagation(); this.setState({ activeImg: (active - 1 + images.length) % images.length }); },
+      nextImg: (e) => { if (e) e.stopPropagation(); this.setState({ activeImg: (active + 1) % images.length }); },
+      thumbs: images.map((src, i) => ({ src, onClick: () => this.setState({ activeImg: i }), style: { width: '112px', height: '63px', padding: 0, borderRadius: '2px', overflow: 'hidden', cursor: 'pointer', background: 'none', border: '1px solid ' + (i === active ? '#292A25' : 'transparent'), opacity: i === active ? 1 : 0.7 } })),
       qty, dec: () => setQty(qty - 1), inc: () => setQty(qty + 1), onQty: (e) => setQty(e.target.value.replace(/\D/g, '')),
       addToQuote: () => { window.AOF.quote.add(p, qty); this.setState({ qty: 1 }); },
       requestNow: () => { if (!inQ) window.AOF.quote.add(p, qty); location.href = 'Quote.dc.html'; },
       inQuote: inQ, inQuoteNote: quoteItem ? quoteItem.qty + ' in your quote list.' : '',
       hasWhatsapp: !!wa, whatsappHref: wa,
-      specs, related: related.map((x) => this.cardOf(x)), hasRelated: related.length > 0, gridStyle: this.productGrid(),
-      detailGridStyle: { display: 'grid', gap: 'clamp(32px,5vw,80px)', gridTemplateColumns: w < 900 ? 'minmax(0,1fr)' : 'minmax(0,1.15fr) minmax(0,1fr)', alignItems: 'start' },
+      specs, related: related.map((x) => this.cardOf(x)),
+      sliderRef: this.sliderRef || (this.sliderRef = React.createRef()),
+      slidePrev: () => { const el = this.sliderRef && this.sliderRef.current; if (el) el.scrollBy({ left: -el.clientWidth * 0.9, behavior: 'smooth' }); },
+      slideNext: () => { const el = this.sliderRef && this.sliderRef.current; if (el) { const end = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4; el.scrollTo({ left: end ? 0 : el.scrollLeft + el.clientWidth * 0.9, behavior: 'smooth' }); } },
+      slideCardStyle: { display: 'flex', flexDirection: 'column', gap: '16px', minWidth: 0, scrollSnapAlign: 'start', flex: '0 0 ' + (w < 700 ? '85%' : (w < 1100 ? 'calc((100% - 28px) / 2)' : 'calc((100% - 56px) / 3)')) }, hasRelated: related.length > 0, gridStyle: this.productGrid(),
+      detailGridStyle: { display: 'grid', gap: 'clamp(32px,5vw,80px)', gridTemplateColumns: w < 900 ? 'minmax(0,1fr)' : 'minmax(0,7fr) minmax(0,3fr)', alignItems: 'start' },
     };
   }
 
@@ -404,7 +444,7 @@ class Component extends DCLogic {
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
       width: '36px', height: '36px', borderRadius: '50%', cursor: 'pointer',
       background: 'transparent', border: '1px solid rgba(128,128,128,0.32)',
-      color: isDarkMode ? '#F2E7D2' : '#2A2724', fontSize: '15px', lineHeight: 1,
+      color: isDarkMode ? '#F2E7D2' : '#2A2724', fontSize: '17.5px', lineHeight: 1,
       transition: 'background 0.25s ease, border-color 0.25s ease, transform 0.25s ease',
     };
     const themeToggleHoverStyle = { background: 'rgba(200,169,106,0.16)', borderColor: '#C8A96A', transform: 'translateY(-1px)' };
@@ -441,14 +481,14 @@ class Component extends DCLogic {
       opacity: this.state.collectionsOpen ? 1 : 0, pointerEvents: this.state.collectionsOpen ? 'auto' : 'none',
       transition: 'opacity 0.2s ease, transform 0.2s ease', zIndex: 110,
     };
-    const productsDropdownLinkStyle = { display: 'block', padding: '10px 14px', borderRadius: '6px', color: 'oklch(20% 0.005 90)', textDecoration: 'none', fontSize: '14.5px', fontWeight: 600 };
+    const productsDropdownLinkStyle = { display: 'block', padding: '10px 14px', borderRadius: '6px', color: 'oklch(20% 0.005 90)', textDecoration: 'none', fontFamily: "'Cormorant Garamond',serif", fontSize: '17px', fontWeight: 600 };
     const productsDropdownLinkHoverStyle = { background: 'oklch(90% 0.004 90)' };
     const mobileProductsChevronStyle = { display: 'inline-block', marginLeft: '8px', transition: 'transform 0.2s ease', transform: this.state.mobileProductsOpen ? 'rotate(180deg)' : 'none' };
     const mobileCollectionsChevronStyle = { display: 'inline-block', marginLeft: '8px', transition: 'transform 0.2s ease', transform: this.state.mobileCollectionsOpen ? 'rotate(180deg)' : 'none' };
     const mobileProductsListStyle = { display: this.state.mobileProductsOpen ? 'flex' : 'none', flexDirection: 'column', gap: '18px', alignItems: 'center', marginTop: '4px' };
     const mobileCollectionsListStyle = { display: this.state.mobileCollectionsOpen ? 'flex' : 'none', flexDirection: 'column', gap: '18px', alignItems: 'center', marginTop: '4px' };
-    const navWordmarkStyle = { color: 'oklch(22% 0.006 90)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.06em', fontFamily: "'Cormorant Garamond',serif" };
-    const mobileNavLinkStyle = { color: 'oklch(22% 0.006 90)', textDecoration: 'none', fontSize: '26px', fontWeight: 700 };
+    const navWordmarkStyle = { color: 'oklch(22% 0.006 90)', fontSize: '15px', fontWeight: 600, letterSpacing: '0.06em', fontFamily: "'Cormorant Garamond',serif" };
+    const mobileNavLinkStyle = { color: 'oklch(22% 0.006 90)', textDecoration: 'none', fontFamily: "'Cormorant Garamond',serif", fontSize: '30px', fontWeight: 600 };
     mobileNavLinkStyle.cursor = 'pointer';
     const scrolledAttr = this.state.scrolled ? 'true' : 'false';
     const hideHeaderAttr = (this.state.hideHeader && !navOpen) ? 'true' : 'false';
@@ -458,13 +498,13 @@ class Component extends DCLogic {
       background: 'oklch(99% 0.003 90 / 0.9)', backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)',
       borderBottom: '1px solid oklch(90% 0.004 90)',
     };
-    const navLinkStyle = { color: 'oklch(22% 0.006 90)', textDecoration: 'none', fontSize: '15px', fontWeight: 600, opacity: 0.9, whiteSpace: 'nowrap' };
+    const navLinkStyle = { color: 'oklch(22% 0.006 90)', textDecoration: 'none', fontFamily: "'Cormorant Garamond',serif", fontSize: '18px', fontWeight: 600, opacity: 0.9, whiteSpace: 'nowrap' };
     const catalogueGold = '#C8A96A';
     const catalogueBtnFocusStyle = { outline: '2px solid ' + catalogueGold, outlineOffset: '3px' };
     const catalogueBtnStyle = {
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '7px',
       height: '40px', padding: '0 22px', borderRadius: '12px', background: catalogueGold, border: '1px solid ' + catalogueGold,
-      color: '#111111', fontSize: '13.5px', fontWeight: 600, textDecoration: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
+      color: '#111111', fontSize: '15.5px', fontWeight: 600, textDecoration: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
       transition: 'background 0.28s ease, color 0.28s ease, transform 0.28s ease, box-shadow 0.28s ease',
     };
     const catalogueBtnHoverStyle = { background: '#161616', borderColor: '#161616', color: '#ffffff', transform: 'translateY(-2px)', boxShadow: '0 16px 32px -12px rgba(0,0,0,0.45)' };

@@ -12,10 +12,11 @@
   <link rel="apple-touch-icon" href="favicon.png">
   <style>
     * { box-sizing: border-box; }
+    button, input, select, textarea { font-family: inherit; }
     html { scroll-behavior: smooth; }
     body { margin: 0; padding: 0; background: oklch(99% 0.003 90); }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-    input::placeholder, textarea::placeholder { color: oklch(62% 0.008 90); }
+    input::placeholder, textarea::placeholder { color:oklch(48% 0.008 90); }
     @media (min-width: 1024px) {
       header[data-desktop-fx] { transition: height 0.35s ease, transform 0.35s ease, background 0.4s ease, border-color 0.4s ease; }
       header[data-desktop-fx][data-scrolled="true"] { height: 72px !important; box-shadow: 0 8px 30px -14px rgba(0,0,0,0.2); }
@@ -33,12 +34,12 @@
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
   <script src="./image-slot.js"></script>
   <script src="./theme.js"></script>
   <script src="./site-data.js"></script>
 </helmet>
-<div style="position:relative;width:100%;background:oklch(99% 0.003 90);color:oklch(20% 0.005 90);font-family:'Manrope',sans-serif;overflow-x:hidden;" data-screen-label="Contact">
+<div style="position:relative;width:100%;background:oklch(99% 0.003 90);color:oklch(20% 0.005 90);font-family:'Cormorant Garamond',serif;font-weight:500;overflow-x:hidden;" data-screen-label="Contact">
 
   <header data-desktop-fx data-scrolled="{{ scrolledAttr }}" data-hide="{{ hideHeaderAttr }}" style="{{ navBarStyle }}">
     <div style="display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1400px;margin:0 auto;padding:0 clamp(20px,4vw,56px);">
@@ -66,10 +67,7 @@
             </div>
           </div>
           <a href="Contact.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">Contact Us</a>
-          <a href="Catalogue.dc.html" data-cta-desktop data-no-dark style="{{ catalogueBtnStyle }}" style-hover="{{ catalogueBtnHoverStyle }}" style-focus="{{ catalogueBtnFocusStyle }}">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M4 21h16"></path></svg>
-            Downloads
-          </a>
+          <a href="Catalogue.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">Downloads</a>
           <a href="OurStory.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">About the Brand</a>
           <aof-quote-link style="color:inherit;"></aof-quote-link>
           <button data-no-dark aria-label="Toggle dark mode" onClick="{{ toggleTheme }}" style="{{ themeToggleStyle }}" style-hover="{{ themeToggleHoverStyle }}">{{ themeToggleIcon }}</button>
@@ -92,7 +90,7 @@
         <span onClick="{{ toggleMobileCollections }}" style="{{ mobileNavLinkStyle }}">Collections<span style="{{ mobileCollectionsChevronStyle }}">▾</span></span>
         <div style="{{ mobileCollectionsListStyle }}">
           <sc-for list="{{ collectionLinks }}" as="col" hint-placeholder-count="4">
-            <a href="{{ col.href }}" style="color:oklch(46% 0.006 90);text-decoration:none;font-size:17px;font-weight:600;">{{ col.name }}</a>
+            <a href="{{ col.href }}" style="color:oklch(32% 0.006 90);text-decoration:none;font-size:17px;font-weight:600;">{{ col.name }}</a>
           </sc-for>
         </div>
       </div>
@@ -100,15 +98,12 @@
         <span onClick="{{ toggleMobileProducts }}" style="{{ mobileNavLinkStyle }}">Products<span style="{{ mobileProductsChevronStyle }}">▾</span></span>
         <div style="{{ mobileProductsListStyle }}">
           <sc-for list="{{ productCategories }}" as="cat" hint-placeholder-count="6">
-            <a href="{{ cat.href }}" onClick="{{ closeNav }}" style="color:oklch(46% 0.006 90);text-decoration:none;font-size:17px;font-weight:600;">{{ cat.name }}</a>
+            <a href="{{ cat.href }}" onClick="{{ closeNav }}" style="color:oklch(32% 0.006 90);text-decoration:none;font-size:17px;font-weight:600;">{{ cat.name }}</a>
           </sc-for>
         </div>
       </div>
       <a href="Contact.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">Contact Us</a>
-      <a href="Catalogue.dc.html" onClick="{{ closeNav }}" data-no-dark style="{{ catalogueBtnStyle }}" style-hover="{{ catalogueBtnHoverStyle }}" style-focus="{{ catalogueBtnFocusStyle }}">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M4 21h16"></path></svg>
-        Downloads
-      </a>
+      <a href="Catalogue.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">Downloads</a>
       <a href="OurStory.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">About the Brand</a>
       <aof-quote-link style="color:inherit;font-size:20px;"></aof-quote-link>
       <button data-no-dark aria-label="Toggle dark mode" onClick="{{ toggleTheme }}" style="{{ themeToggleStyle }}" style-hover="{{ themeToggleHoverStyle }}">{{ themeToggleIcon }}</button>
@@ -117,7 +112,7 @@
 
   <main>
     <section style="max-width:1400px;margin:0 auto;padding:clamp(140px,16vh,190px) clamp(20px,5vw,80px) clamp(20px,5vw,40px) clamp(20px,5vw,80px);">
-      <p style="font-size:12.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:oklch(46% 0.006 90);margin:0 0 14px 0;animation:fadeUp 0.8s ease both;">Contact</p>
+      <p style="font-size:14.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:oklch(32% 0.006 90);margin:0 0 14px 0;animation:fadeUp 0.8s ease both;">Contact</p>
       <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(32px,4.6vw,58px);line-height:1.15;color:oklch(20% 0.005 90);margin:0;max-width:640px;animation:fadeUp 0.8s ease 0.1s both;">Let's talk about your next space.</h1>
     </section>
 
@@ -145,7 +140,7 @@
           <sc-if value="{{ contactSent }}" hint-placeholder-val="{{ false }}">
             <div role="status" style="padding:28px;border:1px solid oklch(90% 0.004 90);border-radius:8px;display:flex;flex-direction:column;gap:10px;">
               <p style="font-family:'Cormorant Garamond',serif;font-size:26px;margin:0;color:oklch(20% 0.005 90);">Thank you — message received.</p>
-              <p style="margin:0;font-size:14.5px;line-height:1.7;color:oklch(42% 0.006 90);">Reference {{ contactRef }}. We'll reply to you by email.</p>
+              <p style="margin:0;font-size:16.5px;line-height:1.7;color:oklch(28% 0.006 90);">Reference {{ contactRef }}. We'll reply to you by email.</p>
             </div>
           </sc-if>
           <sc-if value="{{ contactOpen }}" hint-placeholder-val="{{ true }}">
@@ -164,12 +159,12 @@
             </label>
             <input value="{{ contactHp }}" onChange="{{ onContactHp }}" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" />
             <sc-if value="{{ hasContactError }}" hint-placeholder-val="{{ false }}">
-              <p role="alert" style="margin:0;font-size:13.5px;color:#A3402F;">{{ contactError }}</p>
+              <p role="alert" style="margin:0;font-size:15.5px;color:#A3402F;">{{ contactError }}</p>
             </sc-if>
             <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
               <button onClick="{{ sendContact }}" style="{{ sendBtnStyle }}" style-hover="{{ sendBtnHoverStyle }}">{{ sendLabel }}</button>
               <sc-if value="{{ hasWhatsapp }}" hint-placeholder-val="{{ false }}">
-                <a href="{{ whatsappHref }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;height:48px;padding:0 22px;border-radius:8px;border:1px solid oklch(86% 0.006 85);color:oklch(22% 0.006 90);font-size:14px;font-weight:600;text-decoration:none;">Chat on WhatsApp</a>
+                <a href="{{ whatsappHref }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;height:48px;padding:0 22px;border-radius:8px;border:1px solid oklch(86% 0.006 85);color:oklch(22% 0.006 90);font-size:16px;font-weight:600;text-decoration:none;">Chat on WhatsApp</a>
               </sc-if>
             </div>
           </div>
@@ -179,32 +174,32 @@
     </section>
   </main>
 
-  <footer data-site-footer style="background:oklch(96.5% 0.006 85);color:oklch(22% 0.006 90);border-top:1px solid oklch(90% 0.004 90);padding:clamp(56px,7vw,96px) clamp(20px,5vw,80px) 32px clamp(20px,5vw,80px);">
+  <footer data-site-footer style="font-family:'Cormorant Garamond',serif;background:oklch(96.5% 0.006 85);color:oklch(22% 0.006 90);border-top:1px solid oklch(90% 0.004 90);padding:clamp(56px,7vw,96px) clamp(20px,5vw,80px) 32px clamp(20px,5vw,80px);">
     <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(40px,5vw,64px);">
       <div style="display:flex;flex-wrap:wrap;gap:clamp(36px,6vw,96px);justify-content:space-between;">
         <a href="Home.dc.html" style="display:flex;flex-direction:column;gap:14px;text-decoration:none;color:inherit;max-width:320px;flex:1 1 240px;">
-          <span style="display:flex;align-items:center;gap:10px;"><img src="logo-mark.png" alt="A Office Furniture" style="height:30px;width:auto;display:block;"><span style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;letter-spacing:0.06em;">OFFICE FURNITURE</span></span>
-          <span style="font-size:14px;line-height:1.7;opacity:0.7;">Executive furniture designed with timeless proportions and premium materials.</span>
+          <span style="display:flex;align-items:center;gap:10px;"><img src="logo-mark.png" alt="A Office Furniture" style="height:30px;width:auto;display:block;"><span style="font-family:'Cormorant Garamond',serif;font-size:16.5px;font-weight:600;letter-spacing:0.06em;">OFFICE FURNITURE</span></span>
+          <span style="font-size:16.5px;line-height:1.7;opacity:0.7;">Executive furniture designed with timeless proportions and premium materials.</span>
         </a>
         <div style="display:flex;gap:clamp(36px,6vw,88px);flex-wrap:wrap;">
-          <div><p style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;margin:0 0 16px 0;">Explore</p><div style="display:flex;flex-direction:column;gap:12px;">
-            <a href="Collections.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Collections</a>
-            <a href="Products.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Products</a>
-            <a href="Quote.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Request a Quote</a>
-            <a href="Catalogue.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Downloads</a>
+          <div><p style="font-size:15px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;margin:0 0 16px 0;">Explore</p><div style="display:flex;flex-direction:column;gap:12px;">
+            <a href="Collections.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Collections</a>
+            <a href="Products.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Products</a>
+            <a href="Quote.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Request a Quote</a>
+            <a href="Catalogue.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Downloads</a>
           </div></div>
-          <div><p style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;margin:0 0 16px 0;">Company</p><div style="display:flex;flex-direction:column;gap:12px;">
-            <a href="OurStory.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">About the Brand</a>
-            <a href="Contact.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Contact Us</a>
+          <div><p style="font-size:15px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;margin:0 0 16px 0;">Company</p><div style="display:flex;flex-direction:column;gap:12px;">
+            <a href="OurStory.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">About the Brand</a>
+            <a href="Contact.dc.html" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">Contact Us</a>
           </div></div>
-          <div><p style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;margin:0 0 16px 0;">Get in touch</p><div style="display:flex;flex-direction:column;gap:12px;">
-            <a data-aof="email" href="mailto:info@aofficefurniture.com" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">info@aofficefurniture.com</a>
-            <a data-aof="phone" href="tel:+97470785000" style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;" style-hover="opacity:1;">+974 7078 5000</a>
-            <span style="color:inherit;opacity:0.72;text-decoration:none;font-size:14px;transition:opacity 0.2s ease;line-height:1.6;"><span data-aof="address">Old Al Rayyan, Building 395, St. No: 990<br>Doha - Qatar</span></span>
+          <div><p style="font-size:15px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.55;margin:0 0 16px 0;">Get in touch</p><div style="display:flex;flex-direction:column;gap:12px;">
+            <a data-aof="email" href="mailto:info@aofficefurniture.com" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">info@aofficefurniture.com</a>
+            <a data-aof="phone" href="tel:+97470785000" style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;" style-hover="opacity:1;">+974 7078 5000</a>
+            <span style="color:inherit;opacity:0.72;text-decoration:none;font-size:16.5px;transition:opacity 0.2s ease;line-height:1.6;"><span data-aof="address">Old Al Rayyan, Building 395, St. No: 990<br>Doha - Qatar</span></span>
           </div></div>
         </div>
       </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px 24px;flex-wrap:wrap;padding-top:24px;border-top:1px solid oklch(88% 0.004 90);font-size:12.5px;"><span style="opacity:0.55;">© 2026 A Office Furniture. All rights reserved.</span><span style="opacity:0.55;">Designed &amp; developed by XHX Studios</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px 24px;flex-wrap:wrap;padding-top:24px;border-top:1px solid oklch(88% 0.004 90);font-size:17.5px;"><span style="opacity:0.55;">© 2026 A Office Furniture. All rights reserved.</span><span style="opacity:0.55;">Designed &amp; developed by SASUL Studios</span></div>
     </div>
   </footer>
 
@@ -311,7 +306,7 @@ class Component extends DCLogic {
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
       width: '36px', height: '36px', borderRadius: '50%', cursor: 'pointer',
       background: 'transparent', border: '1px solid rgba(128,128,128,0.32)',
-      color: isDarkMode ? '#F2E7D2' : '#2A2724', fontSize: '15px', lineHeight: 1,
+      color: isDarkMode ? '#F2E7D2' : '#2A2724', fontSize: '17.5px', lineHeight: 1,
       transition: 'background 0.25s ease, border-color 0.25s ease, transform 0.25s ease',
     };
     const themeToggleHoverStyle = { background: 'rgba(200,169,106,0.16)', borderColor: '#C8A96A', transform: 'translateY(-1px)' };
@@ -348,14 +343,14 @@ class Component extends DCLogic {
       opacity: this.state.collectionsOpen ? 1 : 0, pointerEvents: this.state.collectionsOpen ? 'auto' : 'none',
       transition: 'opacity 0.2s ease, transform 0.2s ease', zIndex: 110,
     };
-    const productsDropdownLinkStyle = { display: 'block', padding: '10px 14px', borderRadius: '6px', color: 'oklch(20% 0.005 90)', textDecoration: 'none', fontSize: '14.5px', fontWeight: 600 };
+    const productsDropdownLinkStyle = { display: 'block', padding: '10px 14px', borderRadius: '6px', color: 'oklch(20% 0.005 90)', textDecoration: 'none', fontFamily: "'Cormorant Garamond',serif", fontSize: '17px', fontWeight: 600 };
     const productsDropdownLinkHoverStyle = { background: 'oklch(90% 0.004 90)' };
     const mobileProductsChevronStyle = { display: 'inline-block', marginLeft: '8px', transition: 'transform 0.2s ease', transform: this.state.mobileProductsOpen ? 'rotate(180deg)' : 'none' };
     const mobileCollectionsChevronStyle = { display: 'inline-block', marginLeft: '8px', transition: 'transform 0.2s ease', transform: this.state.mobileCollectionsOpen ? 'rotate(180deg)' : 'none' };
     const mobileProductsListStyle = { display: this.state.mobileProductsOpen ? 'flex' : 'none', flexDirection: 'column', gap: '18px', alignItems: 'center', marginTop: '4px' };
     const mobileCollectionsListStyle = { display: this.state.mobileCollectionsOpen ? 'flex' : 'none', flexDirection: 'column', gap: '18px', alignItems: 'center', marginTop: '4px' };
-    const navWordmarkStyle = { color: 'oklch(22% 0.006 90)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.06em', fontFamily: "'Cormorant Garamond',serif" };
-    const mobileNavLinkStyle = { color: 'oklch(22% 0.006 90)', textDecoration: 'none', fontSize: '26px', fontWeight: 700 };
+    const navWordmarkStyle = { color: 'oklch(22% 0.006 90)', fontSize: '15px', fontWeight: 600, letterSpacing: '0.06em', fontFamily: "'Cormorant Garamond',serif" };
+    const mobileNavLinkStyle = { color: 'oklch(22% 0.006 90)', textDecoration: 'none', fontFamily: "'Cormorant Garamond',serif", fontSize: '30px', fontWeight: 600 };
     mobileNavLinkStyle.cursor = 'pointer';
     const scrolledAttr = this.state.scrolled ? 'true' : 'false';
     const hideHeaderAttr = (this.state.hideHeader && !navOpen) ? 'true' : 'false';
@@ -365,14 +360,14 @@ class Component extends DCLogic {
       background: 'oklch(99% 0.003 90 / 0.9)', backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)',
       borderBottom: '1px solid oklch(90% 0.004 90)',
     };
-    const navLinkStyle = { color: 'oklch(22% 0.006 90)', textDecoration: 'none', fontSize: '15px', fontWeight: 600, opacity: 0.9, whiteSpace: 'nowrap' };
+    const navLinkStyle = { color: 'oklch(22% 0.006 90)', textDecoration: 'none', fontFamily: "'Cormorant Garamond',serif", fontSize: '18px', fontWeight: 600, opacity: 0.9, whiteSpace: 'nowrap' };
     const activeNavLinkStyle = Object.assign({}, navLinkStyle, { opacity: 1 });
     const catalogueGold = '#C8A96A';
     const catalogueBtnFocusStyle = { outline: '2px solid ' + catalogueGold, outlineOffset: '3px' };
     const catalogueBtnStyle = {
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '7px',
       height: '40px', padding: '0 22px', borderRadius: '12px', background: catalogueGold, border: '1px solid ' + catalogueGold,
-      color: '#111111', fontSize: '13.5px', fontWeight: 600, textDecoration: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
+      color: '#111111', fontSize: '15.5px', fontWeight: 600, textDecoration: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
       transition: 'background 0.28s ease, color 0.28s ease, transform 0.28s ease, box-shadow 0.28s ease',
     };
     const catalogueBtnHoverStyle = { background: '#161616', borderColor: '#161616', color: '#ffffff', transform: 'translateY(-2px)', boxShadow: '0 16px 32px -12px rgba(0,0,0,0.45)' };
@@ -389,21 +384,21 @@ class Component extends DCLogic {
       transform: navOpen ? 'translateY(0)' : 'translateY(-12px)', transition: 'opacity 0.35s ease, transform 0.35s ease',
     };
 
-    const labelStyle = { fontSize: '12.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'oklch(56% 0.006 90)', margin: '0 0 8px 0' };
+    const labelStyle = { fontSize: '14.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'oklch(42% 0.006 90)', margin: '0 0 8px 0' };
     const valueStyle = { fontSize: '17px', lineHeight: 1.6, color: 'oklch(24% 0.006 90)', margin: 0, fontWeight: 500 };
     const valueLinkStyle = { fontSize: '17px', lineHeight: 1.6, color: 'oklch(24% 0.006 90)', fontWeight: 600, textDecoration: 'none', transition: 'color 0.2s ease' };
     const valueLinkHoverStyle = { color: '#B8873E' };
 
     const inputStyle = {
       width: '100%', padding: '13px 16px', borderRadius: '6px', border: '1px solid oklch(88% 0.004 90)',
-      background: '#fff', fontSize: '14.5px', color: 'oklch(22% 0.006 90)', outline: 'none',
+      background: '#fff', fontSize: '16.5px', color: 'oklch(22% 0.006 90)', outline: 'none',
     };
     const messageBoxStyle = Object.assign({}, inputStyle, { resize: 'vertical', fontFamily: 'inherit', minHeight: '220px' });
-    const formLabelStyle = { fontSize: '13.5px', fontWeight: 600, color: '#B8703E', margin: '0 0 8px 0' };
+    const formLabelStyle = { fontSize: '15.5px', fontWeight: 600, color: '#B8703E', margin: '0 0 8px 0' };
     const sendBtnStyle = {
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 'fit-content', border: 'none', cursor: 'pointer', fontFamily: 'inherit',
       padding: '15px 30px', borderRadius: '8px', background: '#B8703E', color: '#fff',
-      fontSize: '14.5px', fontWeight: 700, textDecoration: 'none', cursor: 'pointer',
+      fontSize: '16.5px', fontWeight: 700, textDecoration: 'none', cursor: 'pointer',
       transition: 'background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease',
     };
     const sendBtnHoverStyle = { background: '#9c5d31', transform: 'translateY(-2px)', boxShadow: '0 14px 30px -10px rgba(184,112,62,0.5)' };
