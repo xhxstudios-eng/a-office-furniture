@@ -8,6 +8,7 @@
 <body>
 <x-dc>
 <helmet>
+  <title>Collection | A Office Furniture</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
   <style>
@@ -363,6 +364,7 @@ class Component extends DCLogic {
     const col = site ? all.find((c) => c.slug === slug) : null;
     const parent = col && col.parentId ? all.find((c) => c.id === col.parentId) : null;
     const subCols = col ? all.filter((c) => c.parentId === col.id) : [];
+    if (col && typeof document !== 'undefined') document.title = col.name + ' | A Office Furniture';
     const family = [slug].concat(subCols.map((s) => s.slug));
     const list = col ? site.products.filter((p) => p.collectionSlugs.some((s) => family.includes(s))) : [];
     const countOf = (s) => site.products.filter((p) => p.collectionSlugs.includes(s)).length;

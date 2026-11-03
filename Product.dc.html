@@ -8,6 +8,7 @@
 <body>
 <x-dc>
 <helmet>
+  <title>Product | A Office Furniture</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
   <style>
@@ -407,6 +408,7 @@ class Component extends DCLogic {
       for (let round = 0; mixed.length < ordered.length; round++) catOrder.forEach((c) => { if (byCat[c][round]) mixed.push(byCat[c][round]); });
       related = (first ? [first] : []).concat(mixed).slice(0, 12);
     }
+    if (p && typeof document !== 'undefined') document.title = p.name + ' | A Office Furniture';
     const inQ = p ? this.inQuote(p.id) : false;
     const quoteItem = inQ ? window.AOF.quote.get().find((i) => i.id === p.id) : null;
     const wa = p && window.AOF ? window.AOF.whatsappUrl(site.settings.whatsapp, 'Hello, I would like a quote for ' + p.name + (p.sku ? ' (' + p.sku + ')' : '') + '.') : '';
