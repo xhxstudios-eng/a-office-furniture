@@ -155,14 +155,16 @@
           <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(28px,3vw,40px);margin:0 0 clamp(28px,3.4vw,44px) 0;color:oklch(20% 0.005 90);">Explore the {{ col.name }} family</h2>
           <div style="{{ subGridStyle }}">
             <sc-for list="{{ subs }}" as="s" hint-placeholder-count="0">
-              <a href="{{ s.href }}" data-collection-card style="position:relative;display:block;aspect-ratio:16/9;overflow:hidden;border-radius:2px;background:#1a1917;">
-                <img src="{{ s.cover }}" alt="{{ s.name }}" loading="lazy" data-collection-image style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              <div style="aspect-ratio:16/9;display:flex;justify-content:center;min-width:0;">
+              <a href="{{ s.href }}" data-collection-card style="{{ s.frameStyle }}">
+                <img src="{{ s.cover }}" alt="{{ s.name }}" loading="lazy" data-collection-image onLoad="{{ s.onImgLoad }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
                 <div data-collection-gradient style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,0.62) 100%);"></div>
                 <div style="position:absolute;left:22px;right:22px;bottom:20px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;">
                   <span data-collection-title style="font-family:'Cormorant Garamond',serif;font-size:clamp(22px,2vw,28px);font-weight:500;line-height:1.1;color:#fff;">{{ s.name }}</span>
                   <span style="font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.82);white-space:nowrap;">{{ s.countLabel }}</span>
                 </div>
               </a>
+              </div>
             </sc-for>
           </div>
         </section>
@@ -178,9 +180,11 @@
         <div style="{{ gridStyle }}">
           <sc-for list="{{ cards }}" as="p" hint-placeholder-count="0">
           <div data-product-card style="display:flex;flex-direction:column;gap:16px;min-width:0;">
-            <a href="{{ p.href }}" style="position:relative;display:block;aspect-ratio:16/9;overflow:hidden;border-radius:2px;background:oklch(95% 0.006 85);">
-              <img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy" data-product-image style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s ease;">
-            </a>
+            <div style="aspect-ratio:16/9;display:flex;justify-content:center;min-width:0;">
+              <a href="{{ p.href }}" style="{{ p.frameStyle }}">
+                <img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy" data-product-image onLoad="{{ p.onImgLoad }}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s ease;">
+              </a>
+            </div>
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
               <a href="{{ p.href }}" style="display:flex;flex-direction:column;gap:5px;text-decoration:none;min-width:0;flex:1 1 140px;">
                 <span style="font-size:12.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:oklch(42% 0.006 90);">{{ p.categoryName }}</span>
@@ -320,10 +324,27 @@ class Component extends DCLogic {
 
   inQuote(id) { return !!(window.AOF && window.AOF.quote.has(id)); }
 
+  /* Frames that take each photo's own shape: 16:9 photos fill the card; taller photos (e.g. 3:4) keep the
+     row's height, get a narrower frame of their own shape, centred — nothing is cut. */
+  ratioOf(src) { const r = (this.state.ratios || {})[src]; return r && r < 1.25 ? r : 0; }
+  ratioLoader(src) {
+    return (e) => {
+      const im = e.target; if (!im.naturalWidth) return;
+      const nr = im.naturalWidth / im.naturalHeight;
+      const cur = (this.state.ratios || {})[src];
+      if (!cur || Math.abs(cur - nr) > 0.01) this.setState((st) => ({ ratios: Object.assign({}, st.ratios, { [src]: nr }) }));
+    };
+  }
+  frameOf(src, base) {
+    const r = this.ratioOf(src);
+    return Object.assign({ position: 'relative', display: 'block', height: '100%', overflow: 'hidden', borderRadius: '2px' }, base, r ? { aspectRatio: String(r), maxWidth: '100%' } : { width: '100%' });
+  }
+
   cardOf(p) {
     const inQ = this.inQuote(p.id);
     return {
       id: p.id, name: p.name, sku: p.sku || '', categoryName: p.categoryName, image: p.image,
+      frameStyle: this.frameOf(p.image, { background: 'oklch(95% 0.006 85)' }), onImgLoad: this.ratioLoader(p.image),
       href: 'Product.dc.html?slug=' + encodeURIComponent(p.slug),
       quoteLabel: inQ ? 'In quote \u2713' : '+ Quote',
       onQuote: () => { if (!window.AOF) return; if (inQ) { location.href = 'Quote.dc.html'; } else { window.AOF.quote.add(p, 1); } },
@@ -364,7 +385,7 @@ class Component extends DCLogic {
     const family = [slug].concat(subCols.map((s) => s.slug));
     const list = col ? site.products.filter((p) => p.collectionSlugs.some((s) => family.includes(s))) : [];
     const countOf = (s) => site.products.filter((p) => p.collectionSlugs.includes(s)).length;
-    const subs = subCols.map((s) => { const n = countOf(s.slug); return { name: s.name, cover: s.cover, href: 'Collection.dc.html?slug=' + s.slug, countLabel: n ? n + (n === 1 ? ' piece' : ' pieces') : '' }; });
+    const subs = subCols.map((s) => { const n = countOf(s.slug); return { name: s.name, cover: s.cover, frameStyle: this.frameOf(s.cover, { background: '#1a1917' }), onImgLoad: this.ratioLoader(s.cover), href: 'Collection.dc.html?slug=' + s.slug, countLabel: n ? n + (n === 1 ? ' piece' : ' pieces') : '' }; });
     const sib = col ? all.filter((c) => c.slug !== slug && (c.parentId || '') === (col.parentId || '')) : [];
     const others = sib.map((c) => ({ name: c.name, cover: c.cover, href: 'Collection.dc.html?slug=' + c.slug }));
     const w = typeof window !== 'undefined' ? window.innerWidth : 1200;
