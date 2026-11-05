@@ -74,7 +74,6 @@
           <a href="Contact.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">Contact Us</a>
           <a href="Catalogue.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">Downloads</a>
           <a href="OurStory.dc.html" data-nav-link style="{{ navLinkStyle }}" style-hover="opacity:1;">About the Brand</a>
-          <aof-quote-link style="color:inherit;"></aof-quote-link>
           <button data-no-dark aria-label="Toggle dark mode" onClick="{{ toggleTheme }}" style="{{ themeToggleStyle }}" style-hover="{{ themeToggleHoverStyle }}">{{ themeToggleIcon }}</button>
         </nav>
       </sc-if>
@@ -110,7 +109,6 @@
       <a href="Contact.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">Contact Us</a>
       <a href="Catalogue.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">Downloads</a>
       <a href="OurStory.dc.html" onClick="{{ closeNav }}" style="{{ mobileNavLinkStyle }}">About the Brand</a>
-      <aof-quote-link style="color:inherit;font-size:20px;"></aof-quote-link>
       <button data-no-dark aria-label="Toggle dark mode" onClick="{{ toggleTheme }}" style="{{ themeToggleStyle }}" style-hover="{{ themeToggleHoverStyle }}">{{ themeToggleIcon }}</button>
     </nav>
   </div>
@@ -144,14 +142,13 @@
       <div style="{{ gridStyle }}">
         <sc-for list="{{ cards }}" as="p" hint-placeholder-count="0">
           <div data-product-card style="display:flex;flex-direction:column;gap:16px;min-width:0;">
-            <a href="{{ p.href }}" style="position:relative;display:block;aspect-ratio:16/9;overflow:hidden;border-radius:2px;background:oklch(95% 0.006 85);">
+            <a href="{{ p.href }}" style="position:relative;display:block;aspect-ratio:4/3;overflow:hidden;border-radius:2px;background:oklch(95% 0.006 85);">
               <img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy" data-product-image style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s ease;">
             </a>
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
               <a href="{{ p.href }}" style="display:flex;flex-direction:column;gap:5px;text-decoration:none;min-width:0;flex:1 1 140px;">
                 <span style="font-size:12.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:oklch(42% 0.006 90);">{{ p.categoryName }}</span>
                 <span style="font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:500;line-height:1.15;color:oklch(20% 0.005 90);">{{ p.name }}</span>
-                <span style="font-size:14px;letter-spacing:0.06em;color:oklch(42% 0.006 90);">{{ p.sku }}</span>
               </a>
               <button onClick="{{ p.onQuote }}" data-no-dark style="{{ p.quoteBtnStyle }}">{{ p.quoteLabel }}</button>
             </div>
