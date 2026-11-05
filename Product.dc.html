@@ -141,7 +141,7 @@
                 </div>
               </sc-if>
               <button onClick="{{ openLightbox }}" aria-label="Enlarge image" style="{{ mainImageStyle }}">
-                <img src="{{ activeImage }}" alt="{{ product.name }}" style="width:100%;height:100%;object-fit:cover;display:block;">
+                <img data-product-main src="{{ activeImage }}" alt="{{ product.name }}" style="width:100%;height:100%;object-fit:cover;display:block;">
                 <span data-no-dark style="position:absolute;right:14px;bottom:14px;width:40px;height:40px;border-radius:50%;background:rgba(17,17,17,0.55);color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg></span>
               </button>
             </div>

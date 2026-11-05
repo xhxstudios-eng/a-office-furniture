@@ -27,6 +27,38 @@ window.AOF_CONFIG = window.AOF_CONFIG || {
     var start = function () { scan(); new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] }); };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
   })();
+  /* Product photos that are taller than the 16:9 frame (e.g. 3:4) are shown whole, centred,
+     with a soft blurred copy of the same photo filling the sides — the frame itself never shrinks. */
+  (function () {
+    var st = document.createElement('style');
+    st.textContent =
+      '[data-aof-fill]::before{content:"";position:absolute;inset:-30px;background-image:var(--aof-fill);background-size:cover;background-position:center;filter:blur(28px) brightness(0.9) saturate(1.05);transform:scale(1.1);z-index:0;pointer-events:none;}' +
+      '[data-aof-fill]>img{position:relative;z-index:1;object-fit:contain!important;background:transparent!important;}' +
+      '[data-aof-fill]>span{z-index:2;}';
+    (document.head || document.documentElement).appendChild(st);
+    var apply = function (img) {
+      var box = img.parentElement;
+      if (!box || !img.naturalWidth) return;
+      var src = img.currentSrc || img.src || '';
+      var tall = img.naturalWidth / img.naturalHeight < 1.25 && !/coming-soon\.png$/.test(src);
+      if (tall) {
+        box.style.setProperty('--aof-fill', 'url("' + src.replace(/["\\\n]/g, encodeURIComponent) + '")');
+        box.setAttribute('data-aof-fill', '');
+      } else if (box.hasAttribute('data-aof-fill')) {
+        box.removeAttribute('data-aof-fill');
+        box.style.removeProperty('--aof-fill');
+      }
+    };
+    var scan = function () {
+      document.querySelectorAll('img[data-product-image], img[data-product-main]').forEach(function (img) {
+        if (img.__aofFill === img.src) return;
+        img.__aofFill = img.src;
+        if (img.complete && img.naturalWidth) apply(img); else img.addEventListener('load', function () { apply(img); }, { once: true });
+      });
+    };
+    var start = function () { scan(); new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] }); };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+  })();
   var ADMIN_KEY = 'aof-admin-data';
   var QUOTE_KEY = 'aof-quote-list';
   var cfg = window.AOF_CONFIG;
