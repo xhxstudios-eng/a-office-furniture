@@ -142,9 +142,11 @@
       <div style="{{ gridStyle }}">
         <sc-for list="{{ cards }}" as="p" hint-placeholder-count="0">
           <div data-product-card style="display:flex;flex-direction:column;gap:16px;min-width:0;">
-            <a href="{{ p.href }}" style="position:relative;display:block;aspect-ratio:16/9;overflow:hidden;border-radius:2px;background:oklch(95% 0.006 85);">
-              <img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy" data-product-image style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s ease;">
-            </a>
+            <div style="aspect-ratio:16/9;display:flex;justify-content:center;min-width:0;">
+              <a href="{{ p.href }}" style="{{ p.frameStyle }}">
+                <img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy" data-product-image onLoad="{{ p.onImgLoad }}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s ease;">
+              </a>
+            </div>
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
               <a href="{{ p.href }}" style="display:flex;flex-direction:column;gap:5px;text-decoration:none;min-width:0;flex:1 1 140px;">
                 <span style="font-size:12.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:oklch(42% 0.006 90);">{{ p.categoryName }}</span>
@@ -272,8 +274,22 @@ class Component extends DCLogic {
 
   cardOf(p) {
     const inQ = this.inQuote(p.id);
+    /* The frame takes the photo's own shape: 16:9 photos fill the card; taller photos (e.g. 3:4) keep the
+       same height as the other cards in the row, get a narrower frame of their own shape, centred — nothing is cut. */
+    const r = (this.state.ratios || {})[p.image];
+    const tall = !!(r && r < 1.25);
     return {
       id: p.id, name: p.name, sku: p.sku || '', categoryName: p.categoryName, image: p.image,
+      frameStyle: Object.assign(
+        { position: 'relative', display: 'block', height: '100%', overflow: 'hidden', borderRadius: '2px', background: 'oklch(95% 0.006 85)' },
+        tall ? { aspectRatio: String(r), maxWidth: '100%' } : { width: '100%' }
+      ),
+      onImgLoad: (e) => {
+        const im = e.target; if (!im.naturalWidth) return;
+        const nr = im.naturalWidth / im.naturalHeight;
+        const cur = (this.state.ratios || {})[p.image];
+        if (!cur || Math.abs(cur - nr) > 0.01) this.setState((st) => ({ ratios: Object.assign({}, st.ratios, { [p.image]: nr }) }));
+      },
       href: 'Product.dc.html?slug=' + encodeURIComponent(p.slug),
       quoteLabel: inQ ? 'In quote \u2713' : '+ Quote',
       onQuote: () => { if (!window.AOF) return; if (inQ) { location.href = 'Quote.dc.html'; } else { window.AOF.quote.add(p, 1); } },
