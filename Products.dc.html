@@ -142,7 +142,7 @@
       <div style="{{ gridStyle }}">
         <sc-for list="{{ cards }}" as="p" hint-placeholder-count="0">
           <div data-product-card style="display:flex;flex-direction:column;gap:16px;min-width:0;">
-            <a href="{{ p.href }}" style="position:relative;display:block;aspect-ratio:4/3;overflow:hidden;border-radius:2px;background:oklch(95% 0.006 85);">
+            <a href="{{ p.href }}" style="position:relative;display:block;aspect-ratio:16/9;overflow:hidden;border-radius:2px;background:oklch(95% 0.006 85);">
               <img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy" data-product-image style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s ease;">
             </a>
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
